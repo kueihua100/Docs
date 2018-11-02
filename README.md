@@ -21,6 +21,6 @@ Content
     * How to CTS Verifier and debug CTS verifier?
     * How to GTS and debug GTS?
     * How to de-compile APK?
-5.  Useful git command
+5.  Useful git command and linux commands
 6.  How to be frfish from arrowOS?
 7.  HoW to enable java code's Log.isLoggable?
