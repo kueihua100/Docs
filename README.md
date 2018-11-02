@@ -15,6 +15,7 @@ Content
     * HP volume will be reset after AC off->on
     * Audio HAL device open flow
     * Modify audioflinger standby times
+    * How to enable ASAN in audio HAL code?
 4.  How to VTS and debug VTS?
     * How to CTS and debug CTS?
     * How to CTS Verifier and debug CTS verifier?
