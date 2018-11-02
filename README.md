@@ -22,3 +22,4 @@ Content
     * How to de-compile APK?
 5.  Useful git command
 6.  How to be frfish from arrowOS?
+7.  HoW to enable java code's Log.isLoggable?
