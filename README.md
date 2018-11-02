@@ -9,6 +9,12 @@ Content
 2.  [How to install android Pie to Redmi Note 3?](https://gitlab.com/kueihua/docs/issues/2)
 3.  Audio docs
     * [3-1 Audio Framework](https://gitlab.com/kueihua/docs/blob/master/audio/3-1%20Audio%20Framework.md)
+    * Audio Volume Adjustment
+    * Audio Volume initial
+    * Android launcher touch sound (key tone)
+    * HP volume will be reset after AC off->on
+    * Audio HAL device open flow
+    * Modify audioflinger standby times
 4.  How to VTS and debug VTS?
     * How to CTS and debug CTS?
     * How to CTS Verifier and debug CTS verifier?
