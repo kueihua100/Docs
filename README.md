@@ -6,7 +6,7 @@ Note
 Content
 -------------------------------------
 1.  [How to branch google source code into gitlab?](https://gitlab.com/kueihua/docs/blob/master/system/How_to_branch_google_source_code_into_gitlab.md)
-2.  [How to install android Pie to Redmi Note 3?](https://gitlab.com/kueihua/docs/issues/2)
+2.  [How to install android Pie to Redmi Note 3?](https://gitlab.com/kueihua/docs/blob/master/system/How_to_install_android_Pie_to_Redmi_Note_3.md)
 3.  Audio docs
     * [3-1 Audio Framework](https://gitlab.com/kueihua/docs/blob/master/audio/3-1%20Audio%20Framework.md)
     * Audio Volume Adjustment
