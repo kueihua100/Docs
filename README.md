@@ -16,6 +16,7 @@ Content
     * Audio HAL device open flow
     * Modify audioflinger standby times
     * How to enable ASAN in audio HAL code?
+    * AudioFlinger heap size at low ram (ro.config.low_ram=true)
 4.  How to VTS and debug VTS?
     * How to CTS and debug CTS?
     * How to CTS Verifier and debug CTS verifier?
@@ -23,4 +24,4 @@ Content
     * How to de-compile APK?
 5.  Useful git command and linux commands
 6.  How to be frfish from arrowOS?
-7.  HoW to enable java code's Log.isLoggable?
+7.  Android JAVA Info?
