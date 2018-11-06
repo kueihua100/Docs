@@ -9,7 +9,7 @@
 <!-- comment messages -->
 
 ## **Issue:**
-At low RAM environment, Enter Youtube -> playback with speaker outpur -> Headphone plugged-in, 
+At low RAM environment, Enter Youtube -> playback with speaker output -> Headphone plugged-in, 
 will have below logcat log:
 
     E AudioFlinger: not enough memory for AudioTrack size=524512 
