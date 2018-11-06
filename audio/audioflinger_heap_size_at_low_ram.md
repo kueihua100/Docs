@@ -28,7 +28,8 @@ will have below logcat log:
 As Headphone plugged-in, APP willl call create audio track API, but share buffer has not enough buffer (needs 512KB), 
 and under low_ram configuration, audioflinger default only setup total share heap buffer = 1MB.
 
-### Reason 2: AudioService during Construction, will call AudioService.java::readAndSetLowRamDevice() to setup mClientSharedHeapSize
+### Reason 2:
+AudioService during Construction, will call AudioService.java::readAndSetLowRamDevice() to setup mClientSharedHeapSize
 
     JAVA Call Stack:
     StackTrace: dalvik.system.VMStack.getThreadStackTrace(Native Method) 
