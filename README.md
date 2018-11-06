@@ -22,6 +22,6 @@ Content
     * How to CTS Verifier and debug CTS verifier?
     * How to GTS and debug GTS?
     * How to de-compile APK?
-5.  Useful git command and linux commands
+5.  [Useful git command and linux commands](https://gitlab.com/kueihua/docs/blob/master/system/Useful_git_commands_and_linux_commands.md)
 6.  How to be frfish from arrowOS?
 7.  Android JAVA Info?
