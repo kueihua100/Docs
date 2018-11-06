@@ -16,7 +16,7 @@ Content
     * Audio HAL device open flow
     * Modify audioflinger standby times
     * How to enable ASAN in audio HAL code?
-    * AudioFlinger heap size at low ram (ro.config.low_ram=true)
+    * [AudioFlinger heap size at low ram configuration (ro.config.low_ram=true)](https://gitlab.com/kueihua/docs/blob/master/audio/audioflinger_heap_size_at_low_ram.md)
 4.  How to VTS and debug VTS?
     * How to CTS and debug CTS?
     * How to CTS Verifier and debug CTS verifier?
