@@ -24,11 +24,11 @@ will have below logcat log:
     W AudioTrack: restoreTrack_l() failed status -12, retries 0
     E AudioTrack-JNI: Error -12 during AudioTrack native read
 
-## Reason 1
-As Headphone plugged-in, APP willl call create audio track API, but share buffer has not enough buffer (needs 512KB), 
-and under low_ram configuration, audioflinger default only setup total share heap buffer = 1MB.
+## Debug 1
+As Headphone plugged-in, APP willl call create audio track API, but share buffer has not enough buffer (needs 512KB).
+Because under low_ram configuration, audioflinger default only setup total share heap buffer = 1MB.
 
-## Reason 2:
+## Debug 2:
 AudioService during Construction, will call AudioService.java::readAndSetLowRamDevice() to setup mClientSharedHeapSize
 
     JAVA Call Stack:
@@ -71,7 +71,7 @@ AudioService during Construction, will call AudioService.java::readAndSetLowRamD
     [note 2] If is low_ram, mClientSharedHeapSize = 1MB.
     [note 3] If is not low_ram, mClientSharedHeapSize = according to RAM size, could be 1MB x 4,  x 8,  x16, x 32 
     
-## Reason 3:
+## Debug 3:
 Code flow
 
     Create audio track will call into Tracks.cpp
@@ -123,3 +123,13 @@ Code flow
     ssize_t SimpleBestFitAllocator::alloc(size_t size, uint32_t flags)
     {
     }
+
+## Debug 4:
+Modify mClientSharedHeapSize from property key
+
+    From AudioFlinger::getClientSharedHeapSize(), we can use "ro.af.client_heap_size_kbyte" to change the dafault value 
+    
+    Method 1: at console
+        setprop ro.af.client_heap_size_kbyte 4096  <== change to 4MB
+    Method 2: add below code at audio's mk 
+        PRODUCT_SYSTEM_DEFAULT_PROPERTIES += ro.af.client_heap_size_kbyte=true
