@@ -132,4 +132,4 @@ Modify mClientSharedHeapSize from property key
     Method 1: at console
         setprop ro.af.client_heap_size_kbyte 4096  <== change to 4MB
     Method 2: add below code at audio's mk 
-        PRODUCT_SYSTEM_DEFAULT_PROPERTIES += ro.af.client_heap_size_kbyte=true
+        PRODUCT_SYSTEM_DEFAULT_PROPERTIES += ro.af.client_heap_size_kbyte=4096
