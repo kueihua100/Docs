@@ -1,7 +1,7 @@
 Note
 -------------------------------------
 1.  SW docs will be added as issues.
-2.  Some pictures/texts are just grabbed from others, so the right is belong to original creator.
+2.  Some pictures/texts are just grabbed from others, so the copyright is belong to original creator.
 
 Content
 -------------------------------------
