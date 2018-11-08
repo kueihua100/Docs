@@ -23,5 +23,5 @@ Content
     * How to GTS and debug GTS?
     * How to de-compile APK?
 5.  [Useful git command and linux commands](https://github.com/kueihua100/Docs/blob/master/system/Useful_git_commands_and_linux_commands.md)
-6.  How to be frfish from arrowOS?
+6.  [How to be frfish from arrowOS?](https://github.com/kueihua100/Docs/blob/master/system/How_to_be_frfish_from_arrowOS.md)
 7.  Android JAVA Info?
