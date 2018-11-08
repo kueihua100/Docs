@@ -35,7 +35,7 @@ Content
     * How to add call stack at java code?
 
 ## Coding
-1. Python tips
+1. [Python tips](https://github.com/kueihua100/Docs/blob/master/coding/Python_tips.md)
 
 
 
