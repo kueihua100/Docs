@@ -69,6 +69,25 @@
         git apply diff.patch  --reject
 
 # linux commands:
+### grep
+    grep --exclude-dir=".svn" -r 'get_config_filename' ./
+    grep -Inr -e 'Last write occurred' -e 'Processing format' ./
+
+### wget
+    這個網站裡面有很多網頁
+    如果要把整個網站下載下來
+    wget -r -p -np -k http://www.csie.ntnu.edu.tw/~u91029/index.html
+        -r   遞迴下載網站內的所有檔案
+        -p   下載網頁所需的所有檔案, 如圖片.背景音樂
+        -np  不要下載父目錄的東西
+        -k   將相對連結轉為絕對連結, 可離線瀏覽
+
+### console 終端顯示 短路徑 
+    1. 修改.bashrc
+        PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
+        change lower case "w" to upper case "W"
+    2. source .bashrc
+
 ### Shutdown
     關機並關電源
         sudo shutdown -h now
