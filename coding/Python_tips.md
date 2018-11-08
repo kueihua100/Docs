@@ -50,7 +50,9 @@
       
     5. 運算式前加r指示Python不解釋字串中出現的\。這種寫法通常用於編寫正規表式或者Windows檔案路徑。
     
-    6. Python使用y if cond else x表示條件運算式。意思是當cond為真時，運算式的值為y，否則運算式的值為x。相當於C++和Java里的cond?y:x。
+    6. Python使用y if cond else x表示條件運算式。意思是當cond為真時，運算式的值為y，否則運算式的值為x。
+        相當於C++和Java里的cond?y:x。
+    
     7. Python區分列表（list）和元組（tuple）兩種型別。list的寫法是[1,2,3]，而tuple的寫法是(1,2,3)。
       可以改變list中的元素，而不能改變tuple。在某些情況下，tuple的括弧可以省略。tuple對於賦值語句有特殊的處理。
       
