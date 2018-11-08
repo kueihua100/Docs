@@ -35,7 +35,7 @@ Content
     * How to add call stack at java code?
 
 ## Coding
-
+1. Python tips
 
 
 
