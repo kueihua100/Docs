@@ -1,7 +1,6 @@
 Note
 -------------------------------------
-1.  SW docs will be added as issues.
-2.  Some pictures/texts are just grabbed from others, so the copyright is belong to original creator.
+1.  Some pictures/texts are just grabbed from others, so the copyright is belong to original creator.
 
 Content
 -------------------------------------
@@ -30,7 +29,7 @@ Content
     * How to GTS and debug GTS?
     * How to de-compile APK?
 
-3.  Android JAVA Info?
+3.  JAVA tips?
     * How to enable java code's Log.isLoggable?
     * How to add call stack at java code?
 
