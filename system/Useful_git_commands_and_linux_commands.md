@@ -1,4 +1,5 @@
-# repo sync commands:
+# repo commands
+    [repo sync commands]:
     repo forall -c git reset --hard
     repo forall -c git checkout xxx
     repo forall -c git clean -fxd
@@ -8,7 +9,10 @@
     repo list : list git project
     
     repo forall -c git branch -D [BRANCH_NAME] : 一次delete所有project branch 
-
+    
+    [generate manifest with revision num]:
+    repo manifest -r -o manifest_w_revision.xml
+    ----------------------------
 # git commands:
 ### push code to server
     git push origin HEAD:branch_name
