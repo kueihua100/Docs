@@ -29,7 +29,7 @@ Note
     * How to GTS and debug GTS?
     * How to de-compile APK?
 
-3.  JAVA tips?
+3.  [JAVA tips?](https://github.com/kueihua100/Docs/blob/master/android/Java_tips.md)
     * How to enable java code's Log.isLoggable?
     * How to add call stack at java code?
 
