@@ -2,8 +2,8 @@ Note
 -------------------------------------
 1.  Some pictures/texts are just grabbed from others, so the copyright is belong to original creator.
 
-Content
--------------------------------------
+# *** Content ***
+
 ## System
 1.  [How to branch google source code into gitlab?](https://github.com/kueihua100/Docs/blob/master/system/How_to_branch_google_source_code_into_gitlab.md)
 2.  [How to install android Pie to Redmi Note 3?](https://github.com/kueihua100/Docs/blob/master/system/How_to_install_android_Pie_to_Redmi_Note_3.md)
