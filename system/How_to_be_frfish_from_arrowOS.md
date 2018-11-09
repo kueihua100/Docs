@@ -21,3 +21,6 @@
     a) modified: core/java/com/android/internal/widget/LockPatternUtils.java
     b) modified: core/java/com/android/internal/widget/LockPatternView.java
     c) modified: packages/apps/Settings/src/com/android/settings/applications/appops/AppOpsState.java
+
+### make image script:
+    a) build/make/tools/releasetools/*
