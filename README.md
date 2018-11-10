@@ -1,6 +1,7 @@
 Note
 -------------------------------------
-1.  Some pictures/texts are just grabbed from others, so the copyright is belong to original creator.
+1.Some knowledge, notes, experiences and ...
+2.Some pictures/texts are just grabbed from others, so the copyright is belong to original creator.
 
 # *** Content ***
 
