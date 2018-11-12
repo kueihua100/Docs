@@ -33,7 +33,8 @@
           0,  // STREAM_TTS
           1   // STREAM_ACCESSIBILITY
       };
-
+    
+     ////////////////////////////////////////////////////////////////////////////////////
     AudioService.java::AudioService()
         ...
         createStreamStates()
@@ -49,5 +50,21 @@
         AudioSystem.initStreamVolume();
         readSettings();
 
-        
+    ////////////////////////////////////////////////////////////////////////////////////
+    AudioService.java:: VolumeStreamState::VolumeStreamState()
+        AudioSystem.initStreamVolume();
+    -> android_media_AudioSystem.cpp:: android_media_AudioSystem_initStreamVolume()
+    -> AudioSystem.cpp:: AudioSystem::initStreamVolume()
+    -> IAudioPolicyService.cpp:: initStreamVolume()
+        remote()->transact(INIT_STREAM_VOLUME, data, &reply);
+    -> xxx.cpp:: onTransact()
+        case INIT_STREAM_VOLUME:
+            reply->writeInt32(static_cast <uint32_t>(initStreamVolume(stream, indexMin,indexMax)));
+    -> AudioPolicyInterfaceImpl.cpp:: AudioPolicyService::initStreamVolume()
+        mAudioPolicyManager->initStreamVolume()
+    -> AudioPolicyManager.cpp:: AudioPolicyManager::initStreamVolume()
+    -> VolumeCurve.h:: VolumeCurvesCollection:: initStreamVolume()
+        editValueAt(stream).setVolumeIndexMin(indexMin);
+        editValueAt(stream).setVolumeIndexMax(indexMax);
+
       
