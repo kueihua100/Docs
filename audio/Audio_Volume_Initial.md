@@ -50,7 +50,7 @@
         AudioSystem.initStreamVolume();
         readSettings();
 
-    ////////////////////////////////////////////////////////////////////////////////////
+    [note 1]
     AudioService.java:: VolumeStreamState::VolumeStreamState()
         AudioSystem.initStreamVolume();
     -> android_media_AudioSystem.cpp:: android_media_AudioSystem_initStreamVolume()
@@ -67,4 +67,28 @@
         editValueAt(stream).setVolumeIndexMin(indexMin);
         editValueAt(stream).setVolumeIndexMax(indexMax);
 
-      
+### Audio volume curve initial flow:
+    AudioPolicyManager.cpp:: AudioPolicyManager::AudioPolicyManager()
+        ...
+        loadConfig();
+        initialize();
+
+    [note 1]
+    AudioPolicyManager.cpp:: AudioPolicyManager::loadConfig()
+    -> xxx.cpp:: deserializeAudioPolicyXmlConfig()
+        serializer.deserialize()
+    -> Serializer.cpp:: PolicySerializer::deserialize()
+        // read volume data from audio_policy_volumes.xml and default_volume_tables.xml
+        VolumeTraits::Collection volumes;
+        deserializeCollection<VolumeTraits>(doc, cur, volumes, &config);
+    -> xxx.cpp:: VolumeTraits::deserialize()
+        element->add(CurvePoint(point[0], point[1]));
+        // element is VolumeCurvesCollection
+    -> VolumeCurve.h:: VolumeCurvesCollection::add(const sp<VolumeCurve> &volumeCurve)
+        return editCurvesFor(streamType).add(volumeCurve);
+    -> xxx.h:: VolumeCurvesForStream:: add(const sp<VolumeCurve> &volumeCurve)
+    -> Serializer.cpp:: PolicySerializer::deserialize()
+        config.setVolumes(volumes);
+    -> AudioPolicyConfig.h:: AudioPolicyConfig:: setVolumes()
+        *mVolumeCurves = volumes;
+
