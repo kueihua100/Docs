@@ -142,9 +142,36 @@
       -> Threads.cpp:: AudioFlinger::PlaybackThread::setStreamVolume()
         mStreamTypes[stream].volume = value;
         broadcast_l();
-        [Note] there are 4 cases for setVolume:
 
-#### [CASE 1] Mixer Thread
-#### [CASE 2] DirectOutputThread
-#### [CASE 3] OffloadThread
-#### [CASE 4] MmapThread
+### [note 4] there are 4 cases for setVolume:
+    [CASE 1] Mixer Thread
+      -> Threads.cpp:: AudioFlinger::PlaybackThread::mixer_state AudioFlinger::MixerThread::prepareTracks_l()
+        int param = AudioMixer::VOLUME; 
+        float typeVolume = mStreamTypes[track->streamType()].volume;
+        float v = masterVolume * typeVolume;
+        mAudioMixer->setParameter(name, param, AudioMixer::VOLUME0, &vlf);
+        mAudioMixer->setParameter(name, param, AudioMixer::VOLUME1, &vlf);
+        mAudioMixer->setParameter(name, param, AudioMixer::AUXLEVEL, &vlf);
+      -> AudioMixer.cpp:: AudioMixer::setParameter()
+          case VOLUME:
+            if (setVolumeRampVariables())
+      -> ***.cpp:: setVolumeRampVariables()
+
+    [CASE 2] DirectOutputThread
+      -> Threads.cpp:: AudioFlinger::PlaybackThread::mixer_state AudioFlinger::DirectOutputThread::prepareTracks_l()
+        processVolume_l()
+      -> Threads.cpp:: AudioFlinger::DirectOutputThread::processVolume_l()
+        float typeVolume = mStreamTypes[track->streamType()].volume;
+        float v = mMasterVolume * typeVolume;
+        status_t result = mOutput->stream->setVolume(left, right);
+      -> audio HAL's audio_hw.c:: out_set_volume()
+
+    [CASE 3] OffloadThread
+      -> Threads.cpp:: AudioFlinger::PlaybackThread::mixer_state AudioFlinger::OffloadThread::prepareTracks_l ()
+      -> Threads.cpp:: AudioFlinger::DirectOutputThread::processVolume_l()
+      -> audio HAL's audio_hw.c:: out_set_volume()
+
+    [CASE 4] MmapThread
+      -> Threads.cpp:: AudioFlinger::MmapThread::threadLoop()
+      -> Threads.cpp:: AudioFlinger::DirectOutputThread::processVolume_l()
+      -> audio HAL's audio_hw.c:: out_set_volume()
