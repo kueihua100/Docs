@@ -92,3 +92,8 @@
     -> AudioPolicyConfig.h:: AudioPolicyConfig:: setVolumes()
         *mVolumeCurves = volumes;
 
+    [note 2]
+    AudioPolicyManager.cpp:: AudioPolicyManager::initialize()
+        mVolumeCurves->initializeVolumeCurves()
+        //** IVolumeCurvesCollection.h:: virtual void initializeVolumeCurves() {} is empty function, so do nothing
+        //** mVolumeCurves was initialed at [Note 1] step.
