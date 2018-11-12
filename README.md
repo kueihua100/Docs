@@ -17,7 +17,7 @@ Note
 1.  Audio docs
     * [Audio Framework](https://github.com/kueihua100/Docs/blob/master/audio/Audio_Framework.md)
     * [Audio Volume Adjustment](https://github.com/kueihua100/Docs/blob/master/audio/Audio_Volume_Adjustment.md)
-    * Audio Volume initial
+    * [Audio Volume Initial](https://github.com/kueihua100/Docs/blob/master/audio/Audio_Volume_Initial.md)
     * Android launcher touch sound (key tone)
     * [Headphone volume will be reset after AC off->on](https://github.com/kueihua100/Docs/blob/master/audio/HP_volume_will_reset_after_AC_off_on.md)
     * Audio HAL device open flow
