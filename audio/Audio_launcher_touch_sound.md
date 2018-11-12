@@ -36,3 +36,60 @@
                 KeypressDelete.ogg, KeypressReturn.ogg, 
                 KeypressInvalid.ogg
 
+    [note 1]
+    AudioService.java:: AudioHandler ::onLoadSoundEffects()
+    -> loadTouchSoundAssets();
+    -> ***.java:: loadTouchSoundAssets()
+        loadTouchSoundAssetDefaults()
+        // [note] initial SOUND_EFFECT_FILES_MAP[]
+        parser = mContext.getResources().getXml(com.android.internal.R.xml.audio_assets);
+        //[note] load xml file: ./frameworks/base/core/res/res/xml/audio_assets.xml and init SOUND_EFFECT_FILES[]
+            <audio_assets version="1.0">
+            <group name="touch_sounds">
+                <asset id="FX_KEY_CLICK" file="Effect_Tick.ogg"/>
+                <asset id="FX_FOCUS_NAVIGATION_UP" file="Effect_Tick.ogg"/>
+                <asset id="FX_FOCUS_NAVIGATION_DOWN" file="Effect_Tick.ogg"/>
+                <asset id="FX_FOCUS_NAVIGATION_LEFT" file="Effect_Tick.ogg"/>
+                <asset id="FX_FOCUS_NAVIGATION_RIGHT" file="Effect_Tick.ogg"/>
+                <asset id="FX_KEYPRESS_STANDARD" file="KeypressStandard.ogg"/>
+                <asset id="FX_KEYPRESS_SPACEBAR" file="KeypressSpacebar.ogg"/>
+                <asset id="FX_KEYPRESS_DELETE" file="KeypressDelete.ogg"/>
+                <asset id="FX_KEYPRESS_RETURN" file="KeypressReturn.ogg"/>
+                <asset id="FX_KEYPRESS_INVALID" file="KeypressInvalid.ogg"/>
+            </group>
+            </audio_assets>
+
+### Touch sound playback flow (when move the focus at the launcher):
+    AudioService.java:: playSoundEffect(effectType)
+    //[note] effectType = audio_assets.xml 裡 id value:
+    // FX_KEY_CLICK, FX_FOCUS_NAVIGATION_UP, FX_FOCUS_NAVIGATION_DOWN …
+    -> ***.java:: playSoundEffectVolume()
+        sendMsg(mAudioHandler, MSG_PLAY_SOUND_EFFECT,)
+    -> AudioService.java:: AudioHandler:: handleMessage()
+        case MSG_PLAY_SOUND_EFFECT:
+            onPlaySoundEffect()
+    -> ***.java:: AudioHandler:: onPlaySoundEffect()
+        onLoadSoundEffects();
+        //[note] Check mSoundPool is created or not
+        mSoundPool.play();
+
+    [note 1]
+    AudioService.java:: AudioHandler:: onPlaySoundEffect()
+        mSoundPool.play();
+    -> SoundPool.cpp:: SoundPool::play()
+    -> ***.cpp:: SoundChannel::play()
+        newTrack = new AudioTrack();
+        oldTrack = mAudioTrack;
+        mAudioTrack = newTrack;
+        newTrack->setVolume();
+        mAudioTrack->start();
+
+### The touch sound at Headphone is more quite than it at Speaker. How to modify it?
+    Modify from audio_policy_volumes.xml:
+    <volume stream="AUDIO_STREAM_SYSTEM" deviceCategory="DEVICE_CATEGORY_HEADSET">
+        <point>1,-2400</point>
+        <point>33,-1600</point>
+        <point>66,-800</point>
+        <point>100,0</point>
+    </volume>
+
