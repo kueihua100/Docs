@@ -33,3 +33,21 @@
           0,  // STREAM_TTS
           1   // STREAM_ACCESSIBILITY
       };
+
+    AudioService.java::AudioService()
+        ...
+        createStreamStates()
+    -> AudioService.java::AudioService()::createStreamStates()
+        for () {
+        new VolumeStreamState(name, type);
+        }
+        checkAllFixedVolumeDevices();
+        checkAllAliasStreamVolumes();
+        checkMuteAffectedStreams();
+        updateDefaultVolumes();
+    -> AudioService.java:: VolumeStreamState::VolumeStreamState()
+        AudioSystem.initStreamVolume();
+        readSettings();
+
+        
+      
