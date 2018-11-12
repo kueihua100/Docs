@@ -16,7 +16,7 @@ Note
 ## Android
 1.  Audio docs
     * [Audio Framework](https://github.com/kueihua100/Docs/blob/master/audio/Audio_Framework.md)
-    * Audio Volume Adjustment
+    * [Audio Volume Adjustment](https://github.com/kueihua100/Docs/blob/master/audio/Audio_Volume_Adjustment.md)
     * Audio Volume initial
     * Android launcher touch sound (key tone)
     * HP volume will be reset after AC off->on
