@@ -1,7 +1,7 @@
 # Audio Volume Adjustment
 
 1.  android java code's 音量設置, 首先調用到AudioManager.java
-2.  b.	有兩種方法可以設置音量: setStreamVolume 和 adjustStreamVolume
+2.  有兩種方法可以設置音量: setStreamVolume 和 adjustStreamVolume
 3.  setStreamVolume：傳入index直接設置音量值.
 4.  adjustStreamVolume：傳入direction，根據direction和獲取到的步長設置音量. setStreamVolume方法與adjustStreamVolume其實是殊途同歸
 
@@ -88,3 +88,63 @@
          reply->writeInt32(static_cast <uint32_t>(setStreamVolumeIndex()))
       -> will call AudioPolicyService:: setStreamVolumeIndex()
       -> AudioPolicyInterfaceImpl.cpp:: AudioPolicyService:: setStreamVolumeIndex()
+      
+### [note 3]
+    AudioPolicyInterfaceImpl.cpp:: AudioPolicyService:: setStreamVolumeIndex()
+      -> return mAudioPolicyManager->setStreamVolumeIndex()
+      mAudioPolicyManager = createAudioPolicyManager(mAudioPolicyClient); 
+      = new AudioPolicyManager(clientInterface)
+      -> AudioPolicyManager.cpp ::AudioPolicyManager::setStreamVolumeIndex()
+      -> sp<SwAudioOutputDescriptor> desc = mOutputs.valueAt(i);
+      -> checkAndSetVolume(,desc,)
+      -> AudioPolicyManager.cpp ::AudioPolicyManager::checkAndSetVolume(,const sp<AudioOutputDescriptor>& outputDesc,)
+      -> outputDesc->setVolume(, desc, )
+      [note]: desc here is SwAudioOutputDescriptor
+      -> AudioOutputDescriptor.cpp:: SwAudioOutputDescriptor::setVolume()
+      -> ***.cpp:: AudioOutputDescriptor::setVolume()
+      -> mCurVolume[stream] = volume
+      -> mClientInterface->setStreamVolume()
+      [note]: mClientInterface is initialed at SwAudioOutputDescriptor::SwAudioOutputDescriptor()
+      
+      So who is mClientInterface??
+      AudioPolicyService.cpp:: AudioPolicyService::onFirstRef()
+      -> mAudioPolicyClient = new AudioPolicyClient(this); // this = AudioPolicyService
+      mAudioPolicyManager = createAudioPolicyManager(mAudioPolicyClient);
+      -> AudioPolicyFactory.cpp:: AudioPolicyInterface* createAudioPolicyManager(clientInterface)
+      -> return new AudioPolicyManager(clientInterface);
+      -> AudioPolicyManager.cpp::AudioPolicyManager::AudioPolicyManager(clientInterface)
+      -> ***.cpp:: AudioPolicyManager::initialize()
+      -> sp<SwAudioOutputDescriptor> outputDesc = new SwAudioOutputDescriptor(outProfile, mpClientInterface);
+      
+      So mClientInterface = AudioPolicyService
+      -> AudioPolicyClientImpl.cpp:: AudioPolicyService::AudioPolicyClient::setStreamVolume()
+      -> mAudioPolicyService->setStreamVolume();
+      -> AudioPolicyService.cpp:: AudioPolicyService::setStreamVolume()
+      -> ***.cpp:: AudioCommandThread::volumeCommand()
+      -> ***.cpp:: AudioPolicyService::AudioCommandThread::sendCommand()
+      -> ***.cpp:: AudioPolicyService::AudioCommandThread::insertCommand_l()
+      -> ***.cpp:: AudioPolicyService::AudioCommandThread::threadLoop()
+          case SET_VOLUME:
+              AudioSystem::setStreamVolume()
+      -> AudioSystem.cpp:: AudioSystem::setStreamVolume()
+        const sp<IAudioFlinger>& af = AudioSystem::get_audio_flinger();
+        af->setStreamVolume();
+        [note 1] 根據log (print gAudioFlinger) and gdb backtrace, here af = gAudioFlinger = audiofliger pointer
+        [note 2] 此處不是走 IAudioFlinger.cpp:: BpAudioFlinger::setStreamVolume()
+      
+      -> AudioFlinger.cpp:: setStreamVolume();
+        VolumeInterface *volumeInterface = getVolumeInterface_l(output);
+        //從output參數找對應的mPlaybackThreads or mMmapThreads, 並return VolumeInterface
+        // class PlaybackThread: xxx, public VolumeInterface {}, PlaybackThread繼承VolumeInterface
+        volumeInterface->setStreamVolume(stream, value);
+        volumeInterface:: setStreamVolume() is virtual, the real body is PlaybackThread::setStreamVolume()
+      
+      -> Threads.cpp:: AudioFlinger::PlaybackThread::setStreamVolume()
+        mStreamTypes[stream].volume = value;
+        broadcast_l();
+        [Note] there are 4 cases for setVolume:
+
+#### [CASE 1] Mixer Thread
+#### [CASE 2] DirectOutputThread
+#### [CASE 3] OffloadThread
+#### [CASE 4] MmapThread
