@@ -19,7 +19,7 @@ Note
     * [Audio Volume Adjustment](https://github.com/kueihua100/Docs/blob/master/audio/Audio_Volume_Adjustment.md)
     * Audio Volume initial
     * Android launcher touch sound (key tone)
-    * HP volume will be reset after AC off->on
+    * [Headphone volume will be reset after AC off->on](https://github.com/kueihua100/Docs/blob/master/audio/HP_volume_will_reset_after_AC_off_on.md)
     * Audio HAL device open flow
     * Modify audioflinger standby times
     * How to enable ASAN in audio HAL code?
