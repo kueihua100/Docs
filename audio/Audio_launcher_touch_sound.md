@@ -86,6 +86,17 @@
 
 ### The touch sound at Headphone is more quite than it at Speaker. How to modify it?
     Modify from audio_policy_volumes.xml:
+    [note 1] the default xxx_configuration.xml files are under: xxx/frameworks/av/services/audiopolicy/config/
+    
+    Original:
+    <volume stream="AUDIO_STREAM_SYSTEM" deviceCategory="DEVICE_CATEGORY_HEADSET">
+        <point>1,-3000</point>
+        <point>33,-2600</point>
+        <point>66,-2200</point>
+        <point>100,-1800</point>
+    </volume>
+    
+    changed to:
     <volume stream="AUDIO_STREAM_SYSTEM" deviceCategory="DEVICE_CATEGORY_HEADSET">
         <point>1,-2400</point>
         <point>33,-1600</point>
