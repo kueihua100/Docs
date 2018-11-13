@@ -11,7 +11,7 @@
 
 ### Change bootanimation:
     a) SRC: PixelExperience_O/vendor/pixelstyle/media/bootanimation_1080.zip
-    b) DST: ArrowOS_9/vendor/arrow/prebuilt/common/bootanimation.zip
+    b) DST: ArrowOS_9/vendor/arrow/prebuilt/common/bootanimation/bootanimation.zip
 
 ### Remove ArrowOS build logo at the end: 
     a) ArrowOS_9/build/make/core/Makefile
