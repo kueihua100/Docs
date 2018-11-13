@@ -10,6 +10,11 @@
       b-3) [note] Launcher3 will output at: ArrowOS_9/out/target/product/kenzo/system/priv-app/Launcher3
 
 ### Change bootanimation:
+    From /xxx/vendor/arrow/config/bootanimation.mk :
+        PRODUCT_COPY_FILES += \
+            vendor/arrow/prebuilt/common/bootanimation/bootanimation.zip:system/media/bootanimation.zip
+    
+    So pickup your source and put it at the right path:
     a) SRC: PixelExperience_O/vendor/pixelstyle/media/bootanimation_1080.zip
     b) DST: ArrowOS_9/vendor/arrow/prebuilt/common/bootanimation/bootanimation.zip
 
