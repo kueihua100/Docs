@@ -20,7 +20,7 @@ Note
     * [Audio Volume Initial](https://github.com/kueihua100/Docs/blob/master/audio/Audio_Volume_Initial.md)
     * [Android launcher touch sound (key tone)](https://github.com/kueihua100/Docs/blob/master/audio/Audio_launcher_touch_sound.md)
     * [Headphone volume will be reset after AC off->on](https://github.com/kueihua100/Docs/blob/master/audio/HP_volume_will_reset_after_AC_off_on.md)
-    * Audio HAL device open flow
+    * [Audio HAL device open flow](https://github.com/kueihua100/Docs/blob/master/audio/Audio_HAL_device_open_flow.md)
     * Modify audioflinger standby times
     * How to enable ASAN in audio HAL code?
     * [AudioFlinger heap size at low ram configuration (ro.config.low_ram=true)](https://github.com/kueihua100/Docs/blob/master/audio/audioflinger_heap_size_at_low_ram.md)
