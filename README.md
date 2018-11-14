@@ -35,7 +35,7 @@ Note
     * How to enable java code's Log.isLoggable?
     * How to add call stack at java code?
 
-4.  How to add "Screenshot" item into the popup menu from long press Power key? 
+4.  [How to add "Screenshot" item into the popup menu from long press Power key?](https://github.com/kueihua100/Docs/blob/master/android/Add_Screenshot_into_power_menu.md)
 
 ## openpilot
 1.  ...
