@@ -34,6 +34,11 @@
             public ScreenshotAction(Context context,
                 WindowManagerPolicy.WindowManagerFuncs windowManagerFuncs) {
                 super(com.android.internal.R.drawable.ic_screenshot, R.string.global_action_screenshot);
+                /***
+                ** [note] com.android.internal.R.drawable.ic_screenshot means to use:
+                **        frameworks/base/core/res/res/drawable/ic_screenshot.xml 
+                ***/
+                
                 mContext = context;
                 mWindowManagerFuncs = windowManagerFuncs;
             }
