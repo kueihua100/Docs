@@ -90,3 +90,45 @@
     Java_StackTrace: android.os.HandlerThread.run(HandlerThread.java:65)
     Java_StackTrace: com.android.server.ServiceThread.run(ServiceThread.java:44)
     Java_StackTrace: com.android.server.UiThread.run(UiThread.java:43)
+
+    [Note 1]
+    Long pressed Power key
+    -> PhoneWindowManager.java:: PolicyHandler extends Handler {
+        public void handleMessage(Message msg) {
+            ...
+            case MSG_POWER_LONG_PRESS:
+                    powerLongPress();
+                    break;
+            ...
+    -> ***.java:: powerLongPress()
+        case LONG_PRESS_POWER_GLOBAL_ACTIONS:
+            ...
+            showGlobalActionsInternal();
+            ...
+    -> ***.java:: showGlobalActionsInternal()
+        ...
+        mGlobalActions = new GlobalActions(mContext, mWindowManagerFuncs);
+        ...
+        mGlobalActions.showDialog(keyguardShowing, isDeviceProvisioned());
+    -> GlobalActions.java:: showDialog()
+        ...
+        ensureLegacyCreated();
+        // will call mLegacyGlobalActions = new LegacyGlobalActions() if mLegacyGlobalActions==NULL
+        mLegacyGlobalActions.showDialog(mKeyguardShowing, mDeviceProvisioned);
+    
+    -> LegacyGlobalActions.java:: showDialog()
+        handleShow()
+    -> ***.java:: handleShow()
+    -> ***.java:: private ActionsDialog createDialog() {
+        ...
+        if (GLOBAL_ACTION_KEY_POWER.equals(actionKey)) {
+            mItems.add(new PowerAction(mContext, mWindowManagerFuncs));
+        } else if 
+        ...
+        } else if (GLOBAL_ACTION_KEY_RESTART.equals(actionKey)) {
+            mItems.add(new RestartAction(mContext, mWindowManagerFuncs));
+	    } else if (GLOBAL_ACTION_KEY_SCREENSHOT.equals(actionKey)) {
+            mItems.add(new ScreenshotAction(mContext, mWindowManagerFuncs));
+        }
+        
+        
