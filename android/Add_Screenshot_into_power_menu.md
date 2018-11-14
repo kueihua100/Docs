@@ -4,7 +4,7 @@
              but here is to add a Screenshot item if you long press Power key.
 
 ### Add config_globalActionsList into config.xml
-    a) First check frameworks/base/core/res/res/values/config.xml, shoudl has below code:
+    (a) First check frameworks/base/core/res/res/values/config.xml, shoudl has below code:
     <string-array translatable="false" name="config_globalActionsList">
         <item>power</item>
         <item>restart</item>
@@ -14,19 +14,19 @@
         <item>screenshot</item>
     </string-array>
     
-    b) Check your overlay code should not override "config_globalActionsList"
+    (b) Check your overlay code should not override "config_globalActionsList"
     
 ### Add code for screenshot
     At frameworks/base/services/core/java/com/android/server/policy/LegacyGlobalActions.java
-    a) Add
+    (a) Search "GLOBAL_ACTION_KEY_RESTART" and add below code:
         private static final String GLOBAL_ACTION_KEY_SCREENSHOT = "screenshot";
         
-    b) Search "GLOBAL_ACTION_KEY_RESTART" and add the a) string:
+    (b) Search "GLOBAL_ACTION_KEY_RESTART" and add below code that will use (a) string:
         } else if (GLOBAL_ACTION_KEY_SCREENSHOT.equals(actionKey)) {
             mItems.add(new ScreenshotAction(mContext, mWindowManagerFuncs));
         }
         
-    c) Add "ScreenshotAction" class that will new at b):
+    (c) Add "ScreenshotAction" class that will new at (b):
         private class ScreenshotAction extends SinglePressAction implements LongPressAction {
             private final Context mContext;
             private final WindowManagerPolicy.WindowManagerFuncs mWindowManagerFuncs;
@@ -61,14 +61,16 @@
             }
         }
         
-    d) Check "global_action_screenshot" that used at c):
-        from frameworks/base/core/res/res/values/symbols.xml
+    (d) Check "global_action_screenshot" that used at (c):
+        from 
+            frameworks/base/core/res/res/values/symbols.xml
         or
-        your overlay path
-        should have like below:
-        ...
-        <java-symbol type="string" name="global_action_power_off" />
-        ...
-        <java-symbol type="string" name="global_action_screenshot" />
+            your overlay path
+        
+        should have below code:
+            ...
+            <java-symbol type="string" name="global_action_power_off" />
+            ...
+            <java-symbol type="string" name="global_action_screenshot" />
         
 ### Code flow:
