@@ -35,6 +35,8 @@ Note
     * How to enable java code's Log.isLoggable?
     * How to add call stack at java code?
 
+4.  How to add "Screenshot" item into the popup menu from long press Power key? 
+
 ## openpilot
 1.  ...
 2.  
