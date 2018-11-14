@@ -73,4 +73,20 @@
             ...
             <java-symbol type="string" name="global_action_screenshot" />
         
-### Code flow:
+## Code flow to show popup Power menu (long pressed Power key)
+### Java call stack:
+    Java_StackTrace: dalvik.system.VMStack.getThreadStackTrace(Native Method)
+    Java_StackTrace: java.lang.Thread.getStackTrace(Thread.java:1538)
+    Java_StackTrace: com.android.server.policy.LegacyGlobalActions.createDialog(LegacyGlobalActions.java:326)
+    Java_StackTrace: com.android.server.policy.LegacyGlobalActions.handleShow(LegacyGlobalActions.java:196)
+    Java_StackTrace: com.android.server.policy.LegacyGlobalActions.showDialog(LegacyGlobalActions.java:178)
+    Java_StackTrace: com.android.server.policy.GlobalActions.showDialog(GlobalActions.java:77)
+    Java_StackTrace: com.android.server.policy.PhoneWindowManager.showGlobalActionsInternal(PhoneWindowManager.java:1839)
+    Java_StackTrace: com.android.server.policy.PhoneWindowManager.powerLongPress(PhoneWindowManager.java:1616)
+    Java_StackTrace: com.android.server.policy.PhoneWindowManager.access$1000(PhoneWindowManager.java:305)
+    Java_StackTrace: com.android.server.policy.PhoneWindowManager$PolicyHandler.handleMessage(PhoneWindowManager.java:907)
+    Java_StackTrace: android.os.Handler.dispatchMessage(Handler.java:106)
+    Java_StackTrace: android.os.Looper.loop(Looper.java:193)
+    Java_StackTrace: android.os.HandlerThread.run(HandlerThread.java:65)
+    Java_StackTrace: com.android.server.ServiceThread.run(ServiceThread.java:44)
+    Java_StackTrace: com.android.server.UiThread.run(UiThread.java:43)
