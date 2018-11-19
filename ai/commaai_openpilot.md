@@ -17,7 +17,8 @@ follow the the following procedure -
       [note] this will install the libraries mentioned in the requirements text file
 2. Create a separate .sh file and include the following lines in it,
     * export PYTHONPATH="$PWD":$PYTHONPATH
-    * rm selfdrive/can/libdbc.so # if you don't need to modify the .cc files or the makefile inside 'can' folder, then you can ignore this line
+    * rm selfdrive/can/libdbc.so  
+      [note] # if you don't need to modify the .cc files or the makefile inside 'can' folder, then you can ignore this line
     * /bin/sh -c 'cd selfdrive/test/tests/plant && OPTEST=1 ./test_longitudinal.py'
 3. Then execute this new .sh file instead of run_dockers_test.sh file. You may need to use sudo to execute this new sh file.
 This is the basic procedure. You may see some module or path issues whole running the python file, but that are solvable.
