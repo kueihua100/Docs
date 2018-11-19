@@ -4,6 +4,27 @@
     1. openpilot, autoware, apollo... all need the docker environment.
     2. But you can do some handmade procedures to run the code outside docker.
 
+## Ubuntu 16.04+ install Docker CE
+1. Add Docker CE AP image source:
+    *  sudo apt-get update
+    *  sudo apt-get install apt-transport-https ca-certificates curl software-properties-common
+    *  curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+    *  sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+
+2. Install Docker CE
+    *  sudo apt-get update
+    *  sudo apt-get install docker-ce
+    *  sudo usermod -aG docker $USER  
+       [note] Only root and users from docker can access docker's unix socket, so add yourself into docker group.
+       
+3. Start Docker CE (maybe not needed)
+    *  sudo systemctl enable docker
+    *  sudo systemctl start docker
+
+4. Commands to test docker environment
+    *  docker run hello-world
+    *  docker run -it ubuntu bash
+    
 ## Run openpilot outside the docker
 From [the discussion](https://github.com/commaai/openpilot/issues/204)
 
