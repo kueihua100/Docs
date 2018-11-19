@@ -77,6 +77,10 @@
     grep --exclude-dir=".svn" -r 'get_config_filename' ./
     grep -Iinr -e 'Last write occurred' -e 'Processing format' ./
 
+### ls 
+    ls -l -t- r
+    [note] 將最新修改的files, 顯示在最下面
+    
 ### wget
     這個網站裡面有很多網頁
     如果要把整個網站下載下來
