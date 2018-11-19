@@ -73,3 +73,31 @@ Above discussion is similiar to the one from docker's Dockerfile.openpilot:
     RUN make -C /tmp/openpilot/selfdrive/controls/lib/lateral_mpc clean
     ------------------------------------------
     
+## Run openpilot in the docker
+```bash
+# Requires working docker
+./run_docker_tests.sh
+```
+    [note 1] From run_docker_test.sh:
+        #!/bin/bash
+        set -e
+        docker build -t tmppilot -f Dockerfile.openpilot .
+        docker run --rm \
+          -v "$(pwd)"/selfdrive/test/tests/plant/out:/tmp/openpilot/selfdrive/test/tests/plant/out \
+          tmppilot /bin/sh -c 'cd /tmp/openpilot/selfdrive/test/tests/plant && OPTEST=1 ./test_longitudinal.py'
+
+    [note 2] 
+        docker build -t tmppilot -f Dockerfile.openpilot .
+        --------------------------
+        Above cmd will build a image taged "tmppilot:latest"
+        You can see it from the last line of output of above cmd, like:  
+        below cmd will build a image named "tmppilot:latest"
+        --------------------------
+        
+    [note 3]
+        docker run -it tmppilot:latest bash
+        -----------------------
+        Above cmd can enter bash shell of tmppilot image.
+        Then do below cmds will do the same things at [note 1]
+        # rm -rf /tmp/openpilot/selfdrive/test/tests/plant/out
+        # /bin/sh -c 'cd /tmp/openpilot/selfdrive/test/tests/plant && OPTEST=1 ./test_longitudinal.py'
