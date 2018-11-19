@@ -38,7 +38,7 @@ Note
 4.  [How to add "Screenshot" item into the popup menu from long press Power key?](https://github.com/kueihua100/Docs/blob/master/android/Add_Screenshot_into_power_menu.md)
 
 ## Commaai's openpilot
-1.  ...
+1.  [Notes to openpilot](https://github.com/kueihua100/Docs/blob/master/ai/commaai_openpilot.md)
 
 ## Coding
 1. [Python tips](https://github.com/kueihua100/Docs/blob/master/coding/Python_tips.md)
