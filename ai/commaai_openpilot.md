@@ -23,7 +23,8 @@
 
 4. Commands to test docker environment
     *  docker run hello-world
-    *  docker run -it ubuntu bash
+    *  docker run -it ubuntu bash  
+       [note] type 'exit' to logout docker shell 
     
 ## Run openpilot outside the docker
 From [the discussion](https://github.com/commaai/openpilot/issues/204)
