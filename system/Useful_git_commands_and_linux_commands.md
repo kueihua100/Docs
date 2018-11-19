@@ -75,7 +75,7 @@
 # linux commands:
 ### grep
     grep --exclude-dir=".svn" -r 'get_config_filename' ./
-    grep -Inr -e 'Last write occurred' -e 'Processing format' ./
+    grep -Iinr -e 'Last write occurred' -e 'Processing format' ./
 
 ### wget
     這個網站裡面有很多網頁
