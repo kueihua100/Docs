@@ -13,7 +13,8 @@ follow the the following procedure -
 1. First install all the libraries in your PC.
     * apt-get update && apt-get install -y build-essential clang vim screen wget bzip2 git libglib2.0-0 python-pip capnproto libcapnp-dev libzmq5-dev libffi-dev libusb-1.0-0
     * pip2 install numpy==1.11.2 scipy==0.18.1 matplotlib
-    * pip2 install -r requirements_openpilot.txt # this will install the libraries mentioned in the requirements text file
+    * pip2 install -r requirements_openpilot.txt  
+      [note] this will install the libraries mentioned in the requirements text file
 2. Create a separate .sh file and include the following lines in it,
     * export PYTHONPATH="$PWD":$PYTHONPATH
     * rm selfdrive/can/libdbc.so # if you don't need to modify the .cc files or the makefile inside 'can' folder, then you can ignore this line
