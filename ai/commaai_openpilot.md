@@ -73,7 +73,7 @@ Above discussion is similiar to the one from docker's Dockerfile.openpilot:
     RUN make -C /tmp/openpilot/selfdrive/controls/lib/lateral_mpc clean
     ------------------------------------------
     
-## Run openpilot in the docker
+## Run openpilot inside the docker
 ```bash
 # Requires working docker
 ./run_docker_tests.sh
