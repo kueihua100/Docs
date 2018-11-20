@@ -89,7 +89,7 @@ Above discussion is similiar to the one from docker's Dockerfile.openpilot:
     [note 2] 
         docker build -t tmppilot -f Dockerfile.openpilot .
         --------------------------
-        Above cmd will build a image taged "tmppilot:latest"
+        Above cmd will build a image taged "tmppilot:latest" at the end.
         Using "docker images" to check the built image.
         --------------------------
         
