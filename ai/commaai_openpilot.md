@@ -73,7 +73,7 @@ Above discussion is similiar to the one from docker's Dockerfile.openpilot:
     RUN make -C /tmp/openpilot/selfdrive/controls/lib/lateral_mpc clean
     ------------------------------------------
     
-## Run openpilot inside the docker
+## Run openpilot inside the docker (at Ubuntu Linux)
 ```bash
 # Requires working docker
 ./run_docker_tests.sh
@@ -90,8 +90,7 @@ Above discussion is similiar to the one from docker's Dockerfile.openpilot:
         docker build -t tmppilot -f Dockerfile.openpilot .
         --------------------------
         Above cmd will build a image taged "tmppilot:latest"
-        You can see it from the last line of output of above cmd, like:  
-        below cmd will build a image named "tmppilot:latest"
+        Using "docker images" to check the built image.
         --------------------------
         
     [note 3]
@@ -101,3 +100,26 @@ Above discussion is similiar to the one from docker's Dockerfile.openpilot:
         Then do below cmds will do the same things at [note 1]
         # rm -rf /tmp/openpilot/selfdrive/test/tests/plant/out
         # /bin/sh -c 'cd /tmp/openpilot/selfdrive/test/tests/plant && OPTEST=1 ./test_longitudinal.py'
+
+## Run openpilot inside the docker (at Win 10)
+1.  Install Win10 Powershell
+2. Install Docker for Win 10
+3. Build tmppilot docker image:  
+    a) git clone openpilot source to d:\test\openloit (example)  
+    b) open Powershell and enter d:\test\openloit  
+    c) Run below cmd to build tmppilot docker image:  
+        docker build -t tmppilot -f Dockerfile.openpilot .  
+    d) Show available docker images:  
+        docker images  
+    e) Delete docker image:  
+        docker rmi xxx_image_id  
+    f) Delete docker container  
+        docker container ls -a <=== list currently containers
+        docker container rm xxx_container_id
+4. Run tmppilot:  
+    a) Enable "Share Drives" from Win docker's [Setting] menu.  
+        Here select "D" and click "Apply" button.  
+    b) Run tmppilot image with sharing d:\test\openloit  
+        docker run -it --mount type=bind,source=d:\\/test\\/openloit,target=/data tmppilot:latest bash  
+        # rm -rf /tmp/openpilot/selfdrive/test/tests/plant/out  
+        # /bin/sh -c 'cd /tmp/openpilot/selfdrive/test/tests/plant && OPTEST=1 ./test_longitudinal.py'  
