@@ -162,4 +162,4 @@ Above discussion is similiar to the one from docker's Dockerfile.openpilot:
             You can use "docker export" to export a docker image that you already built and used in win10.
             docker export xxx_container_id > from_linux.tgz
             docker import from_linux.tgz RESPOSITORY:TAG  <== maybe need to setup environment varables taht set at linux.
-            docker load from_linux.tgz
+            docker load -i from_linux.tgz
