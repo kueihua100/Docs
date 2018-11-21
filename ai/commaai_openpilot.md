@@ -146,7 +146,9 @@ Above discussion is similiar to the one from docker's Dockerfile.openpilot:
 4. Run tmppilot:  
     a) Enable "Share Drives" from Win docker's [Setting] menu.  
         Here select "D" and click "Apply" button.  
+        
     b) Run tmppilot image with sharing d:\test\openloit  
+    
         docker run -it --mount type=bind,source=d:\\/test\\/openloit,target=/data tmppilot:latest bash  
         # rm -rf /tmp/openpilot/selfdrive/test/tests/plant/out  
         # make -C /tmp/openpilot/selfdrive/controls/lib/longitudinal_mpc clean  
@@ -154,3 +156,10 @@ Above discussion is similiar to the one from docker's Dockerfile.openpilot:
         # make -C /tmp/openpilot/selfdrive/controls/lib/lateral_mpc clean  
         # make -C /tmp/openpilot/selfdrive/controls/lib/lateral_mpc  
         # /bin/sh -c 'cd /tmp/openpilot/selfdrive/test/tests/plant && OPTEST=1 ./test_longitudinal.py'  
+
+        [note] 
+            Sometimes win10's docker environment is not stable during building images (download packages).
+            You can use "docker export" to export a docker image that you already built and used in win10.
+            docker export xxx_container_id > from_linux.tgz
+            docker import from_linux.tgz RESPOSITORY:TAG  <== maybe need to setup environment varables taht set at linux.
+            docker load from_linux.tgz
