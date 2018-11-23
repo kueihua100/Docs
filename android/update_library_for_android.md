@@ -1,6 +1,6 @@
 # How to update library for android?
 
-## For C/C++ code:
+## [Case 1] For C/C++ code:
     Use android default usbaudio as an example:
     1. Code path: pie/hardware/libhardware/modules/usbaudio    
     2. From makefile: Android.bp
@@ -23,7 +23,7 @@
       [note] From "name" tag, the library is "audio.usb.default.so".
       
     3. Library output path: 
-      xxx/vendor/lib/hw
+      out/xxx/vendor/lib/hw
       
     4. How to push to target?
       # adb connect your_ip_address:5555
@@ -33,5 +33,42 @@
       # adb push audio.usb.default.so /vendor/lib/hw
       # adb shell sync
       Reboot your target system and to check it~
+      
+## Framework java code:
+    Use frameworks\base\services\core\java\com\android\server\audio\AudioService.java as an example:
     
-## For java code:
+    1. If you just mm under frameworks/base/services/core/ folder
+      1-a) From frameworks/base/services/core/Android.bp:
+        java_library_static {
+            ...
+        }
+        ...
+        java_library {
+            name: "services.core",
+            static_libs: ["services.core.priorityboosted"],
+        }
+    
+      1-b) it generates:
+        services.core.jar   <== under out/xxx/system/framework/oat/arm
+        services.core.odex  <== under out/xxx/system/framework/oat/arm
+        services.core.vdex  <== under out/xxx/system/framework/oat/arm
+        But adb push these libraries, will not work.
+      
+    2. Should mm under frameworks/base/services/
+      2-a) From frameworks/base/services/Android.bp
+        java_library {
+            name: "services",
+            ...
+        }
+        
+      2-b) it generates:
+        services.core.jar   <== under out/xxx/system/framework
+        services.jar        <== under out/xxx/system/framework
+        services.jar.prof   <== under out/xxx/system/framework
+        services.core.odex  <== under out/xxx/system/framework/oat/arm
+        services.core.vdex  <== under out/xxx/system/framework/oat/arm
+        services.art        <== under out/xxx/system/framework/oat/arm
+        services.vdex       <== under out/xxx/system/framework/oat/arm
+        services.odex       <== under out/xxx/system/framework/oat/arm
+        
+## Framework C/C++ code:
