@@ -1,6 +1,6 @@
 # How to update library for android?
 
-## [Case 1] For C/C++ code:
+## [Case 1] Vendor C/C++ code:
     Use android default usbaudio as an example:
     1. Code path: pie/hardware/libhardware/modules/usbaudio    
     2. From makefile: Android.bp
@@ -36,6 +36,7 @@
       
 ## Framework java code:
     Use frameworks\base\services\core\java\com\android\server\audio\AudioService.java as an example:
+    After modifid, ...
     
     1. If you just mm under frameworks/base/services/core/ folder
       1-a) From frameworks/base/services/core/Android.bp:
@@ -71,6 +72,17 @@
         services.vdex       <== under out/xxx/system/framework/oat/arm
         services.odex       <== under out/xxx/system/framework/oat/arm
         
-        adb push services.core.jar services.jar services.jar.prof /system/framework
-        adb push services.core.odex services.core.vdex services.art services.vdex services.odex /system/framework/oat/arm
+        # adb push services.core.jar services.jar services.jar.prof /system/framework
+        # adb push services.core.odex services.core.vdex services.art services.vdex services.odex /system/framework/oat/arm
+        
 ## Framework C/C++ code:
+    Use frameworks/av/services/audioflinger as an example:
+    1. From makefile Android.mk:
+        ...
+        LOCAL_MODULE:= libaudioflinger
+        ...
+    2. After moddifies the c/C++ code under audioflinger folder,
+       Should mm under audioflinger folder, then the it generates
+       libaudioflinger.so  <== under out/xxx/system/lib
+       
+       # adb push libaudioflinger.so /system/lib
