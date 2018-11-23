@@ -25,7 +25,7 @@ Note
     * How to enable ASAN in audio HAL code?
     * [AudioFlinger heap size at low ram configuration (ro.config.low_ram=true)](https://github.com/kueihua100/Docs/blob/master/audio/audioflinger_heap_size_at_low_ram.md)
     
-2.  How to VTS/CTS/GTS and debug it?
+2.  [How to VTS/CTS/GTS and debug it?](https://github.com/kueihua100/Docs/blob/master/android/Debug_to_VTS_CTS_GTS.md)
 
 3.  [JAVA tips?](https://github.com/kueihua100/Docs/blob/master/android/Java_tips.md)
     * How to enable java code's Log.isLoggable?
