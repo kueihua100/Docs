@@ -59,3 +59,10 @@
     8. dict (or hash) info = {'name':'duncan', 'age':42, 'hight':171, 'weight':75}, 
       取用dict by using the strings before ":",
       eg. print info['name'] = > will output duncan
+
+###
+    1. lambda的語法是：
+        lambda arg1, arg2, ....: expression
+        lambda中arg1、arg2等就相當於定義函式時的參數，之後你可以在expression中使用這些參數
+        lambda是運算式，不是陳述句，你在:之後的也必須是運算式，lambda中也不能有區塊，
+        這表示一些小的運算任務你可以使用lambda，而較複雜的邏輯你可以使用def來定義。    
