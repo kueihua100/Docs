@@ -25,19 +25,17 @@ Note
     * How to enable ASAN in audio HAL code?
     * [AudioFlinger heap size at low ram configuration (ro.config.low_ram=true)](https://github.com/kueihua100/Docs/blob/master/audio/audioflinger_heap_size_at_low_ram.md)
     
-2.  How to VTS and debug VTS?
-    * How to CTS and debug CTS?
-    * How to CTS Verifier and debug CTS verifier?
-    * How to GTS and debug GTS?
-    * How to de-compile APK?
+2.  How to VTS/CTS/GTS and debug it?
 
 3.  [JAVA tips?](https://github.com/kueihua100/Docs/blob/master/android/Java_tips.md)
     * How to enable java code's Log.isLoggable?
     * How to add call stack at java code?
+    * How to de-compile APK?
 
 4.  [How to add "Screenshot" item into the popup menu from long press Power key?](https://github.com/kueihua100/Docs/blob/master/android/Add_Screenshot_into_power_menu.md)
 
-5.  How to update library for android?
+5.  [How to update library for android?](https://github.com/kueihua100/Docs/blob/master/android/update_library_for_android.md)
+
 ## Commaai's openpilot
 1.  [Notes to openpilot](https://github.com/kueihua100/Docs/blob/master/ai/commaai_openpilot.md)
 
