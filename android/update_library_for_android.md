@@ -71,4 +71,6 @@
         services.vdex       <== under out/xxx/system/framework/oat/arm
         services.odex       <== under out/xxx/system/framework/oat/arm
         
+        adb push services.core.jar services.jar services.jar.prof /system/framework
+        adb push services.core.odex services.core.vdex services.art services.vdex services.odex /system/framework/oat/arm
 ## Framework C/C++ code:
