@@ -73,6 +73,20 @@
         git apply diff.patch  --reject
 
 # linux commands:
+### How to add user/samba/NFS
+    先用以下sudo account login and do below cmds: 
+    1 Add linux user
+        # sudo adduser --force-badname kueihua
+        # sudo adduser kueihua sudo  // sudo 權限
+
+    2. Samba
+        #sudo smbpasswd -a kueihua  //remember to set same passwd with wins
+
+    3. NFS
+        # sudo vi /etc/exports **** 注意, option內不能有空白
+               /home/kueihua *(rw,sync,no_root_squash)
+        # sudo /etc/init.d/nfs-kernel-server start
+        
 ### grep
     grep --exclude-dir=".svn" -r 'get_config_filename' ./
     grep -Iinr -e 'Last write occurred' -e 'Processing format' ./
