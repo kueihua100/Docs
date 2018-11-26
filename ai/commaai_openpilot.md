@@ -163,3 +163,16 @@ Above discussion is similiar to the one from docker's Dockerfile.openpilot:
             docker export xxx_container_id > from_linux.tgz
             docker import from_linux.tgz RESPOSITORY:TAG  <== maybe need to setup environment varables taht set at linux.
             docker load -i from_linux.tgz
+
+## Run bash shell from a stopped container
+    $ docker container ls -a
+        CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES
+        ab242a13f03d        testpilot:latest    "bash"              5 days ago          Exited (0) 2 seconds
+    
+    $ docker container start ab242a13f03d
+    $ docker container ls -a
+        CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES
+        ab242a13f03d        testpilot:latest    "bash"              5 days ago          Up 1 second
+        
+    $ docker exec -it ab242a13f03d bash
+        root@ab242a13f03d:/
