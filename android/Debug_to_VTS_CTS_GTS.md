@@ -50,4 +50,8 @@ Download  CTS Verifier APK and CTS Media Files from [HERE](https://source.androi
     Then open CtsVerifier APK from target and follow the UI to do test~
     
 # How to GTS and debug GTS?
-
+    # adb connect -s 172.22.56.203:5555
+    # cd android-gts/tools
+    # ./gts-tradefed 
+    # run gts -s 172.22.56.203:5555 -m GtsGmscoreHostTestCases -t com.google.android.gts.audio.AudioHostTest#testMixByUidCapturing
+    # run gts -s 172.22.56.203:5555 -m GtsGmscoreHostTestCases -t com.google.android.gts.audio.AudioHostTest#testTwoChannelCapturing
