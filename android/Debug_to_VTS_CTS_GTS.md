@@ -44,4 +44,10 @@ Download CTS testsuit from [HERE](https://source.android.com/compatibility/cts/d
        And check the JAVA code.
     
 # How to CTS Verifier and debug CTS verifier?
+Download  CTS Verifier APK and CTS Media Files from [HERE](https://source.android.com/compatibility/cts/verifier)
+
+    # adb install -r -g CtsVerifier.apk
+    Then open CtsVerifier APK from target and follow the UI to do test~
+    
 # How to GTS and debug GTS?
+
