@@ -8,11 +8,13 @@
     you can have a copy in your bin_path and add this bin_path to your PATH environment~
     
 #### How to build VTS code:  
+VTS google info page from [HERE](https://source.android.com/compatibility/vts/systems)  
+
     # source build/envsetup.sh
     # lunch <productName>
     # make vts
     VTS testsuit is under: out/host/linux-x86/vts/android-vts.zip
-  
+
 #### How to run VTS?  
     # adb connect -s 172.22.54.176:5555
     # cd android-vts/tools
