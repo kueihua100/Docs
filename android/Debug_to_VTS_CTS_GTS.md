@@ -37,6 +37,7 @@ CTS google info page from [HERE](https://source.android.com/compatibility/cts/de
     # lunch <productName>
     # make cts
     cTS testsuit is under: out/host/linux-x86/cts/android-cts.zip
+    [note] cts source is under xxx/pie/cts/xxx
     
 #### How to run CTS? 
 Download CTS testsuit from [HERE](https://source.android.com/compatibility/cts/downloads)  
