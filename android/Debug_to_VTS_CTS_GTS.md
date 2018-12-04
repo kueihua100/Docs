@@ -30,6 +30,14 @@ VTS google info page from [HERE](https://source.android.com/compatibility/vts/sy
     3. Check host_log_xxxx.tgz under "logs" folder
     
 # How to CTS and debug CTS?
+#### How to build CTS code:  
+CTS google info page from [HERE](https://source.android.com/compatibility/cts/development)  
+
+    # source build/envsetup.sh
+    # lunch <productName>
+    # make cts
+    cTS testsuit is under: out/host/linux-x86/cts/android-cts.zip
+    
 #### How to run CTS? 
 Download CTS testsuit from [HERE](https://source.android.com/compatibility/cts/downloads)  
 
