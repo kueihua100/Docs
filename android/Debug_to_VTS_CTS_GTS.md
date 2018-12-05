@@ -46,6 +46,7 @@ Download CTS testsuit from [HERE](https://source.android.com/compatibility/cts/d
     # cd android-cts/tools
     # ./cts-tradefed
     # run cts -s 172.22.56.203:5555 -m CtsNativeMediaAAudioTestCases
+    # run cts -s 172.22.56.203:5555 -m CtsNativeMediaAAudioTestCases -t android.nativemedia.aaudio.AAudioTests#SPM_AAudioInputStreamCallbackTest_testRecording_SHARED__0__DEFAULT
     
 #### How to debug CTS? 
     1. Fist read the html report under "results" folder
