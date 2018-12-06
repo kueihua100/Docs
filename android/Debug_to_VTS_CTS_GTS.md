@@ -54,6 +54,20 @@ Download CTS testsuit from [HERE](https://source.android.com/compatibility/cts/d
     3. Check host_log_xxxx.tgz under "logs" folder
     4. De-compile android-cts\testcases\xxxx_apk to JAVA code according the test module.
        And check the JAVA code.
+
+#### How to read the code from CTS source?
+    Use CtsNativeMediaAAudioTestCases as an example.
+    From test_result.xml: there is a test case named:
+    SPM_AAudioInputStreamCallbackTest_testRecording_SHARED__0__LOW_LATENCY
+    
+    1. From xxx/pie/cts//tests/tests/nativemedia/aaudio/jni/test_aaudio_callback.cpp
+    2. There are 2 TEST_P in test_aaudio_callback.cpp:
+        TEST_P(AAudioInputStreamCallbackTest, testRecording)
+        TEST_P(AAudioOutputStreamCallbackTest, testPlayback)
+    3. There are 2 INSTANTIATE_TEST_CASE_P in test_aaudio_callback.cpp:
+        INSTANTIATE_TEST_CASE_P(SPM, AAudioInputStreamCallbackTest, ...)
+        INSTANTIATE_TEST_CASE_P(SPM, AAudioOutputStreamCallbackTest, ...)
+    combine above 2 and 3 to form test cases.
     
 # How to CTS Verifier and debug CTS verifier?
 Download  CTS Verifier APK and CTS Media Files from [HERE](https://source.android.com/compatibility/cts/verifier)
