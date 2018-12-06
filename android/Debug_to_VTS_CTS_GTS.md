@@ -68,7 +68,7 @@ Download CTS testsuit from [HERE](https://source.android.com/compatibility/cts/d
         INSTANTIATE_TEST_CASE_P(SPM, AAudioInputStreamCallbackTest, ...)
         INSTANTIATE_TEST_CASE_P(SPM, AAudioOutputStreamCallbackTest, ...)
     combine above 2 and 3 to form test cases.
-    
+[note 1] TEST_P and INSTANTIATE_TEST_CASE_P macro can refer to [HERE](https://github.com/abseil/googletest/blob/master/googletest/docs/advanced.md)
 # How to CTS Verifier and debug CTS verifier?
 Download  CTS Verifier APK and CTS Media Files from [HERE](https://source.android.com/compatibility/cts/verifier)
 
