@@ -150,6 +150,9 @@ Above discussion is similiar to the one from docker's Dockerfile.openpilot:
     b) Run tmppilot image with sharing d:\test\openloit  
     
         docker run -it --mount type=bind,source=d:\\/openloit,target=/tmp/share tmppilot:latest bash 
+        or
+        docker run -it --mount type=bind,source=d:\\,target=/tmp/win-d tmppilot:latest bash
+        
         # rm -rf /tmp/openpilot/selfdrive/test/tests/plant/out  
         # make -C /tmp/openpilot/selfdrive/controls/lib/longitudinal_mpc clean  
         # make -C /tmp/openpilot/selfdrive/controls/lib/longitudinal_mpc  
