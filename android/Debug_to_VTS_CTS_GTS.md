@@ -69,15 +69,32 @@ Download CTS testsuit from [HERE](https://source.android.com/compatibility/cts/d
         INSTANTIATE_TEST_CASE_P(SPM, AAudioOutputStreamCallbackTest, ...)
     combine above 2 and 3 to form test cases.
 [note 1] TEST_P and INSTANTIATE_TEST_CASE_P macro can refer to [HERE](https://github.com/abseil/googletest/blob/master/googletest/docs/advanced.md)
+
 # How to CTS Verifier and debug CTS verifier?
 Download  CTS Verifier APK and CTS Media Files from [HERE](https://source.android.com/compatibility/cts/verifier)
 
     # adb install -r -g CtsVerifier.apk
     Then open CtsVerifier APK from target and follow the UI to do test~
-    
+    If need debug, follow the "How to debug CTS" part.
 # How to GTS and debug GTS?
     # adb connect -s 172.22.56.203:5555
     # cd android-gts/tools
     # ./gts-tradefed 
     # run gts -s 172.22.56.203:5555 -m GtsGmscoreHostTestCases -t com.google.android.gts.audio.AudioHostTest#testMixByUidCapturing
     # run gts -s 172.22.56.203:5555 -m GtsGmscoreHostTestCases -t com.google.android.gts.audio.AudioHostTest#testTwoChannelCapturing
+    If need debug, follow the "How to debug CTS" part.
+    
+# Debug skill:
+#### 1. 千軍萬馬
+    每個老闆都有千軍萬馬可以調度, 你也可以有~ 但是只有千軍與萬馬. XDD
+        千軍就是在你的API 進入點, 打印enter
+        萬馬就是在你的API 離開點, 打印exit
+        
+    千軍萬馬最適用 HAL debugging, 千軍萬馬沒有成對, 應該就要看看hang在哪? 
+    or 在你一個條件return了, 但有做好error handling? or return value對嗎?
+    
+#### 2. 空城計
+    如果千軍萬馬, 還是找不到問題, 這通常是程式run 一陣子 後的random hang.
+    開始進行跳過某個 API 的空城計作法, 如果跳過就OK, 就是該 API 有問題.
+    
+#### 3. 指鹿為馬
