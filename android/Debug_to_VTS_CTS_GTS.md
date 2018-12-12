@@ -91,10 +91,13 @@ Download  CTS Verifier APK and CTS Media Files from [HERE](https://source.androi
         萬馬就是在你的API 離開點, 打印exit
         
     千軍萬馬最適用 HAL debugging, 千軍萬馬沒有成對, 應該就要看看hang在哪? 
-    or 在你一個條件return了, 但有做好error handling? or return value對嗎?
+    or 在哪一個條件return了, 有做好error handling嗎? and return value對嗎?
     
 #### 2. 空城計
-    如果千軍萬馬, 還是找不到問題, 這通常是程式run 一陣子 後的random hang.
+    有一些問題是透過千軍萬馬, 不容易找到問題, 這通常是程式run 一陣子 後的random hang.
     開始進行跳過某個 API 的空城計作法, 如果跳過就OK, 就是該 API 有問題.
     
-#### 3. 指鹿為馬
+#### 3. 偷天換日
+    有些問題在certification program會遇到assertion, some assert macro has timeout value to check the state is changed or not?
+    So maybe 是你的底層太晚回應造成, 若懷疑是如此, 採用 偷天換日 作法, 可以加條件在第一次呼叫時, 無條件return, 若如此OK了, 就可以正名問題在哪~
+    但重點不是用 hack 作法, 而是要修正自己的問題~
