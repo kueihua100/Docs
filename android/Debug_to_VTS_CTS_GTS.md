@@ -99,6 +99,8 @@ Download  CTS Verifier APK and CTS Media Files from [HERE](https://source.androi
     此時需要開始進行跳過某個 API 的空城計作法, 如果跳過就OK, 就是該 API 有問題.
     
 #### 3. 偷天換日
-    有些問題在certification program會遇到assertion, some assert macro has timeout value to check the state is changed or not?
-    So maybe 是你的底層太晚回應造成, 若懷疑是如此, 採用 偷天換日 作法, 可以加條件在第一次呼叫時, 無條件return, 若如此OK了, 就可以正名問題在哪~
+    有些問題在certification program會遇到assertion, some assert macro has timeout value to 
+    check the state is changed or not? Maybe 是你的底層太晚回應造成, 
+    若懷疑是如此, 採用 偷天換日 作法, 可以加條件在第一次呼叫時, 無條件return, 
+    若如此OK了, 就可以證名問題在哪~
     但重點不是用 hack 作法, 而是要修正自己的問題~
