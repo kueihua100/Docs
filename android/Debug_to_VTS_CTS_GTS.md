@@ -95,7 +95,8 @@ Download  CTS Verifier APK and CTS Media Files from [HERE](https://source.androi
     
 #### 2. 空城計
     有一些問題是透過千軍萬馬, 不容易找到問題, 這通常是程式run 一陣子 後的random hang.
-    開始進行跳過某個 API 的空城計作法, 如果跳過就OK, 就是該 API 有問題.
+    或者是 某一個測項 單獨測 OK, 整個測 NG.
+    此時需要開始進行跳過某個 API 的空城計作法, 如果跳過就OK, 就是該 API 有問題.
     
 #### 3. 偷天換日
     有些問題在certification program會遇到assertion, some assert macro has timeout value to check the state is changed or not?
