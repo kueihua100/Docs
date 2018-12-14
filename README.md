@@ -37,7 +37,8 @@ Note
 5.  [How to update library for android?](https://github.com/kueihua100/Docs/blob/master/android/update_library_for_android.md)
 
 ## Commaai's openpilot
-1.  [Notes to openpilot](https://github.com/kueihua100/Docs/blob/master/ai/commaai_openpilot.md)
+1.  [Note 1 to openpilot](https://github.com/kueihua100/Docs/blob/master/ai/commaai_openpilot_note1.md)
+2.  [Note 2]
 
 ## Coding
 1. [Python tips](https://github.com/kueihua100/Docs/blob/master/coding/Python_tips.md)
