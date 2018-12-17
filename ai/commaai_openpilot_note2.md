@@ -19,7 +19,40 @@ openpilot/selfdrive/car
 
     a) carstate.py: 
        this class reads CAN messages from the Powertrain CAN Bus, parses them using the dbc file 
-       and converts them in a common car state format: see CarState structure in openpilot/cereal/car.capnp
+       and converts them in a common car state format: see CarState structure in openpilot/cereal/car.capnp       
+       [note]
+         vEgo: 
+            this is the vehicle speed in m/s. While driving the car, make sure the speedometer speed roughly 
+            matches the printed value.
+         gearShifter: 
+            with the car turned on, move the gear shifter and make sure the printed gear enumeration matches
+            the actual gear lever position (park, neutral, drive etc...).
+        leftBlinkers, rightBlinker: 
+            booleans that indicate the blinker’s state.
+        steeringAngle: 
+            from a neutral/straight position, rotate the steering wheel 360 degrees to the left. 
+            You should read 360.
+        gas: 
+            you should read 0 when the gas pedal is released, while you should read 1 when the gas pedal 
+            if fully depressed. Note that you can test this with the car in ON ignition mode to avoid revving up 
+            the engine when pressing the gas pedal.
+        gasPressed: 
+            boolean that determines if the gas pedal is pressed or released.
+        brakePressed: 
+            boolean that determines if the brake pedal is pressed or released.
+        steeringTorque: 
+            numerical value that represents how much torque the driver is putting on the steering wheel.
+            This value is noisy as it’s measured by a torque transducer. Make sure the value is roughly 
+            linearly correlated to the effort that you put in turning the steering wheel. 
+            It should be positive when trying to steer left.
+        steeringPressed: 
+            a boolean that indicates if the driver is putting any torque on the steering wheel.
+        doorOpen and seatbeltUnbuckled: 
+            booleans that indicates if any of the doors are open and if the driver’s seat belt 
+            is unlatched, respectively.
+        genericToggle: 
+            this boolean is used to facilitate testing for the later steps. By default, it’s arbitrarily 
+            linked with the auto high-beam toggle state. You have to have the headlights on for this to work.
        
     b) carcontroller.py: 
        class that receives control data from the controlsd thread (such as abstracted actuators commands, 
