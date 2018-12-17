@@ -12,3 +12,36 @@
        ...
     d) Failing to collect all of the messages will result in openpilot unreliably detecting the fingerprint 
        of your car when you turn on your vehicle.
+
+#### Car specific code
+Except for the fingerprint and the dbc file, car-specific code is contained in the path:  
+openpilot/selfdrive/car
+
+    a) carstate.py: 
+       this class reads CAN messages from the Powertrain CAN Bus, parses them using the dbc file 
+       and converts them in a common car state format: see CarState structure in openpilot/cereal/car.capnp
+       
+    b) carcontroller.py: 
+       class that receives control data from the controlsd thread (such as abstracted actuators commands, 
+       see CarController in openpilot/cereal/car.capnp) and packs them into CAN messages using the dbc file. 
+       CAN messages are sent both on Powertrain CAN Bus and Radar CAN Bus.
+       
+    c) interface.py: 
+       class that contains car specific physical parameters, tuning parameters and methods 
+       to execute car state and controller updates.
+       
+    d) radar_interface.py: 
+       very similar to carstate.py, this class reads CAN messages from the Radar CAN Bus, parses them 
+       and converts them in a common radar state format: see RadarState structure in openpilot/cereal/car.capnp. 
+       It’s very unlikely that your unsupported car model will require changes to this file, so you can ignore it.
+       [note] ignore for adding an un-support car.
+       
+    e) values.py and <car_maker>can.py: 
+       these 2 files are a collection of a few functions and classes mainly used by carcontroller.py. 
+       In particular,values.py includes a dictionary of static messages that carcontroller needs to send to 
+       properly simulate the disconnected ECUs (FRC and/or DSU). 
+
+
+#### References
+    a) https://medium.com/@comma_ai/openpilot-port-guide-for-toyota-models-e5467f4b5fe6 
+    b) https://medium.com/@energee/add-support-for-your-car-to-comma-ai-openpilot-3d2da8c12647
