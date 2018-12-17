@@ -1,5 +1,5 @@
 # Note 2 to Commaai's openpilot
-#### Determine CAN Fingerprint 
+## Determine CAN Fingerprint 
     a) CAN fingerprint is CAN msgs from Powertrain CAN bus. 
     b) The assumption is that every car model can be uniquely identified by the set of 
        CAN messages on the Powertrain CAN Bus.
@@ -13,68 +13,67 @@
     d) Failing to collect all of the messages will result in openpilot unreliably detecting the fingerprint 
        of your car when you turn on your vehicle.
 
-#### Car specific code
+## Car specific code
 Except for the fingerprint and the dbc file, car-specific code is contained in the path:  
 openpilot/selfdrive/car
 
-    a) carstate.py: 
-       this class reads CAN messages from the Powertrain CAN Bus, parses them using the dbc file 
-       and converts them in a common car state format: see CarState structure in openpilot/cereal/car.capnp       
-       [note]
-         vEgo: 
-            this is the vehicle speed in m/s. While driving the car, make sure the speedometer speed roughly 
-            matches the printed value.
-         gearShifter: 
-            with the car turned on, move the gear shifter and make sure the printed gear enumeration matches
-            the actual gear lever position (park, neutral, drive etc...).
-        leftBlinkers, rightBlinker: 
-            booleans that indicate the blinker’s state.
-        steeringAngle: 
-            from a neutral/straight position, rotate the steering wheel 360 degrees to the left. 
-            You should read 360.
-        gas: 
-            you should read 0 when the gas pedal is released, while you should read 1 when the gas pedal 
-            if fully depressed. Note that you can test this with the car in ON ignition mode to avoid revving up 
-            the engine when pressing the gas pedal.
-        gasPressed: 
-            boolean that determines if the gas pedal is pressed or released.
-        brakePressed: 
-            boolean that determines if the brake pedal is pressed or released.
-        steeringTorque: 
-            numerical value that represents how much torque the driver is putting on the steering wheel.
-            This value is noisy as it’s measured by a torque transducer. Make sure the value is roughly 
-            linearly correlated to the effort that you put in turning the steering wheel. 
-            It should be positive when trying to steer left.
-        steeringPressed: 
-            a boolean that indicates if the driver is putting any torque on the steering wheel.
-        doorOpen and seatbeltUnbuckled: 
-            booleans that indicates if any of the doors are open and if the driver’s seat belt 
-            is unlatched, respectively.
-        genericToggle: 
-            this boolean is used to facilitate testing for the later steps. By default, it’s arbitrarily 
-            linked with the auto high-beam toggle state. You have to have the headlights on for this to work.
-       
-    b) carcontroller.py: 
-       class that receives control data from the controlsd thread (such as abstracted actuators commands, 
-       see CarController in openpilot/cereal/car.capnp) and packs them into CAN messages using the dbc file. 
-       CAN messages are sent both on Powertrain CAN Bus and Radar CAN Bus.
-       
-    c) interface.py: 
-       class that contains car specific physical parameters, tuning parameters and methods 
-       to execute car state and controller updates.
-       
-    d) radar_interface.py: 
-       very similar to carstate.py, this class reads CAN messages from the Radar CAN Bus, parses them 
-       and converts them in a common radar state format: see RadarState structure in openpilot/cereal/car.capnp. 
-       It’s very unlikely that your unsupported car model will require changes to this file, so you can ignore it.
-       [note] ignore for adding an un-support car.
-       
-    e) values.py and <car_maker>can.py: 
-       these 2 files are a collection of a few functions and classes mainly used by carcontroller.py. 
-       In particular,values.py includes a dictionary of static messages that carcontroller needs to send to 
-       properly simulate the disconnected ECUs (FRC and/or DSU). 
+#### carstate.py: 
+this class reads CAN messages from the Powertrain CAN Bus, parses them using the dbc file 
+and converts them in a common car state format: see CarState structure in openpilot/cereal/car.capnp    
 
+    vEgo: 
+      this is the vehicle speed in m/s. While driving the car, make sure the speedometer speed roughly 
+      matches the printed value.
+    gearShifter: 
+      with the car turned on, move the gear shifter and make sure the printed gear enumeration matches
+      the actual gear lever position (park, neutral, drive etc...).
+    leftBlinkers, rightBlinker: 
+      booleans that indicate the blinker’s state.
+    steeringAngle: 
+      from a neutral/straight position, rotate the steering wheel 360 degrees to the left. 
+      You should read 360.
+    gas: 
+      you should read 0 when the gas pedal is released, while you should read 1 when the gas pedal 
+      if fully depressed. Note that you can test this with the car in ON ignition mode to avoid revving up 
+      the engine when pressing the gas pedal.
+    gasPressed: 
+      boolean that determines if the gas pedal is pressed or released.
+    brakePressed: 
+      boolean that determines if the brake pedal is pressed or released.
+    steeringTorque: 
+      numerical value that represents how much torque the driver is putting on the steering wheel.
+      This value is noisy as it’s measured by a torque transducer. Make sure the value is roughly 
+      linearly correlated to the effort that you put in turning the steering wheel. 
+      It should be positive when trying to steer left.
+    steeringPressed: 
+      a boolean that indicates if the driver is putting any torque on the steering wheel.
+    doorOpen and seatbeltUnbuckled: 
+      booleans that indicates if any of the doors are open and if the driver’s seat belt 
+      is unlatched, respectively.
+    genericToggle: 
+      this boolean is used to facilitate testing for the later steps. By default, it’s arbitrarily 
+      linked with the auto high-beam toggle state. You have to have the headlights on for this to work.
 
-#### References
+#### carcontroller.py: 
+class that receives control data from the controlsd thread (such as abstracted actuators commands, 
+see CarController in openpilot/cereal/car.capnp) and packs them into CAN messages using the dbc file. 
+CAN messages are sent both on Powertrain CAN Bus and Radar CAN Bus.
+       
+#### interface.py: 
+class that contains car specific physical parameters, tuning parameters and methods 
+to execute car state and controller updates.
+       
+#### radar_interface.py: 
+very similar to carstate.py, this class reads CAN messages from the Radar CAN Bus, parses them 
+and converts them in a common radar state format: see RadarState structure in openpilot/cereal/car.capnp. 
+It’s very unlikely that your unsupported car model will require changes to this file, so you can ignore it.
+[note] ignore for adding an un-support car.
+
+#### values.py and <car_maker>can.py: 
+these 2 files are a collection of a few functions and classes mainly used by carcontroller.py. 
+In particular,values.py includes a dictionary of static messages that carcontroller needs to send to 
+properly simulate the disconnected ECUs (FRC and/or DSU). 
+
+## References
     a) https://medium.com/@comma_ai/openpilot-port-guide-for-toyota-models-e5467f4b5fe6 
     b) https://medium.com/@energee/add-support-for-your-car-to-comma-ai-openpilot-3d2da8c12647
