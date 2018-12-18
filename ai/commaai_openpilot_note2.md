@@ -30,8 +30,8 @@ Except for the fingerprint and the dbc file, car-specific code is contained in t
 openpilot/selfdrive/car
 
 #### carstate.py: 
-this class reads CAN messages from the Powertrain CAN Bus, parses them using the dbc file 
-and converts them in a common car state format: see CarState structure in openpilot/cereal/car.capnp    
+    this class reads CAN messages from the Powertrain CAN Bus, parses them using the dbc file 
+    and converts them in a common car state format: see CarState structure in openpilot/cereal/car.capnp    
 
     vEgo: 
       this is the vehicle speed in m/s. While driving the car, make sure the speedometer speed roughly 
@@ -67,26 +67,34 @@ and converts them in a common car state format: see CarState structure in openpi
       linked with the auto high-beam toggle state. You have to have the headlights on for this to work.
 
 #### carcontroller.py: 
-class that receives control data from the controlsd thread (such as abstracted actuators commands, 
-see CarController in openpilot/cereal/car.capnp) and packs them into CAN messages using the dbc file. 
-CAN messages are sent both on Powertrain CAN Bus and Radar CAN Bus.
+    class that receives control data from the controlsd thread (such as abstracted actuators commands, 
+    see CarController in openpilot/cereal/car.capnp) and packs them into CAN messages using the dbc file. 
+    CAN messages are sent both on Powertrain CAN Bus and Radar CAN Bus.
        
 #### interface.py: 
-class that contains car specific physical parameters, tuning parameters and methods 
-to execute car state and controller updates.
+    class that contains car specific physical parameters, tuning parameters and methods 
+    to execute car state and controller updates.
        
 #### radar_interface.py: 
-very similar to carstate.py, this class reads CAN messages from the Radar CAN Bus, parses them 
-and converts them in a common radar state format: see RadarState structure in openpilot/cereal/car.capnp. 
-It’s very unlikely that your unsupported car model will require changes to this file, so you can ignore it.
-[note] ignore for adding an un-support car.
+    very similar to carstate.py, this class reads CAN messages from the Radar CAN Bus, parses them 
+    and converts them in a common radar state format: see RadarState structure in openpilot/cereal/car.capnp. 
+    It’s very unlikely that your unsupported car model will require changes to this file, so you can ignore it.
+    [note] ignore for adding an un-support car.
 
 #### values.py and <car_maker>can.py: 
-these 2 files are a collection of a few functions and classes mainly used by carcontroller.py. 
-In particular,values.py includes a dictionary of static messages that carcontroller needs to send to 
-properly simulate the disconnected ECUs (FRC and/or DSU). 
+    these 2 files are a collection of a few functions and classes mainly used by carcontroller.py. 
+    In particular,values.py includes a dictionary of static messages that carcontroller needs to send to 
+    properly simulate the disconnected ECUs (FRC and/or DSU). 
+
+## How openpilo steer to a position?
+    a) The CAN packet doesn’t specify a position you want the wheel to turn to, instead it defines 
+       how much torque to put on the wheel. In order to command the wheel to go to a position, 
+       we need to use some controls to close the loop. The steering angle is available on the CAN bus as well.
+    b) A desired angle, current angle, and torque command. Since torques are small, we only use a PI loop.
+#### latcontrol.py
+    class will call into PIControl: openpilot/selfdrive/controls/lib/pid.py
 
 ## References
-    a) https://medium.com/@comma_ai/how-does-openpilot-work-c7076d4407b3
-    b) https://medium.com/@comma_ai/openpilot-port-guide-for-toyota-models-e5467f4b5fe6 
-    c) https://medium.com/@energee/add-support-for-your-car-to-comma-ai-openpilot-3d2da8c12647
+a) https://medium.com/@comma_ai/how-does-openpilot-work-c7076d4407b3
+b) https://medium.com/@comma_ai/openpilot-port-guide-for-toyota-models-e5467f4b5fe6 
+c) https://medium.com/@energee/add-support-for-your-car-to-comma-ai-openpilot-3d2da8c12647
