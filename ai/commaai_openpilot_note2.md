@@ -97,6 +97,6 @@ openpilot/selfdrive/car
 ![pi_ctrl](/ai/res/pi_ctrl.gif)
 
 ## References
-a) https://medium.com/@comma_ai/how-does-openpilot-work-c7076d4407b3
-b) https://medium.com/@comma_ai/openpilot-port-guide-for-toyota-models-e5467f4b5fe6 
-c) https://medium.com/@energee/add-support-for-your-car-to-comma-ai-openpilot-3d2da8c12647
+a) https://medium.com/@comma_ai/how-does-openpilot-work-c7076d4407b3  
+b) https://medium.com/@comma_ai/openpilot-port-guide-for-toyota-models-e5467f4b5fe6   
+c) https://medium.com/@energee/add-support-for-your-car-to-comma-ai-openpilot-3d2da8c12647  
