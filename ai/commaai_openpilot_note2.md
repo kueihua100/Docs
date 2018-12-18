@@ -31,6 +31,15 @@ and a message, which can be up to 8 bytes long.
     l) proclogd: fetches process information
     m) tombstoned: reports native crashes
     
+    [note for versiond]: From below 2 links:    
+https://github.com/commaai/openpilot/issues/63#event-978371221  
+https://github.com/commaai/openpilot/issues/96  
+
+      a) Apart from visiond, openpilot is straightforward to use in other hardware. 
+         You would only need to write your own manager.py that starts a different 
+         visiond daemon and a different boardd daemon.
+      b) The visiond expects that specific camera, and cannot get good performance with a different one.
+    
 ## Determine CAN Fingerprint (*b/c)
     a) CAN fingerprint is CAN msgs from Powertrain CAN bus. 
     b) The assumption is that every car model can be uniquely identified by the set of 
