@@ -1,5 +1,17 @@
 # Note 2 to Commaai's openpilot
-## Determine CAN Fingerprint 
+## CAN Bus (*a)
+![CAN_BUS](/ai/res/can_bus.png)
+CAN is a simple protocol. It’s a bus, where any device can send a message to all others. 
+A message contains an identifier, 11-bits long in standard CAN, 29-bits long in extended, 
+and a message, which can be up to 8 bytes long.
+
+#### parser.py:
+    Class to parse CAN messages: openpilot/selfdrive/can/xxxx
+
+#### dbc.py:
+    implementation of DBC: openpilot/common/dbc.py
+    
+## Determine CAN Fingerprint (*b/c)
     a) CAN fingerprint is CAN msgs from Powertrain CAN bus. 
     b) The assumption is that every car model can be uniquely identified by the set of 
        CAN messages on the Powertrain CAN Bus.
@@ -13,7 +25,7 @@
     d) Failing to collect all of the messages will result in openpilot unreliably detecting the fingerprint 
        of your car when you turn on your vehicle.
 
-## Car specific code
+## Car specific code (*b/c)
 Except for the fingerprint and the dbc file, car-specific code is contained in the path:  
 openpilot/selfdrive/car
 
@@ -75,5 +87,6 @@ In particular,values.py includes a dictionary of static messages that carcontrol
 properly simulate the disconnected ECUs (FRC and/or DSU). 
 
 ## References
-    a) https://medium.com/@comma_ai/openpilot-port-guide-for-toyota-models-e5467f4b5fe6 
-    b) https://medium.com/@energee/add-support-for-your-car-to-comma-ai-openpilot-3d2da8c12647
+    a) https://medium.com/@comma_ai/how-does-openpilot-work-c7076d4407b3
+    b) https://medium.com/@comma_ai/openpilot-port-guide-for-toyota-models-e5467f4b5fe6 
+    c) https://medium.com/@energee/add-support-for-your-car-to-comma-ai-openpilot-3d2da8c12647
