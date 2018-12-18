@@ -91,8 +91,10 @@ openpilot/selfdrive/car
        how much torque to put on the wheel. In order to command the wheel to go to a position, 
        we need to use some controls to close the loop. The steering angle is available on the CAN bus as well.
     b) A desired angle, current angle, and torque command. Since torques are small, we only use a PI loop.
+
 #### latcontrol.py
     class will call into PIControl: openpilot/selfdrive/controls/lib/pid.py
+![pi_ctrl](/ai/res/pi_ctrl.gif)
 
 ## References
 a) https://medium.com/@comma_ai/how-does-openpilot-work-c7076d4407b3
