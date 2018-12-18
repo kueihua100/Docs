@@ -32,9 +32,8 @@ and a message, which can be up to 8 bytes long.
     m) tombstoned: reports native crashes
     
     [note for versiond]: From below 2 links:    
-https://github.com/commaai/openpilot/issues/63#event-978371221  
-https://github.com/commaai/openpilot/issues/96  
-
+    https://github.com/commaai/openpilot/issues/63#event-978371221  
+    https://github.com/commaai/openpilot/issues/96  
       a) Apart from visiond, openpilot is straightforward to use in other hardware. 
          You would only need to write your own manager.py that starts a different 
          visiond daemon and a different boardd daemon.
