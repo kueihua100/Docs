@@ -22,7 +22,7 @@ Note
     * [Headphone volume will be reset after AC off->on](https://github.com/kueihua100/Docs/blob/master/audio/HP_volume_will_reset_after_AC_off_on.md)
     * [Audio HAL device open flow](https://github.com/kueihua100/Docs/blob/master/audio/Audio_HAL_device_open_flow.md)
     * [Audioflinger standby time](https://github.com/kueihua100/Docs/blob/master/audio/Audioflinger_standby_time.md)
-    * How to enable ASAN in audio HAL code?
+    * [How to enable ASAN in audio HAL code?](https://github.com/kueihua100/Docs/blob/master/audio/audio_hal_asan_enable.md)
     * [AudioFlinger heap size at low ram configuration (ro.config.low_ram=true)](https://github.com/kueihua100/Docs/blob/master/audio/audioflinger_heap_size_at_low_ram.md)
     
 2. [How to VTS/CTS/GTS and debug it?](https://github.com/kueihua100/Docs/blob/master/android/Debug_to_VTS_CTS_GTS.md)
