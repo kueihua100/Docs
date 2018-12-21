@@ -38,7 +38,14 @@ and a message, which can be up to 8 bytes long.
          You would only need to write your own manager.py that starts a different 
          visiond daemon and a different boardd daemon.
       b) The visiond expects that specific camera, and cannot get good performance with a different one.
-    
+
+#### manager.py:
+    a) update NEOS
+    b) update/install apks
+    c) build cereal code
+    d) prepare processes in managed_processes[]
+    e) run manager_thread()
+
 ## Determine CAN Fingerprint (*b/c)
     a) CAN fingerprint is CAN msgs from Powertrain CAN bus. 
     b) The assumption is that every car model can be uniquely identified by the set of 
