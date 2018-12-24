@@ -45,6 +45,7 @@ and a message, which can be up to 8 bytes long.
     c) build cereal code
     d) prepare processes in managed_processes[]
     e) run manager_thread(): run process in persistent_processes[] and car_started_processes[]
+    [note] if some process are not support at your platform, you can comment it/they out if don't want to run.
 
 ## Determine CAN Fingerprint (*b/c)
     a) CAN fingerprint is CAN msgs from Powertrain CAN bus. 
