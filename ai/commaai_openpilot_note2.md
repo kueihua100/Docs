@@ -43,7 +43,8 @@ and a message, which can be up to 8 bytes long.
     a) update NEOS
     b) update/install apks
     c) build cereal code
-    d) prepare processes in managed_processes[]
+    d) prepare processes in managed_processes[]:
+    [note]: second parameter in managed_processes[] will be imported by calling importlib.import_module()
     e) run manager_thread(): run process in persistent_processes[] and car_started_processes[]
     [note] if some process are not support at your platform, you can comment it/they out if don't want to run.
 
