@@ -25,8 +25,12 @@ From:
     controlsd.py::controlsd_thread()
     -> create/register zmq socket for comunicating msgs.
     -> car_helpers.py::get_car()
-       a) get car interface from interface.py
-       b) get car parameters from interface.py
+       a) get CI (car interface) from interface.py
+          *) Init CarInterface():
+              zmq subscribe to sensorEvents
+              zmq subscribe to gpsLocation
+              
+       b) get CP (car parameters) from interface.py
     -> End if has no car interface
     -> Init Planner()
        a) zmq subscribe to live20
@@ -46,9 +50,12 @@ From:
     -> Init AlertManager()
     -> Init DriverStatus()
     -> Init Ratekeeper()
+       controlsd_thread loop rate in Hz for ratekeeping
     -> while 1:
        a) data_sample()
        b) calc_plan()
        c) state_transition() if not passive
        d) state_control()
        e) data_send()
+       f) rk.keep_time()
+          time sleep for running loop at fixed rate
