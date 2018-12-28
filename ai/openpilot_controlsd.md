@@ -38,7 +38,17 @@ From:
        g) Init 2 of LongitudinalMpc()
           load c libraries: libmpc*.so
     -> Init LongControl()
+       Init PIController()
     -> Init VehicleModel()
     -> Init LatControl()
+       a) Init PIController()
+       b) setup_mpc()
     -> Init AlertManager()
     -> Init DriverStatus()
+    -> Init Ratekeeper()
+    -> while 1:
+       a) data_sample()
+       b) calc_plan()
+       c) state_transition() if not passive
+       d) state_control()
+       e) data_send()
