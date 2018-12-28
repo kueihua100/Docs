@@ -19,3 +19,7 @@ From:
        http://capnproto.github.io/pycapnp/
     
 ## Code flow
+#### controlsd_thread()
+    controlsd.py::controlsd_thread()
+    -> create/register zmq socket for comunicating msgs.
+    -> get_car()
