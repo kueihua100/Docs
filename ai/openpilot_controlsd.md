@@ -14,6 +14,7 @@ From:
 
 ### special libraries:
     a) pyzmq: This is the Python bindings for ZMQ.
+       https://pyzmq.readthedocs.io/en/latest/api/index.html
     b) pycapnp: This is a python wrapping of the C++ implementation of the Cap’n Proto library.
        Cap’n Proto is an insanely fast data interchange format and capability-based RPC system.
        http://capnproto.github.io/pycapnp/
