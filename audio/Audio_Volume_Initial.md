@@ -97,3 +97,26 @@
         mVolumeCurves->initializeVolumeCurves()
         //** IVolumeCurvesCollection.h:: virtual void initializeVolumeCurves() {} is empty function, so do nothing
         //** mVolumeCurves was initialed at [Note 1] step.
+
+    [note 3] default_volume_tables.xml:
+        <reference name="DEFAULT_MEDIA_VOLUME_CURVE">
+        <!-- Default Media reference Volume Curve -->
+            <point>1,-5800</point>
+            <point>20,-4000</point>
+            <point>60,-1700</point>
+            <point>100,0</point>
+        </reference>
+        
+        ** you can change the volume curve by your own, for example above can be changed into below: **
+        ** and -5800, -4000, ... are db values. **
+        
+        <reference name="DEFAULT_MEDIA_VOLUME_CURVE">
+        <!-- Default Media reference Volume Curve -->
+            <point>1,-7000</point>
+            <point>25,-2400</point>
+            <point>50,-1200</point>
+            <point>75,-300</point>
+            <point>100,0</point>
+        </reference>
+
+    
