@@ -109,7 +109,8 @@
       -> float volume = Volume::DbToAmpl(mCurVolume[stream]);
          // volume is from db value to AMP vlaue, 0.x ~ 1.0.
          volume = exp( decibels * 0.115129f); //where 0.115129 =ln(10)/20
-      -> mClientInterface->setStreamVolume()
+      -> mClientInterface->setStreamVolume(,volume,)
+         //volume is the AMP value, from 0.x ~ 1.0
       [note]: mClientInterface is initialed at SwAudioOutputDescriptor::SwAudioOutputDescriptor()
       
       So who is mClientInterface??
@@ -147,7 +148,10 @@
       
       -> Threads.cpp:: AudioFlinger::PlaybackThread::setStreamVolume()
         mStreamTypes[stream].volume = value;
+        //note: value is AMP value, from 0.x ~ 1.0.
         broadcast_l();
+        //note: to signal the wait at AudioFlinger::PlaybackThread::threadLoop() and starting prepareTracks_l()
+        //to process volume.
 
 ### [note 4] there are 4 cases for setVolume:
     [CASE 1] Mixer Thread
