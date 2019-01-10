@@ -108,6 +108,7 @@
          mCurVolume[stream] = volume;
       -> float volume = Volume::DbToAmpl(mCurVolume[stream]);
          // volume is from db value to AMP vlaue, 0.x ~ 1.0.
+         volume = exp( decibels * 0.115129f); //where 0.115129 =ln(10)/20
       -> mClientInterface->setStreamVolume()
       [note]: mClientInterface is initialed at SwAudioOutputDescriptor::SwAudioOutputDescriptor()
       
