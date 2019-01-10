@@ -97,12 +97,17 @@
       -> AudioPolicyManager.cpp ::AudioPolicyManager::setStreamVolumeIndex()
       -> sp<SwAudioOutputDescriptor> desc = mOutputs.valueAt(i);
       -> checkAndSetVolume(,desc,)
-      -> AudioPolicyManager.cpp ::AudioPolicyManager::checkAndSetVolume(,const sp<AudioOutputDescriptor>& outputDesc,)
-      -> outputDesc->setVolume(, desc, )
-      [note]: desc here is SwAudioOutputDescriptor
+      -> AudioPolicyManager.cpp ::AudioPolicyManager::checkAndSetVolume(,index,const sp<AudioOutputDescriptor>& outputDesc,)
+         float volumeDb = computeVolume(stream, index, device);
+         //index: volume bar UI's index, from 0~100
+         //volumeDb: db value that interpolated from using default_volume_tables.xml with index input, from -xx ~ 0 db. 
+         outputDesc->setVolume(volumeDb, )
+      [note]: outputDesc here is SwAudioOutputDescriptor
       -> AudioOutputDescriptor.cpp:: SwAudioOutputDescriptor::setVolume()
       -> ***.cpp:: AudioOutputDescriptor::setVolume()
-      -> mCurVolume[stream] = volume
+         mCurVolume[stream] = volume;
+      -> float volume = Volume::DbToAmpl(mCurVolume[stream]);
+         // volume is from db value to AMP vlaue, 0.x ~ 1.0.
       -> mClientInterface->setStreamVolume()
       [note]: mClientInterface is initialed at SwAudioOutputDescriptor::SwAudioOutputDescriptor()
       
