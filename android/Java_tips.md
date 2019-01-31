@@ -61,4 +61,5 @@ Tools is under:
        https://forum.xda-developers.com/android/software-hacking/tooll-03-12-fulmics-deodexer-1-0-t3512081
        https://www.reddit.com/r/PokemonGoSpoofing/comments/alchoq/mini_guide_android_root_smalli_patcher_deodexing/
        
-    
+## References:
+a) .dex/.oat: https://www.jianshu.com/p/389911e2cdfb
