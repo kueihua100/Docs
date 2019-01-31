@@ -50,3 +50,15 @@
 ## How to de-compile APK?
 Tools is under:
     https://drive.google.com/drive/u/0/folders/1D0JoMJnTshtjW2Mkhmh4JTsZ1BYHFpwu
+
+## How to generate deodexed .jar file?
+    java code -------------------> .smali ---------------------> .dex
+    
+    a) https://bitbucket.org/JesusFreke/smali/overview
+    b) use baksmali.jar: disassembler (*.odex + *.oat + *.jar) into deodexed *.smali files
+    c) use smali.jar:    assembler deodexed *.samli files into deodexed *.jar
+    d) There is a tool for this process: 
+       https://forum.xda-developers.com/android/software-hacking/tooll-03-12-fulmics-deodexer-1-0-t3512081
+       https://www.reddit.com/r/PokemonGoSpoofing/comments/alchoq/mini_guide_android_root_smalli_patcher_deodexing/
+       
+    
