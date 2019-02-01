@@ -57,9 +57,19 @@ Tools is under:
     a) https://bitbucket.org/JesusFreke/smali/overview
     b) use baksmali.jar: disassembler (*.odex + *.oat + *.jar) into deodexed *.smali files
     c) use smali.jar:    assembler deodexed *.samli files into deodexed *.jar
-    d) There is a tool for this process: 
-       https://forum.xda-developers.com/android/software-hacking/tooll-03-12-fulmics-deodexer-1-0-t3512081
-       https://www.reddit.com/r/PokemonGoSpoofing/comments/alchoq/mini_guide_android_root_smalli_patcher_deodexing/
-       
-## References:
-a) .dex/.oat: https://www.jianshu.com/p/389911e2cdfb
+      
+#### [note]
+  https://forum.xda-developers.com/android/software-hacking/tooll-03-12-fulmics-deodexer-1-0-t3512081
+  https://www.reddit.com/r/PokemonGoSpoofing/comments/alchoq/mini_guide_android_root_smalli_patcher_deodexing/
+  .dex/.oat: https://www.jianshu.com/p/389911e2cdfb
+    
+## DexPatcher
+https://www.xda-developers.com/dexpatcher-patch-android-apks-using-java/  
+
+    a) Making patch dex files more simpler and allowing developers to completely avoid dealing with Smali.
+    b) Devs can write patches in Java alone and have DexPatcher handle everything else.
+    c) The main advantage is having easily readable and manageable patch files. 
+       And Patching APKs also becomes more convenient in general.
+#### source: 
+  [https://github.com/DexPatcher/dexpatcher-tool](https://github.com/DexPatcher/dexpatcher-tool)
+
