@@ -74,6 +74,8 @@ https://www.xda-developers.com/dexpatcher-patch-android-apks-using-java/
   [https://github.com/DexPatcher/dexpatcher-tool](https://github.com/DexPatcher/dexpatcher-tool)
 
 ## Example of disassembling (xx.jar or xx.dex) to xx.smali files
+Linux scripts: https://github.com/DexPatcher/dexpatcher-tool-scripts
+
     a) decode xx.jar to xx.dex
       (1) use 7z tool to unzip xx.jar
       (2) or use command: jar -xf xx.jar
@@ -86,5 +88,10 @@ https://www.xda-developers.com/dexpatcher-patch-android-apks-using-java/
       (1) download dexpatch scripts: https://github.com/DexPatcher/dexpatcher-tool-scripts
       (2) enter "dexpatcher-tool-scripts/bundled/dex2jar"
       (3) mv xx.dex files to "dexpatcher-tool-scripts/bundled/dex2jar"
-      (4) use command: ./d2j-dex2smali.sh xx.dex  <-- will generate xx.samli files
+      (4) use command: ./d2j-dex2smali.sh xx.dex  <-- will generate classes-out folder that contains xx.samli files
     
+    d) decode xx.smali to xx.dex files
+      (1) use command: ./d2j-smali.sh xxx_smali_folder <-- will generate out.dex
+      
+    e) deocde xx.dex to xx.jar
+      (1) use command: ./d2j-dex2jar.sh xx.dex  <-- will generate xx-dex2jar.jar
