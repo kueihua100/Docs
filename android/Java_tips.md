@@ -73,3 +73,13 @@ https://www.xda-developers.com/dexpatcher-patch-android-apks-using-java/
 #### source: 
   [https://github.com/DexPatcher/dexpatcher-tool](https://github.com/DexPatcher/dexpatcher-tool)
 
+## Example of disassembling (xx.jar or xx.dex) to xx.smali files
+    a) decode xx.jar to xx.dex
+      (1) use 7z tool to unzip xx.jar
+      (2) or use command: jar -xf xx.jar
+      
+    b) decode xx.dec to xx.smali
+      (1) download dexpatch scripts: https://github.com/DexPatcher/dexpatcher-tool-scripts
+      (2) enter "dexpatcher-tool-scripts/bundled/dex2jar"
+      (3) mv xx.dex files to "dexpatcher-tool-scripts/bundled/dex2jar"
+      (4) use command: ./d2j-dex2smali.sh xx.dex  <-- will generate xx.samli files
