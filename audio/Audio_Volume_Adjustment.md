@@ -102,6 +102,9 @@
          //index: volume bar UI's index, from 0~100
          //volumeDb: db value that interpolated from using default_volume_tables.xml with index input, from -xx ~ 0 db. 
          outputDesc->setVolume(volumeDb, )
+      [mote]: computeVolume(stream, index, device);
+      -> VolumeCurve.cpp::VolumeCurve::volIndexToDb()
+        // linear interpolation in the attenuation table in dB
       [note]: outputDesc here is SwAudioOutputDescriptor
       -> AudioOutputDescriptor.cpp:: SwAudioOutputDescriptor::setVolume()
       -> ***.cpp:: AudioOutputDescriptor::setVolume()
