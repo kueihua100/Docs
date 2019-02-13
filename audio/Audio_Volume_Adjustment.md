@@ -100,20 +100,20 @@
       -> AudioPolicyManager.cpp ::AudioPolicyManager::checkAndSetVolume(,index,const sp<AudioOutputDescriptor>& outputDesc,)
          float volumeDb = computeVolume(stream, index, device);
          //index: volume bar UI's index, from 0~100
-         //volumeDb: db value that interpolated from using default_volume_tables.xml with index input, from -xx ~ 0 db. 
+         //volumeDb: db value that interpolated from using default_volume_tables.xml with index input, from -xx.xx ~ 0 db. 
          outputDesc->setVolume(volumeDb, )
       [mote]: computeVolume(stream, index, device);
       -> VolumeCurve.cpp::VolumeCurve::volIndexToDb()
-        // linear interpolation in the attenuation table in dB
+        // linear interpolation in the attenuation table in dB, from -xx.xx ~ 0 db. 
       [note]: outputDesc here is SwAudioOutputDescriptor
       -> AudioOutputDescriptor.cpp:: SwAudioOutputDescriptor::setVolume()
       -> ***.cpp:: AudioOutputDescriptor::setVolume()
-         mCurVolume[stream] = volume;
+         mCurVolume[stream] = volume; //from -xx.xx ~ 0 db. 
       -> float volume = Volume::DbToAmpl(mCurVolume[stream]);
-         // volume is from db value to AMP vlaue, 0.x ~ 1.0.
+         // volume is from db value to AMP vlaue, 0.0 ~ 1.0.
          volume = exp( decibels * 0.115129f); //where 0.115129 =ln(10)/20
       -> mClientInterface->setStreamVolume(,volume,)
-         //volume is the AMP value, from 0.x ~ 1.0
+         //volume is the AMP value, from 0.0 ~ 1.0
       [note]: mClientInterface is initialed at SwAudioOutputDescriptor::SwAudioOutputDescriptor()
       
       So who is mClientInterface??
@@ -151,7 +151,7 @@
       
       -> Threads.cpp:: AudioFlinger::PlaybackThread::setStreamVolume()
         mStreamTypes[stream].volume = value;
-        //note: value is AMP value, from 0.x ~ 1.0.
+        //note: value is AMP value, from 0.0 ~ 1.0.
         broadcast_l();
         //note: to signal the wait at AudioFlinger::PlaybackThread::threadLoop() and starting prepareTracks_l()
         //to process volume.
