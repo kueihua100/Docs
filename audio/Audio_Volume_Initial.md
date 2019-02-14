@@ -34,6 +34,12 @@
           1   // STREAM_ACCESSIBILITY
       };
     
+    AudioService.java::AudioService()
+        ...
+        int maxMusicVolume = SystemProperties.getInt("ro.config.media_vol_steps", -1);
+        if (maxMusicVolume != -1) {
+            MAX_STREAM_VOLUME[AudioSystem.STREAM_MUSIC] = maxMusicVolume;
+        }
      ////////////////////////////////////////////////////////////////////////////////////
     AudioService.java::AudioService()
         ...
