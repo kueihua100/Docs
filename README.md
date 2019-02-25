@@ -35,6 +35,7 @@ Note
 4. [How to add "Screenshot" item into the popup menu from long press Power key?](https://github.com/kueihua100/Docs/blob/master/android/Add_Screenshot_into_power_menu.md)
 
 5. [How to update library for android?](https://github.com/kueihua100/Docs/blob/master/android/update_library_for_android.md)
+6. SELinux policy
 
 ## Commaai's openpilot
 1. [Note 1](https://github.com/kueihua100/Docs/blob/master/ai/commaai_openpilot_note1.md)
