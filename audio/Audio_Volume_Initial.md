@@ -125,4 +125,11 @@
             <point>100,0</point>
         </reference>
 
-    
+    [note 4] If you want to not modified the PCM data (always max volume index), 
+             from default_volume_tables.xml, to use below curve:
+        <reference name="FULL_SCALE_VOLUME_CURVE">
+        <!-- Full Scale reference Volume Curve -->
+            <point>0,0</point>
+            <point>100,0</point>
+        </reference>
+            
