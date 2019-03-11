@@ -34,13 +34,33 @@
           1   // STREAM_ACCESSIBILITY
       };
     
+    //set max volume index of STREAM_MUSIC
     AudioService.java::AudioService()
         ...
         int maxMusicVolume = SystemProperties.getInt("ro.config.media_vol_steps", -1);
         if (maxMusicVolume != -1) {
             MAX_STREAM_VOLUME[AudioSystem.STREAM_MUSIC] = maxMusicVolume;
         }
-     ////////////////////////////////////////////////////////////////////////////////////
+        
+    //set default volume index of STREAM_MUSIC if no previous saved index (eg. first installation)
+    AudioService.java::AudioService()
+        ...
+        int defaultMusicVolume = SystemProperties.getInt("ro.config.media_vol_default", -1);
+        if (defaultMusicVolume != -1 &&
+                defaultMusicVolume <= MAX_STREAM_VOLUME[AudioSystem.STREAM_MUSIC]) {
+            AudioSystem.DEFAULT_STREAM_VOLUME[AudioSystem.STREAM_MUSIC] = defaultMusicVolume;
+        } else {
+            if (isPlatformTelevision()) {
+                AudioSystem.DEFAULT_STREAM_VOLUME[AudioSystem.STREAM_MUSIC] =
+                        MAX_STREAM_VOLUME[AudioSystem.STREAM_MUSIC] / 4;
+            } else {
+                AudioSystem.DEFAULT_STREAM_VOLUME[AudioSystem.STREAM_MUSIC] =
+                        MAX_STREAM_VOLUME[AudioSystem.STREAM_MUSIC] / 3;                   
+            }
+        }
+    //set max/default volume index of STREAM_ALARM/STREAM_SYSTEM at AudioService.java::AudioService().
+    
+    +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     AudioService.java::AudioService()
         ...
         createStreamStates()
