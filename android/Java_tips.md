@@ -47,6 +47,15 @@
         }
     }
 
+## How to remove APK?
+    a) Be root user and enter /system/app or vendor/app to delete the apk folder
+    b) Use adb tool
+        b1) adb shell pm list packages = = > to check what APK you will remove
+        b2) adb shell pm uninstall -k --user 0  com.google.android.katniss
+
+## How to know APK information?
+    aapt dump badging apk_name
+
 ## How to de-compile APK?
 Tools is under:
     https://drive.google.com/drive/u/0/folders/1D0JoMJnTshtjW2Mkhmh4JTsZ1BYHFpwu
