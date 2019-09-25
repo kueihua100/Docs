@@ -24,7 +24,13 @@ Note
     * [Audioflinger standby time](https://github.com/kueihua100/Docs/blob/master/audio/Audioflinger_standby_time.md)
     * [How to enable ASAN in audio HAL code?](https://github.com/kueihua100/Docs/blob/master/audio/audio_hal_asan_enable.md)
     * [AudioFlinger heap size at low ram configuration (ro.config.low_ram=true)](https://github.com/kueihua100/Docs/blob/master/audio/audioflinger_heap_size_at_low_ram.md)
-    
+    * [note]  
+         
+         normal tracks - PCM, typical buffer size is ~20 ms, higher latency
+         fast tracks - PCM, typical buffer size is 5 ms or less, lower latency
+         deep buffer - PCM, typical buffer size is >= 100 ms, very high latency, intended to save power
+         codec offload - MP3/AAC/etc., very high latency, intended to save even more power than deep buffer
+         
 2. [How to VTS/CTS/GTS and debug it?](https://github.com/kueihua100/Docs/blob/master/android/Debug_to_VTS_CTS_GTS.md)
 
 3. [JAVA tips?](https://github.com/kueihua100/Docs/blob/master/android/Java_tips.md)
