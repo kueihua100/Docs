@@ -93,7 +93,7 @@ Linux scripts: https://github.com/DexPatcher/dexpatcher-tool-scripts
       (1) download dextra tool: http://newandroidbook.com/tools/dextra.html
       (2) use command: dextra -dextract xxx.odex
 
-    c) decode xx.dec to xx.smali
+    c) decode xx.dex to xx.smali
       (1) download dexpatch scripts: https://github.com/DexPatcher/dexpatcher-tool-scripts
       (2) enter "dexpatcher-tool-scripts/bundled/dex2jar"
       (3) mv xx.dex files to "dexpatcher-tool-scripts/bundled/dex2jar"
