@@ -40,7 +40,7 @@ Note
 
 ## ATSC3
 
-## Commaai's openpilot
+## AutoPilot [Commaai's openpilot]
 1. [Note 1](https://github.com/kueihua100/Docs/blob/master/ai/commaai_openpilot_note1.md)
 2. [Note 2](https://github.com/kueihua100/Docs/blob/master/ai/commaai_openpilot_note2.md)
 3. [openpilot + opencv]
