@@ -36,7 +36,7 @@ Note
 
 5. [How to update library for android?](https://github.com/kueihua100/Docs/blob/master/android/update_library_for_android.md)
 6. [SELinux policy](https://github.com/kueihua100/Docs/blob/master/android/selinux_policy.md)
-7. HIDL and HAL (Tv Input HAL)
+7. [HIDL and HAL (Tv Input HAL)](https://github.com/kueihua100/Docs/blob/master/android/HIDL_and_HAL.md)
 
 ## ATSC3
 
