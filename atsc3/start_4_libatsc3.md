@@ -28,3 +28,6 @@
 * tool folder: 
   * Compare with previous cases, these cases are integrated done that not just testing for certain function.
   * These cases will run multi-threads: one for parsing packets, one for user input, and some are for statistics
+
+## How to use the tcpreplay to play a PCAP file??
+ * https://github.com/jjustman/libatsc3/issues/38
