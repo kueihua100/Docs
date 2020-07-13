@@ -35,3 +35,18 @@
 * After libmicrohttpd and libap4 are esixted, to build the libatsc3 is only below steps:
   
   cd src; make all
+  
+## Roughly check the difference among "tool", "test" and "listener_tests" folders
+* test folder: looks like a test for certain function that with some exist files
+
+  test for lls, fdt or mbms parsing
+  
+* listener_tests folder: looks like a test for certain flow with pacap_open_live()
+
+  Single thread to test for alp, lls, sls, alc or mmtp flow
+  
+* tool folder: 
+
+  *) Compare with previous cases, these cases are integrated done that not just testing for certain function.
+  
+  *) These cases will run multi-threads: one for parsing packets, one for user input, and some are for statistics
