@@ -39,6 +39,7 @@ Note
 7. [HIDL and HAL (Tv Input HAL)](https://github.com/kueihua100/Docs/blob/master/android/HIDL_and_HAL.md)
 
 ## ATSC3
+Look [HERE](https://github.com/kueihua100/Docs/tree/master/atsc3)
 
 ## AutoPilot [Commaai's openpilot]
 1. [Note 1](https://github.com/kueihua100/Docs/blob/master/ai/commaai_openpilot_note1.md)
