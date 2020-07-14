@@ -31,3 +31,11 @@
 
 ## How to use the tcpreplay to play a PCAP file??
  * https://github.com/jjustman/libatsc3/issues/38
+
+## Debug log
+    atsc3_lls.c
+    int _LLS_INFO_ENABLED  = 1;
+    int _LLS_DEBUG_ENABLED = 1;
+    int _LLS_TRACE_ENABLED = 1;
+    will generate tool/debug.log for debugging
+    
