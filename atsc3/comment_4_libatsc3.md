@@ -100,3 +100,22 @@
             atsc3_signed_multi_table_add_atsc3_signed_multi_table_lls_payload();
     }
 
+#### atsc3_lls.c::atsc3_lls_table_parse_raw_xml()
+    ...
+    //parsing xml file
+    xml_payload_document_parse();
+    ...
+    //according lls table type to create related table structure, ie SLT, ...
+    lls_create_table_type_instance();
+    -> atsc3_lls.c::lls_create_table_type_instance()
+        ...
+        if(lls_table->lls_table_id == SLT)
+            lls_slt_table_build();
+        else if(lls_table->lls_table_id == RRT)
+            build_rrt_table();  ** //NOT IMPLEMENTED **
+        else if(lls_table->lls_table_id == SystemTime)
+            build_system_time_table();
+        else if(lls_table->lls_table_id == AEAT)
+            atsc3_aeat_table_populate_from_xml();
+        else if(lls_table->lls_table_id == OnscreenMessageNotification)
+            build_onscreen_message_notification_table();  ** //NOT IMPLEMENTED **
