@@ -23,13 +23,13 @@
         uint8_t  _is_alloc;
     } block_t;
 
-![11](/atsc3/res/lls.png)
-
 #### atsc3_listener_metrics_ncurses.cpp::pcap_loop_run_thread_with_file()
     ...
     pcap_open_offline(filename, errbuf); 
     ...
     pcap_loop(descr,-1,process_packet,NULL);
+
+![11](/atsc3/res/lls.png)
 
 #### atsc3_listener_metrics_ncurses.cpp::::process_packet()
     process_packet_from_pcap();  /* strip out udp packet */
