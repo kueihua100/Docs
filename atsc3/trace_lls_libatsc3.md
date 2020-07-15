@@ -116,7 +116,7 @@
         else if(lls_table->lls_table_id == SystemTime)
             build_system_time_table();
         else if(lls_table->lls_table_id == AEAT)
-            atsc3_aeat_table_populate_from_xml();
+            atsc3_aeat_table_populate_from_xml();  ** //looks like NOT IMPLEMENTED DONE **
         else if(lls_table->lls_table_id == OnscreenMessageNotification)
             build_onscreen_message_notification_table();  ** //NOT IMPLEMENTED **
 
