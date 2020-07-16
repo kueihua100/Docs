@@ -1,5 +1,5 @@
 # ROUTE flow of libatsc3
-#### atsc3_listener_metrics_ncurses.cpp::::process_packet()
+#### atsc3_listener_metrics_ncurses.cpp::process_packet()
     process_packet_from_pcap();  /* strip out udp packet */
     ...
     if(udp_packet->udp_flow.dst_ip_addr == LLS_DST_ADDR && 
@@ -21,7 +21,7 @@
     matching_lls_slt_alc_session = lls_slt_alc_session_find_from_udp_packet(lls_slt_monitor, ...);
     if(matching_lls_slt_alc_session) {
         ...
-        alc_packet = route_parse_from_udp_packet();
+        alc_packet = route_parse_from_udp_packet(matching_lls_slt_alc_session, ...);
         if (alc_packet)
             route_process_from_alc_packet(xxx, &alc_packet);
         ...
@@ -47,3 +47,17 @@
         }
         
     }
+
+#### atsc3_listener_metrics_ncurses.cpp::route_parse_from_udp_packet(matching_lls_slt_alc_session, ...)
+    ...
+    //process ALC streams
+    alc_rx_analyze_packet_a331_compliant(..., &alc_packet);
+    ...
+    return alc_packet;
+
+
+
+
+
+
+
