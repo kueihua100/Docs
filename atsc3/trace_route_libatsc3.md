@@ -22,7 +22,8 @@
     if(matching_lls_slt_alc_session) {
         ...
         alc_packet = route_parse_from_udp_packet();
-        route_process_from_alc_packet(xxx, &alc_packet);
+        if (alc_packet)
+            route_process_from_alc_packet(xxx, &alc_packet);
         ...
     }
     
