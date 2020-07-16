@@ -121,3 +121,22 @@
             build_onscreen_message_notification_table();  ** //NOT IMPLEMENTED **
 
 ![22](/atsc3/res/lls_slt.png)
+
+#### atsc3_lls_slt_parser.c::lls_slt_table_perform_update(lls_table, lls_slt_monitor)
+    ...
+    lls_slt_monitor_add_or_update_lls_slt_service_id_group_id_cache_entry();
+    if(atsc3_lls_slt_service->atsc3_slt_broadcast_svc_signalling_v.count) {
+        ...
+        if(atsc3_lls_slt_service->atsc3_slt_broadcast_svc_signalling_v.data[0]->sls_protocol == SLS_PROTOCOL_ROUTE) 
+        {
+            ...
+            lls_sls_alc_session = lls_slt_alc_session_find_or_create(lls_slt_monitor, atsc3_lls_slt_service);
+            ...
+        } 
+        else if (atsc3_lls_slt_service->atsc3_slt_broadcast_svc_signalling_v.data[0]->sls_protocol == SLS_PROTOCOL_MMTP)
+        {
+            ...
+            lls_sls_mmt_session = lls_slt_mmt_session_find_or_create(lls_slt_monitor, atsc3_lls_slt_service);
+            ...
+        }
+    } 
