@@ -73,7 +73,7 @@
     if(lls_table_new->lls_table_id != SignedMultiTable)
         atsc3_lls_table_create_or_update_from_lls_slt_monitor_with_metrics_single_table();
     else
-        for (LLS_payload_count)
+        for (lls_table_new->signed_multi_table.atsc3_signed_multi_table_lls_payload_v.count)
             atsc3_lls_table_create_or_update_from_lls_slt_monitor_with_metrics_single_table();
 
 #### atsc3_lls.c::__lls_table_create()
