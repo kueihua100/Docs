@@ -51,11 +51,9 @@
                         lls_slt_monitor->lls_sls_alc_monitor = lls_sls_alc_monitor;
                     }
                 }
-		
-		return lls_slt_alc_session;
+                return lls_slt_alc_session;
             }
         }
-        
     }
 
 #### atsc3_listener_metrics_ncurses.cpp::route_parse_from_udp_packet(matching_lls_slt_alc_session, ...)
