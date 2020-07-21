@@ -167,6 +167,42 @@
 
 ![22](/atsc3/res/lls_slt.png)
 
+
+***
+#### atsc3_lls.c::atsc3_lls_table_create_or_update_from_lls_slt_monitor_with_metrics_single_table(lls_slt_monitor, lls_table_new, ...)
+    ...
+    if(lls_table_new->lls_table_id == AEAT)
+    {
+        //update last successfully processed AEAT table
+        lls_slt_monitor->lls_latest_aeat_table = lls_table_new;
+        ...
+        return NULL;
+    }
+    
+    if(lls_table_new->lls_table_id == OnscreenMessageNotification)
+    {
+        //update last successfully processed on screen message notification table
+        lls_slt_monitor->lls_latest_on_screen_message_notification_table = lls_table_new;
+        ...
+        return NULL;
+    }
+    
+    if(lls_table_new->lls_table_id != SLT)
+    {
+        ...
+        return NULL;
+    }
+    
+    //upate last successfully processed SLT table:
+    //a) if lls_table_new is same with lls_slt_monitor->lls_latest_slt_table, 
+    //      just free lls_table_new and return NULL
+    //b) if lls_table_new is different with lls_slt_monitor->lls_latest_slt_table, 
+    //      free lls_slt_monitor->lls_latest_slt_table and assign lls_table_new to it
+    lls_slt_monitor->lls_latest_slt_table = lls_table_new;
+    lls_slt_table_perform_update(lls_table_new, lls_slt_monitor);
+    ...
+    return lls_slt_monitor->lls_latest_slt_table;
+
 #### atsc3_lls_slt_parser.c::lls_slt_table_perform_update(lls_table, lls_slt_monitor)
     ...
     lls_slt_monitor_add_or_update_lls_slt_service_id_group_id_cache_entry();
