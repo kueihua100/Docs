@@ -82,7 +82,7 @@
     if(lls_table->lls_table_id != SignedMultiTable)
         atsc3_lls_table_parse_raw_xml();
     else
-        for (LLS_payload_count)
+        for (lls_table->signed_multi_table.atsc3_signed_multi_table_lls_payload_v.count)
             atsc3_lls_table_parse_raw_xml();
 
 #### atsc3_lls.c::lls_create_xml_table()
@@ -92,7 +92,11 @@
         return lls_table;
     }
     ...
-    atsc3_unzip_gzip_payload(); //unzip gziped data
+    ret = atsc3_unzip_gzip_payload(); //unzip gziped data
+    ...
+    lls_table->raw_xml.xml_payload = decompressed_payload;
+    lls_table->raw_xml.xml_payload_size = ret;
+    return lls_table;
 
 #### atsc3_lls.c::__lls_create_base_table_raw()
     ...
