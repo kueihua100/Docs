@@ -68,16 +68,19 @@
 
 #### atsc3_lls.c::lls_table_create_or_update_from_lls_slt_monitor_with_metrics(lls_slt_monitor, ...)
     ...
-    __lls_table_create();
+    lls_table_new = __lls_table_create();
     ...
     if(lls_table_new->lls_table_id != SignedMultiTable)
-        atsc3_lls_table_create_or_update_from_lls_slt_monitor_with_metrics_single_table();
+        return atsc3_lls_table_create_or_update_from_lls_slt_monitor_with_metrics_single_table();
     else
+    {
         for (lls_table_new->signed_multi_table.atsc3_signed_multi_table_lls_payload_v.count)
             atsc3_lls_table_create_or_update_from_lls_slt_monitor_with_metrics_single_table();
-
+        
+        return lls_table_new;
+    }
 #### atsc3_lls.c::__lls_table_create()
-    lls_create_xml_table();
+    lls_table = lls_create_xml_table();
     ...
     if(lls_table->lls_table_id != SignedMultiTable)
         atsc3_lls_table_parse_raw_xml();
