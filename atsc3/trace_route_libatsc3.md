@@ -58,6 +58,8 @@
 
 ![0001](/atsc3/res/route_alc.png)
 
+***
+
 #### The TOI value for SLS packages:
 ![0002](/atsc3/res/alc_toi.png)
 
