@@ -28,7 +28,7 @@
         ...
     }
     
-#### atsc3_lls_alc_utils.c::lls_slt_alc_session_find_from_udp_packet()
+#### atsc3_lls_alc_utils.c::lls_slt_alc_session_find_from_udp_packet(lls_slt_monitor, src_ip_addr, dst_ip_addr, dst_port)
     for(int i=0; i < lls_slt_monitor->lls_sls_alc_session_flows_v.count; i++)
     {
         lls_sls_alc_session_flows = lls_slt_monitor->lls_sls_alc_session_flows_v.data[i];
@@ -43,7 +43,16 @@
                   lls_slt_alc_session->sls_destination_udp_port == dst_port
               )
             {
-                //find matching alc session
+                //update alc_session for lls_slt_monitor->lls_sls_alc_monitor
+                for(int k=0; k < lls_slt_monitor->lls_sls_alc_monitor_v.count; k++) 
+                {
+                    lls_sls_alc_monitor_t* lls_sls_alc_monitor = lls_slt_monitor->lls_sls_alc_monitor_v.data[k];
+                    if(lls_slt_alc_session->service_id == lls_sls_alc_monitor->atsc3_lls_slt_service->service_id) {
+                        lls_slt_monitor->lls_sls_alc_monitor = lls_sls_alc_monitor;
+                    }
+                }
+		
+		return lls_slt_alc_session;
             }
         }
         
