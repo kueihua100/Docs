@@ -86,20 +86,45 @@
             atsc3_lls_table_parse_raw_xml();
 
 #### atsc3_lls.c::lls_create_xml_table()
-    __lls_create_base_table_raw();
+    lls_table = __lls_create_base_table_raw();
     ...
     if(lls_table->lls_table_id == SignedMultiTable) {
         return lls_table;
     }
     ...
-    atsc3_unzip_gzip_payload();
+    atsc3_unzip_gzip_payload(); //unzip gziped data
 
 #### atsc3_lls.c::__lls_create_base_table_raw()
     ...
     if(base_table->lls_table_id == SignedMultiTable) {
-        for (LLS_payload_count)
-            atsc3_unzip_gzip_payload();
-            atsc3_signed_multi_table_add_atsc3_signed_multi_table_lls_payload();
+        base_table->signed_multi_table.lls_payload_count = block_Read_uint8_bitlen();
+        
+        for (base_table->signed_multi_table.lls_payload_count) {
+            //extract lls_table of multi-tables
+            ...
+            ret = tsc3_unzip_gzip_payload(..., decompressed_payload); //unzip gziped data
+            ...
+            //create lls_table for each one of multi-tables
+            lls_payload->lls_table = (lls_table_t*)calloc(1, sizeof(lls_table_t));
+            lls_payload->lls_table->lls_table_id = lls_payload->lls_payload_id;
+            lls_payload->lls_table->lls_group_id = base_table->lls_group_id;
+            lls_payload->lls_table->group_count_minus1 = base_table->group_count_minus1;
+            lls_payload->lls_table->lls_table_version = lls_payload->lls_payload_version;
+
+            lls_payload->lls_table->raw_xml.xml_payload = decompressed_payload;
+            lls_payload->lls_table->raw_xml.xml_payload_size = ret;
+            ...
+            atsc3_signed_multi_table_add_atsc3_signed_multi_table_lls_payload(&base_table->signed_multi_table, lls_payload);
+            ...
+        }
+        ...
+        //extract signature length and signature
+        base_table->signed_multi_table.signature_length = block_Read_uint16_ntohs();
+    }
+    else
+    {
+        uint8_t *temp_gzip_payload = (uint8_t*)calloc();
+        memcpy(temp_gzip_payload, block_Get(lls_packet_block), ...);
     }
 
 #### atsc3_lls.c::atsc3_lls_table_parse_raw_xml()
