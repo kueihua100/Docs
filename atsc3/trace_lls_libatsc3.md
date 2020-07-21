@@ -47,6 +47,7 @@
             lls_slt_table_perform_update(lls_table, lls_slt_monitor);
             ...
         }
+        return udp_packet_free(&udp_packet);
     }
     ...
     //ALC(ROUTE) process
