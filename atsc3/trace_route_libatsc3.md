@@ -58,9 +58,13 @@
 
 #### atsc3_listener_metrics_ncurses.cpp::route_parse_from_udp_packet(matching_lls_slt_alc_session, ...)
     ...
-    //process ALC streams
-    alc_rx_analyze_packet_a331_compliant(..., &alc_packet);
-    ...
+    if (matching_lls_slt_alc_session->alc_session)
+    {
+        //process ALC streams
+        alc_rx_analyze_packet_a331_compliant(..., &alc_packet);
+        ...
+    }
+    
     return alc_packet;
 
 ![0001](/atsc3/res/route_alc.png)
