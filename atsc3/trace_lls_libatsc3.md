@@ -204,20 +204,28 @@
     return lls_slt_monitor->lls_latest_slt_table;
 
 #### atsc3_lls_slt_parser.c::lls_slt_table_perform_update(lls_table, lls_slt_monitor)
-    ...
-    lls_slt_monitor_add_or_update_lls_slt_service_id_group_id_cache_entry();
-    if(atsc3_lls_slt_service->atsc3_slt_broadcast_svc_signalling_v.count) {
+    for (lls_table->slt_table.atsc3_lls_slt_service_v.count)
+    {
+        atsc3_lls_slt_service_t* atsc3_lls_slt_service = lls_table->slt_table.atsc3_lls_slt_service_v.data[i];
+        lls_slt_monitor_add_or_update_lls_slt_service_id_group_id_cache_entry();
         ...
-        if(atsc3_lls_slt_service->atsc3_slt_broadcast_svc_signalling_v.data[0]->sls_protocol == SLS_PROTOCOL_ROUTE) 
-        {
+        if(atsc3_lls_slt_service->atsc3_slt_broadcast_svc_signalling_v.count) {
             ...
-            lls_sls_alc_session = lls_slt_alc_session_find_or_create(lls_slt_monitor, atsc3_lls_slt_service);
-            ...
-        } 
-        else if (atsc3_lls_slt_service->atsc3_slt_broadcast_svc_signalling_v.data[0]->sls_protocol == SLS_PROTOCOL_MMTP)
-        {
-            ...
-            lls_sls_mmt_session = lls_slt_mmt_session_find_or_create(lls_slt_monitor, atsc3_lls_slt_service);
-            ...
+            if(atsc3_lls_slt_service->atsc3_slt_broadcast_svc_signalling_v.data[0]->sls_protocol == SLS_PROTOCOL_ROUTE) 
+            {
+                ...
+                // find atsc3_lls_slt_service's alc_session is matched with the on in lls_slt_monitor
+                // if no, create one alc_session and assign it to lls_slt_monitor
+                lls_sls_alc_session = lls_slt_alc_session_find_or_create(lls_slt_monitor, atsc3_lls_slt_service);
+                ...
+            } 
+            else if (atsc3_lls_slt_service->atsc3_slt_broadcast_svc_signalling_v.data[0]->sls_protocol == SLS_PROTOCOL_MMTP)
+            {
+                ...
+                // find atsc3_lls_slt_service's mmt_session is matched with the on in lls_slt_monitor
+                // if no, create one mmt_session and assign it to lls_slt_monitor                
+                lls_sls_mmt_session = lls_slt_mmt_session_find_or_create(lls_slt_monitor, atsc3_lls_slt_service);
+                ...
+            }
         }
-    } 
+    }
