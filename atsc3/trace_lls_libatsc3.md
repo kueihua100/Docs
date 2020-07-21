@@ -99,8 +99,15 @@
     if(base_table->lls_table_id == SignedMultiTable) {
         base_table->signed_multi_table.lls_payload_count = block_Read_uint8_bitlen();
         
-        for (base_table->signed_multi_table.lls_payload_count) {
+        for (base_table->signed_multi_table.lls_payload_count) 
+        {
             //extract lls_table of multi-tables
+            lls_payload = atsc3_signed_multi_table_lls_payload_new();
+            lls_payload->lls_payload_id = block_Read_uint8_bitlen();
+            lls_payload->lls_payload_version = block_Read_uint8_bitlen();
+            lls_payload->lls_payload_length = block_Read_uint16_ntohs();
+            ...
+            lls_payload->lls_payload = block_Duplicate_from_ptr();
             ...
             ret = tsc3_unzip_gzip_payload(..., decompressed_payload); //unzip gziped data
             ...
@@ -120,12 +127,19 @@
         ...
         //extract signature length and signature
         base_table->signed_multi_table.signature_length = block_Read_uint16_ntohs();
+        ...
+        base_table->signed_multi_table.signature = block_Duplicate_from_position();
+        ...
     }
     else
     {
         uint8_t *temp_gzip_payload = (uint8_t*)calloc();
         memcpy(temp_gzip_payload, block_Get(lls_packet_block), ...);
+        ...
+        base_table->raw_xml.xml_payload_compressed = temp_gzip_payload;
+        base_table->raw_xml.xml_payload_compressed_size = remaining_payload_size;
     }
+    return base_table;
 
 #### atsc3_lls.c::atsc3_lls_table_parse_raw_xml()
     ...
