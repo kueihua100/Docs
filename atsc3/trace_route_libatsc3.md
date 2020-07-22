@@ -87,12 +87,15 @@
 
 #### atsc3_listener_metrics_ncurses.cpp::route_process_from_alc_packet(xxx, &alc_packet)
     ...
-    //dump ROUTE sls signaling and media (A/V) data into: src/tools/route/ip.port.tsi-toi.recovering 
+    //dump ROUTE sls signaling and media (A/V) data into: route/ip.port.tsi-toi.recovering 
     atsc3_alc_packet_persist_to_toi_resource_process_sls_mbms_and_emit_callback(..., alc_packet, ...);
-    
+
+
+![0002](/atsc3/res/route_packet.png)
+
 #### atsc3_alc_utils.c::atsc3_alc_packet_persist_to_toi_resource_process_sls_mbms_and_emit_callback(..., alc_packet, ...)
     ...
-    // file format: route/ip.port.tsi-toi.recovering 
+    // file name: route/ip.port.tsi-toi.recovering 
     temporary_filename = alc_packet_dump_to_object_get_temporary_recovering_filename();
     ...
     //[note]
@@ -127,10 +130,10 @@
     //if current alc is the last fragement of ROUTE sls or video/audio/subtitle data
     if (alc_packet->close_object_flag)
     {
-        //sls signaling
+        //sls signaling (tsi == 0)
         if (lls_sls_alc_monitor && lls_sls_alc_monitor->atsc3_lls_slt_service &&  alc_packet->def_lct_hdr->tsi == 0)
         {
-            // file format: ip.port.tsi-toi
+            // file name: route/ip.port.tsi-toi
             final_mbms_toi_filename = alc_packet_dump_to_object_get_filename_tsi_toi();
             
             //rename "ip.port.tsi-toi.recovering" to "ip.port.tsi-toi"
