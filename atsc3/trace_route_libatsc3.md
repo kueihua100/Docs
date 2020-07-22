@@ -30,7 +30,7 @@
         ...
         return udp_packet_free(&udp_packet);
     }
-    
+
 #### atsc3_lls_alc_utils.c::lls_slt_alc_session_find_from_udp_packet(lls_slt_monitor, src_ip_addr, dst_ip_addr, dst_port)
     for(int i=0; i < lls_slt_monitor->lls_sls_alc_session_flows_v.count; i++)
     {
@@ -72,26 +72,20 @@
 
 
 ***
-
 ![0001](/atsc3/res/route_alc.png)
-
 ***
-
 #### The TOI value for SLS packages:
 ![0002](/atsc3/res/alc_toi.png)
-
-
-
 ***
-
 
 #### atsc3_listener_metrics_ncurses.cpp::route_process_from_alc_packet(xxx, &alc_packet)
     ...
     //dump ROUTE sls signaling and media (A/V) data into: route/ip.port.tsi-toi.recovering 
     atsc3_alc_packet_persist_to_toi_resource_process_sls_mbms_and_emit_callback(..., alc_packet, ...);
 
-
+***
 ![0002](/atsc3/res/route_packet.png)
+***
 
 #### atsc3_alc_utils.c::atsc3_alc_packet_persist_to_toi_resource_process_sls_mbms_and_emit_callback(..., alc_packet, ...)
     ...
@@ -139,7 +133,7 @@
             //rename "ip.port.tsi-toi.recovering" to "ip.port.tsi-toi"
             rename(temporary_filename, final_mbms_toi_filename);
             ...
-            atsc3_route_sls_process_from_alc_packet_and_file();
+            atsc3_route_sls_process_from_alc_packet_and_file(..., lls_sls_alc_monitor);
         }
         else
         {
@@ -148,8 +142,124 @@
             {
             }
         }
-    }    
-    
-    
+    }
+
+***
+![0003](/atsc3/res/route_fdt.png)
+***    
+
+#### atsc3_route_sls_processor.c::atsc3_route_sls_process_from_alc_packet_and_file(..., lls_sls_alc_monitor)
+    ...
+    //An Extended FDT transported in the LCT channel referencing broadcast SLS fragments 
+    //with TOI=0 shall be present
+    if (alc_packet->def_lct_hdr->toi == 0)
+    {
+        //file name: ip.port.0-0
+        file_name = alc_packet_dump_to_object_get_filename_tsi_toi(udp_flow, 0, 0);
+        ...
+        fp = fopen(file_name, "r");
+        ...
+        //open efdt (from ip.port.0-0) for later parsing
+        fdt_xml = xml_open_document(fp);
+        if (fdt_xml)
+        {
+            //parsing efdt (from ip.port.0-0) to atsc3_fdt_instance
+            atsc3_fdt_instance = atsc3_fdt_instance_parse_from_xml_document(fdt_xml);
+            -> atsc3_fdt_parser.c::atsc3_fdt_instance_parse_from_xml_document()
+                ...
+                atsc3_fdt_instance = atsc3_efdt_instance_parse_from_xml_node();
+                -> atsc3_fdt_parser.c::atsc3_efdt_instance_parse_from_xml_node()
+                    {
+                        ...
+                        if (xml_node_equals_ignore_case(root_child, "FDT-Instance"))
+                        {
+                            //parsing FDT-Instance node
+                            atsc3_fdt_parse_from_xml_fdt_instance();
+                            ...
+                            for (child node count)
+                            {
+                                if (xml_node_equals_ignore_case(fdt_child, "File"))
+                                {
+                                    atsc3_fdt_file = atsc3_fdt_file_parse_from_xml_fdt_instance();
+                                    ...
+                                    atsc3_fdt_instance_add_atsc3_fdt_file(atsc3_fdt_instance, atsc3_fdt_file);
+                                }
+                            }
+                            
+                        }
+                        return atsc3_fdt_instance;
+                    }
+            ...
+            lls_sls_alc_monitor->atsc3_fdt_instance = atsc3_fdt_instance;
+        }
+    }
+    else
+    {
+        if (lls_sls_alc_monitor && lls_sls_alc_monitor->atsc3_fdt_instance)
+        {
+            //get toi from lls_sls_alc_monitor->atsc3_fdt_instance
+            mbms_toi = atsc3_mbms_envelope_find_toi_from_fdt(lls_sls_alc_monitor->atsc3_fdt_instance);
+            ...
+            //file name: ip.port.0-mbms_toi
+            mbms_toi_filename = alc_packet_dump_to_object_get_filename_tsi_toi(udp_flow, 0, *mbms_toi);
+            
+            //open mbms envelope xml for later parsing
+            fp_mbms = fopen(mbms_toi_filename, "r");
+            ...
+            //parsing mbms envelope xml
+            atsc3_sls_metadata_fragments = atsc3_mbms_envelope_to_sls_metadata_fragments_parse_from_fdt_fp(fp_mbms);
+            if (atsc3_sls_metadata_fragments)
+            {
+                if (atsc3_sls_metadata_fragments->atsc3_route_s_tsid)
+                {
+                    ...
+                    //update our audio and video tsi and toi_init
+                    lls_sls_alc_update_tsi_toi_from_route_s_tsid();
+                }
+                ...
+                lls_sls_alc_monitor->atsc3_sls_metadata_fragments = atsc3_sls_metadata_fragments;
+            }
+            ...
+        }
+    }
 
 
+***
+![004](/atsc3/res/route_mbms_envelope.png)
+***
+
+#### atsc3_mime_multipart_related_parser.c::atsc3_mbms_envelope_to_sls_metadata_fragments_parse_from_fdt_fp()
+    ...
+    //[note]
+    //*1) check "Content-Type: multipart/related" and then "boundary="
+    //*2) check "Content-Type" and "Content-Location" amid "boundary=" to find envelope.xml, usbd.xml, stsid.xml, ...
+    //      and then copy related payload for later parsing below
+    atsc3_mime_multipart_related_instance = atsc3_mime_multipart_related_parser()
+    ...
+    if (atsc3_mime_multipart_related_instance)
+    {
+        ...
+        atsc3_sls_metadata_fragments = 
+            atsc3_sls_metadata_fragment_types_parse_from_mime_multipart_related_instance(atsc3_mime_multipart_related_instance);
+            -> atsc3_sls_metadata_fragment_types_parser.c::xxx(atsc3_mime_multipart_related_instance)
+                {
+                    ...
+                    //parsing envelope.xml
+                    atsc3_mbms_envelope_parse_from_payload();
+                    ...
+                    //parsing usbd.xml
+                    atsc3_route_user_service_bundle_description_parse_from_payload()
+                    ...
+                    //parsing stsid.xml
+                    atsc3_route_s_tsid_parse_from_payload();
+                    ...
+                    //parsing mpd.xml
+                    atsc3_route_mpd_parse_from_payload();
+                    ...
+                    //parsing held.xml
+                    atsc3_sls_held_fragment_parse_from_payload();
+                    ...
+                }
+    }
+    ...
+    return atsc3_sls_metadata_fragments;
