@@ -70,12 +70,19 @@
     
     return alc_packet;
 
+
+***
+
 ![0001](/atsc3/res/route_alc.png)
 
 ***
 
 #### The TOI value for SLS packages:
 ![0002](/atsc3/res/alc_toi.png)
+
+
+
+***
 
 
 #### atsc3_listener_metrics_ncurses.cpp::route_process_from_alc_packet(xxx, &alc_packet)
