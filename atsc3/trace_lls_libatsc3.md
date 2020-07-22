@@ -32,8 +32,10 @@
 ![11](/atsc3/res/lls.png)
 
 #### atsc3_listener_metrics_ncurses.cpp::::process_packet()
-    process_packet_from_pcap();  /* strip out udp packet */
+    //strip out udp packet
+    process_packet_from_pcap();
     ...
+    //prcoess lls (low level signaling)
     if(udp_packet->udp_flow.dst_ip_addr == LLS_DST_ADDR && 
        udp_packet->udp_flow.dst_port == LLS_DST_PORT) 
     {
@@ -47,9 +49,10 @@
             lls_slt_table_perform_update(lls_table, lls_slt_monitor);
             ...
         }
+        return udp_packet_free(&udp_packet);
     }
     ...
-    //ALC(ROUTE) process
+    //SLS-ALC(ROUTE) process
     matching_lls_slt_alc_session = lls_slt_alc_session_find_from_udp_packet(lls_slt_monitor, ...);
     if(matching_lls_slt_alc_session) {
         ...
@@ -59,7 +62,7 @@
         ...
     }
     
-    //MMTP process
+    //SLS-MMTP process
     matching_lls_slt_mmt_session = lls_slt_mmt_session_find_from_udp_packet(lls_slt_monitor, ...);
     if(matching_lls_slt_mmt_session) {
         update_global_mmtp_statistics_from_udp_packet_t(udp_packet);
@@ -67,39 +70,85 @@
 
 #### atsc3_lls.c::lls_table_create_or_update_from_lls_slt_monitor_with_metrics(lls_slt_monitor, ...)
     ...
-    __lls_table_create();
+    lls_table_new = __lls_table_create();
     ...
     if(lls_table_new->lls_table_id != SignedMultiTable)
-        atsc3_lls_table_create_or_update_from_lls_slt_monitor_with_metrics_single_table();
+        return atsc3_lls_table_create_or_update_from_lls_slt_monitor_with_metrics_single_table();
     else
-        for (LLS_payload_count)
+    {
+        for (lls_table_new->signed_multi_table.atsc3_signed_multi_table_lls_payload_v.count)
             atsc3_lls_table_create_or_update_from_lls_slt_monitor_with_metrics_single_table();
-
+        
+        return lls_table_new;
+    }
 #### atsc3_lls.c::__lls_table_create()
-    lls_create_xml_table();
+    lls_table = lls_create_xml_table();
     ...
     if(lls_table->lls_table_id != SignedMultiTable)
         atsc3_lls_table_parse_raw_xml();
     else
-        for (LLS_payload_count)
+        for (lls_table->signed_multi_table.atsc3_signed_multi_table_lls_payload_v.count)
             atsc3_lls_table_parse_raw_xml();
 
 #### atsc3_lls.c::lls_create_xml_table()
-    __lls_create_base_table_raw();
+    lls_table = __lls_create_base_table_raw();
     ...
     if(lls_table->lls_table_id == SignedMultiTable) {
         return lls_table;
     }
     ...
-    atsc3_unzip_gzip_payload();
+    ret = atsc3_unzip_gzip_payload(); //unzip gziped data
+    ...
+    lls_table->raw_xml.xml_payload = decompressed_payload;
+    lls_table->raw_xml.xml_payload_size = ret;
+    return lls_table;
 
 #### atsc3_lls.c::__lls_create_base_table_raw()
     ...
     if(base_table->lls_table_id == SignedMultiTable) {
-        for (LLS_payload_count)
-            atsc3_unzip_gzip_payload();
-            atsc3_signed_multi_table_add_atsc3_signed_multi_table_lls_payload();
+        base_table->signed_multi_table.lls_payload_count = block_Read_uint8_bitlen();
+        
+        for (base_table->signed_multi_table.lls_payload_count) 
+        {
+            //extract lls_table of multi-tables
+            lls_payload = atsc3_signed_multi_table_lls_payload_new();
+            lls_payload->lls_payload_id = block_Read_uint8_bitlen();
+            lls_payload->lls_payload_version = block_Read_uint8_bitlen();
+            lls_payload->lls_payload_length = block_Read_uint16_ntohs();
+            ...
+            lls_payload->lls_payload = block_Duplicate_from_ptr();
+            ...
+            ret = tsc3_unzip_gzip_payload(..., decompressed_payload); //unzip gziped data
+            ...
+            //create lls_table for each one of multi-tables
+            lls_payload->lls_table = (lls_table_t*)calloc(1, sizeof(lls_table_t));
+            lls_payload->lls_table->lls_table_id = lls_payload->lls_payload_id;
+            lls_payload->lls_table->lls_group_id = base_table->lls_group_id;
+            lls_payload->lls_table->group_count_minus1 = base_table->group_count_minus1;
+            lls_payload->lls_table->lls_table_version = lls_payload->lls_payload_version;
+
+            lls_payload->lls_table->raw_xml.xml_payload = decompressed_payload;
+            lls_payload->lls_table->raw_xml.xml_payload_size = ret;
+            ...
+            atsc3_signed_multi_table_add_atsc3_signed_multi_table_lls_payload(&base_table->signed_multi_table, lls_payload);
+            ...
+        }
+        ...
+        //extract signature length and signature
+        base_table->signed_multi_table.signature_length = block_Read_uint16_ntohs();
+        ...
+        base_table->signed_multi_table.signature = block_Duplicate_from_position();
+        ...
     }
+    else
+    {
+        uint8_t *temp_gzip_payload = (uint8_t*)calloc();
+        memcpy(temp_gzip_payload, block_Get(lls_packet_block), ...);
+        ...
+        base_table->raw_xml.xml_payload_compressed = temp_gzip_payload;
+        base_table->raw_xml.xml_payload_compressed_size = remaining_payload_size;
+    }
+    return base_table;
 
 #### atsc3_lls.c::atsc3_lls_table_parse_raw_xml()
     ...
@@ -123,21 +172,65 @@
 
 ![22](/atsc3/res/lls_slt.png)
 
-#### atsc3_lls_slt_parser.c::lls_slt_table_perform_update(lls_table, lls_slt_monitor)
+
+***
+#### atsc3_lls.c::atsc3_lls_table_create_or_update_from_lls_slt_monitor_with_metrics_single_table(lls_slt_monitor, lls_table_new, ...)
     ...
-    lls_slt_monitor_add_or_update_lls_slt_service_id_group_id_cache_entry();
-    if(atsc3_lls_slt_service->atsc3_slt_broadcast_svc_signalling_v.count) {
+    if(lls_table_new->lls_table_id == AEAT)
+    {
+        //update last successfully processed AEAT table
+        lls_slt_monitor->lls_latest_aeat_table = lls_table_new;
         ...
-        if(atsc3_lls_slt_service->atsc3_slt_broadcast_svc_signalling_v.data[0]->sls_protocol == SLS_PROTOCOL_ROUTE) 
-        {
+        return NULL;
+    }
+    
+    if(lls_table_new->lls_table_id == OnscreenMessageNotification)
+    {
+        //update last successfully processed on screen message notification table
+        lls_slt_monitor->lls_latest_on_screen_message_notification_table = lls_table_new;
+        ...
+        return NULL;
+    }
+    
+    if(lls_table_new->lls_table_id != SLT)
+    {
+        ...
+        return NULL;
+    }
+    
+    //upate last successfully processed SLT table:
+    //a) if lls_table_new is same with lls_slt_monitor->lls_latest_slt_table, 
+    //      just free lls_table_new and return NULL
+    //b) if lls_table_new is different with lls_slt_monitor->lls_latest_slt_table, 
+    //      free lls_slt_monitor->lls_latest_slt_table and assign lls_table_new to it
+    lls_slt_monitor->lls_latest_slt_table = lls_table_new;
+    lls_slt_table_perform_update(lls_table_new, lls_slt_monitor);
+    ...
+    return lls_slt_monitor->lls_latest_slt_table;
+
+#### atsc3_lls_slt_parser.c::lls_slt_table_perform_update(lls_table, lls_slt_monitor)
+    for (lls_table->slt_table.atsc3_lls_slt_service_v.count)
+    {
+        atsc3_lls_slt_service_t* atsc3_lls_slt_service = lls_table->slt_table.atsc3_lls_slt_service_v.data[i];
+        lls_slt_monitor_add_or_update_lls_slt_service_id_group_id_cache_entry();
+        ...
+        if(atsc3_lls_slt_service->atsc3_slt_broadcast_svc_signalling_v.count) {
             ...
-            lls_sls_alc_session = lls_slt_alc_session_find_or_create(lls_slt_monitor, atsc3_lls_slt_service);
-            ...
-        } 
-        else if (atsc3_lls_slt_service->atsc3_slt_broadcast_svc_signalling_v.data[0]->sls_protocol == SLS_PROTOCOL_MMTP)
-        {
-            ...
-            lls_sls_mmt_session = lls_slt_mmt_session_find_or_create(lls_slt_monitor, atsc3_lls_slt_service);
-            ...
+            if(atsc3_lls_slt_service->atsc3_slt_broadcast_svc_signalling_v.data[0]->sls_protocol == SLS_PROTOCOL_ROUTE) 
+            {
+                ...
+                // find atsc3_lls_slt_service's alc_session is matched with the on in lls_slt_monitor
+                // if no, create one alc_session and assign it to lls_slt_monitor
+                lls_sls_alc_session = lls_slt_alc_session_find_or_create(lls_slt_monitor, atsc3_lls_slt_service);
+                ...
+            } 
+            else if (atsc3_lls_slt_service->atsc3_slt_broadcast_svc_signalling_v.data[0]->sls_protocol == SLS_PROTOCOL_MMTP)
+            {
+                ...
+                // find atsc3_lls_slt_service's mmt_session is matched with the on in lls_slt_monitor
+                // if no, create one mmt_session and assign it to lls_slt_monitor                
+                lls_sls_mmt_session = lls_slt_mmt_session_find_or_create(lls_slt_monitor, atsc3_lls_slt_service);
+                ...
+            }
         }
-    } 
+    }
