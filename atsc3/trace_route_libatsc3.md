@@ -89,7 +89,10 @@
     ...
     //dump ROUTE sls signaling and media (A/V) data into: src/tools/route/ip.port.tsi-toi.recovering 
     atsc3_alc_packet_persist_to_toi_resource_process_sls_mbms_and_emit_callback(..., alc_packet, ...);
-    
+
+
+![0002](/atsc3/res/route_packet.png)
+
 #### atsc3_alc_utils.c::atsc3_alc_packet_persist_to_toi_resource_process_sls_mbms_and_emit_callback(..., alc_packet, ...)
     ...
     // file format: route/ip.port.tsi-toi.recovering 
