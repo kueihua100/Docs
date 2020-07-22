@@ -1,7 +1,9 @@
 # ROUTE flow of libatsc3
 #### atsc3_listener_metrics_ncurses.cpp::process_packet()
-    process_packet_from_pcap();  /* strip out udp packet */
-    ...
+    //strip out udp packet
+    process_packet_from_pcap();
+    
+    //prcoess lls (low level signaling)
     if(udp_packet->udp_flow.dst_ip_addr == LLS_DST_ADDR && 
        udp_packet->udp_flow.dst_port == LLS_DST_PORT) 
     {
@@ -76,6 +78,68 @@
 ![0002](/atsc3/res/alc_toi.png)
 
 
-
+#### atsc3_listener_metrics_ncurses.cpp::route_process_from_alc_packet(xxx, &alc_packet)
+    ...
+    //dump ROUTE sls signaling and media (A/V) data into: src/tools/route/ip.port.tsi-toi.recovering 
+    atsc3_alc_packet_persist_to_toi_resource_process_sls_mbms_and_emit_callback(..., alc_packet, ...);
+    
+#### atsc3_alc_utils.c::atsc3_alc_packet_persist_to_toi_resource_process_sls_mbms_and_emit_callback(..., alc_packet, ...)
+    ...
+    // file format: route/ip.port.tsi-toi.recovering 
+    temporary_filename = alc_packet_dump_to_object_get_temporary_recovering_filename();
+    ...
+    //[note]
+    //alc_packet->transfer_len: the total data length will be transfer at one or multiple alc_packets
+    //alc_packet->alc_len: the total data length that remain in this alc_packet
+    
+    if (alc_packet->use_sbn_esi) 
+    {
+        //write fec alc data to: ip.port.tsi-toi.recovering 
+        if (!alc_packet->esi)
+            //write 0 alc_packet->transfer_len size to f
+            f = alc_object_pre_allocate();
+        else 
+            f = alc_object_open_or_pre_allocate();
+            
+        //write alc_packet->alc_len size of alc_packet->alc_payload to f
+        alc_packet_write_fragment(f, ..., alc_packet->esi, ...);
+    } 
+    else if (alc_packet->use_start_offset) 
+    {
+        //write non-fec alc data to:  ip.port.tsi-toi.recovering 
+        if (!alc_packet->start_offset)
+            //write 0 alc_packet->transfer_len size to f
+            f = alc_object_pre_allocate();
+        else
+            f = alc_object_open_or_pre_allocate();
+        
+        //write alc_packet->alc_len size of alc_packet->alc_payload to f
+        alc_packet_write_fragment(f, ..., alc_packet->start_offset, ...);
+    }
+    
+    //if current alc is the last fragement of ROUTE sls or video/audio/subtitle data
+    if (alc_packet->close_object_flag)
+    {
+        //sls signaling
+        if (lls_sls_alc_monitor && lls_sls_alc_monitor->atsc3_lls_slt_service &&  alc_packet->def_lct_hdr->tsi == 0)
+        {
+            // file format: ip.port.tsi-toi
+            final_mbms_toi_filename = alc_packet_dump_to_object_get_filename_tsi_toi();
+            
+            //rename "ip.port.tsi-toi.recovering" to "ip.port.tsi-toi"
+            rename(temporary_filename, final_mbms_toi_filename);
+            ...
+            atsc3_route_sls_process_from_alc_packet_and_file();
+        }
+        else
+        {
+            s_tsid_content_location = alc_packet_dump_to_object_get_s_tsid_filename();
+            if (strncmp(temporary_filename, s_tsid_content_location, ...) != 0)
+            {
+            }
+        }
+    }    
+    
+    
 
 
