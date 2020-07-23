@@ -279,6 +279,14 @@
     ...
     return atsc3_sls_metadata_fragments;
 
+***
+![](/atsc3/res/route_usbd.png)
+***
+![](/atsc3/res/route_stsid.png)
+***
+![](/atsc3/res/route_held.png)
+***
+
 #### atsc3_lls_alc_utils.c::lls_sls_alc_update_tsi_toi_from_route_s_tsid()
     ...
     if (strncasecmp("audio", src_flow_content_info_content_type, 5) == 0 && 
