@@ -1,10 +1,19 @@
 Note
 -------------------------------------
-1.Some knowledge, notes, experiences and ...
+Some knowledge, notes, experiences and ..., that may from others or by myself.
 
-2.Some pictures/texts are just grabbed from others, so the copyright is belong to original creator.
 
 # *** Content ***
+
+## ATSC3
+Look [HERE](https://github.com/kueihua100/Docs/tree/master/atsc3)
+   * PCAP file format
+   * How to start the libatsc3?
+   * trace lls (low level signaling) flow of libatsc3?
+   * trace ROUTE (service level signaling) flow of libatsc3?
+   * trace MMTP (service level signaling) flow of libatsc3?
+
+## A11 Tuner HAL framework
 
 ## System
 1. [How to branch google source code into gitlab?](https://github.com/kueihua100/Docs/blob/master/system/How_to_branch_google_source_code_into_gitlab.md)
@@ -37,14 +46,6 @@ Note
 5. [How to update library for android?](https://github.com/kueihua100/Docs/blob/master/android/update_library_for_android.md)
 6. [SELinux policy](https://github.com/kueihua100/Docs/blob/master/android/selinux_policy.md)
 7. [HIDL and HAL (Tv Input HAL)](https://github.com/kueihua100/Docs/blob/master/android/HIDL_and_HAL.md)
-
-## ATSC3
-Look [HERE](https://github.com/kueihua100/Docs/tree/master/atsc3)
-   * PCAP file format
-   * How to start the libatsc3?
-   * trace lls (low level signaling) flow of libatsc3?
-   * trace ROUTE (service level signaling) flow of libatsc3?
-   * trace MMTP (service level signaling) flow of libatsc3?
 
 ## AutoPilot [Commaai's openpilot]
 1. [Note 1](https://github.com/kueihua100/Docs/blob/master/ai/commaai_openpilot_note1.md)
