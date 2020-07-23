@@ -84,7 +84,7 @@
     atsc3_alc_packet_persist_to_toi_resource_process_sls_mbms_and_emit_callback(..., alc_packet, ...);
 
 ***
-<img src="https://github.com/kueihua100/Docs/tree/master/atsc3/res/route_packet.png" width="100">
+![](/atsc3/res/route_packet.png)
 ***
 
 #### atsc3_alc_utils.c::atsc3_alc_packet_persist_to_toi_resource_process_sls_mbms_and_emit_callback(..., alc_packet, ...)
