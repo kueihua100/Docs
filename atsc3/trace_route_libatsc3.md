@@ -218,6 +218,21 @@
                 }
                 ...
                 lls_sls_alc_monitor->atsc3_sls_metadata_fragments = atsc3_sls_metadata_fragments;
+                ...
+                //loop to find mpd.xml
+                for (int i=0; i < lls_sls_alc_monitor->atsc3_sls_metadata_fragments->atsc3_mime_multipart_related_instance->atsc3_mime_multipart_related_payload_v.count; i++) 
+                {
+                    ...
+		    //ATSC3_ROUTE_MPD_TYPE = "application/dash+xml"
+                    if (strncmp(atsc3_mime_multipart_related_payload->content_type, ATSC3_ROUTE_MPD_TYPE, 
+                        __MIN(strlen(atsc3_mime_multipart_related_payload->content_type), strlen(ATSC3_ROUTE_MPD_TYPE))) == 0)
+                    {
+                        //[note] 
+                        // patch mpd.xml's MPD type="dynamic" with "availabilitystarttime=" to 
+                        // current NOW and "startnumber=" to the most recent A/V flows for TOI delivery
+                        atsc3_route_sls_patch_mpd_availability_start_time_and_start_number();
+                    }
+                }
             }
             ...
         }
