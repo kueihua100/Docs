@@ -174,9 +174,9 @@
                         if (xml_node_equals_ignore_case(root_child, "FDT-Instance"))
                         {
                             //parsing FDT-Instance node
-                            atsc3_fdt_parse_from_xml_fdt_instance();
+                            atsc3_fdt_parse_from_xml_fdt_instance(atsc3_fdt_instance, ...);
                             ...
-                            for (child node count)
+                            for (num_fdt_children)
                             {
                                 if (xml_node_equals_ignore_case(fdt_child, "File"))
                                 {
