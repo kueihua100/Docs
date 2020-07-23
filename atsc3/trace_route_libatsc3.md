@@ -79,9 +79,15 @@
 ***
 
 #### atsc3_listener_metrics_ncurses.cpp::route_process_from_alc_packet(xxx, &alc_packet)
-    ...
-    //dump ROUTE sls signaling and media (A/V) data into: route/ip.port.tsi-toi.recovering 
+    //[note]
+    // *) dump ROUTE sls signaling: route/ip.port.tsi-toi 
+    // *) dump ROUTE media data (A/V/T) per ALC packet base to: route/ip.port.tsi-toi.recovering 
+    // *) call alc_process_done callback function if set
     atsc3_alc_packet_persist_to_toi_resource_process_sls_mbms_and_emit_callback(..., alc_packet, ...);
+    ...
+    AAAA
+    AAAA
+    AAAA
 
 ***
 ![](/atsc3/res/route_packet.png)
