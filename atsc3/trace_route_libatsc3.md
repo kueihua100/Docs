@@ -263,3 +263,34 @@
     }
     ...
     return atsc3_sls_metadata_fragments;
+
+#### atsc3_lls_alc_utils.c::lls_sls_alc_update_tsi_toi_from_route_s_tsid()
+    ...
+    if (strncasecmp("audio", src_flow_content_info_content_type, 5) == 0 && 
+        !lls_sls_alc_monitor->audio_tsi_manual_override) 
+    {
+        if (!lls_sls_alc_monitor->audio_tsi_manual_override)
+        {
+            //update our audio tsi and toi accordingly
+            lls_sls_alc_monitor->audio_toi_init = atsc3_fdt_file->toi;
+            lls_sls_alc_monitor->audio_tsi = atsc3_route_s_tsid_RS_LS->tsi;
+        }
+    } 
+    else if (strncasecmp("video", src_flow_content_info_content_type, 5) == 0)
+    {
+        if (!lls_sls_alc_monitor->video_tsi_manual_override) 
+        {
+            lls_sls_alc_monitor->video_toi_init = atsc3_fdt_file->toi;
+            lls_sls_alc_monitor->video_tsi = atsc3_route_s_tsid_RS_LS->tsi;
+        }
+    }
+    else if(strncasecmp("text", src_flow_content_info_content_type, 4) == 0) 
+    {
+        if (!lls_sls_alc_monitor->text_tsi_manual_override) 
+        {
+            lls_sls_alc_monitor->text_toi_init = atsc3_fdt_file->toi;
+            lls_sls_alc_monitor->text_tsi = atsc3_route_s_tsid_RS_LS->tsi;
+        }
+    }
+    ...
+
