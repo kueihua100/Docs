@@ -6,7 +6,8 @@ Some knowledge, notes, experiences and ..., that may from others or by myself.
 # *** Content ***
 
 ## ATSC3
-Look [HERE](https://github.com/kueihua100/Docs/tree/master/atsc3)
+Look [HERE](https://github.com/kueihua100/Docs/tree/master/atsc3) in more detail
+   * Refer to the source: libatsc3 
    * PCAP file format
    * How to start the libatsc3?
    * trace lls (low level signaling) flow of libatsc3?
@@ -14,6 +15,7 @@ Look [HERE](https://github.com/kueihua100/Docs/tree/master/atsc3)
    * trace MMTP (service level signaling) flow of libatsc3?
 
 ## A11 Tuner HAL framework
+TBD
 
 ## System
 1. [How to branch google source code into gitlab?](https://github.com/kueihua100/Docs/blob/master/system/How_to_branch_google_source_code_into_gitlab.md)
