@@ -137,9 +137,17 @@
         }
         else
         {
+            //get file name from STSID.RS.LS.SrcFlow.EFDT.FDT-Instance.File@Content-Location
             s_tsid_content_location = alc_packet_dump_to_object_get_s_tsid_filename();
             if (strncmp(temporary_filename, s_tsid_content_location, ...) != 0)
             {
+                //create new_file_name as file name: route/service_id/{audio,video,text}/xxx.yyy
+                ...
+                //rename "ip.port.tsi-toi.recovering" to "route/service_id/{audio,video,text}/xxx.yyy"
+                rename(temporary_filename, new_file_name);
+                ...
+                //call alc_process_done callback function if set
+                lls_sls_alc_monitor->atsc3_lls_sls_alc_on_object_close_flag_s_tsid_content_location();
             }
         }
     }
