@@ -238,7 +238,7 @@
                 for (int i=0; i < lls_sls_alc_monitor->atsc3_sls_metadata_fragments->atsc3_mime_multipart_related_instance->atsc3_mime_multipart_related_payload_v.count; i++) 
                 {
                     ...
-		    //ATSC3_ROUTE_MPD_TYPE = "application/dash+xml"
+                    //ATSC3_ROUTE_MPD_TYPE = "application/dash+xml"
                     if (strncmp(atsc3_mime_multipart_related_payload->content_type, ATSC3_ROUTE_MPD_TYPE, 
                         __MIN(strlen(atsc3_mime_multipart_related_payload->content_type), strlen(ATSC3_ROUTE_MPD_TYPE))) == 0)
                     {
