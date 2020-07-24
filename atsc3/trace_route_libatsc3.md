@@ -134,10 +134,10 @@
         //sls signaling (tsi == 0)
         if (lls_sls_alc_monitor && lls_sls_alc_monitor->atsc3_lls_slt_service &&  alc_packet->def_lct_hdr->tsi == 0)
         {
-            // file name: route/ip.port.tsi-toi
+            // file name: route/ip.port.0-toi
             final_mbms_toi_filename = alc_packet_dump_to_object_get_filename_tsi_toi();
             
-            //rename "ip.port.tsi-toi.recovering" to "ip.port.tsi-toi"
+            //rename "ip.port.0-toi.recovering" to "ip.port.0-toi"
             rename(temporary_filename, final_mbms_toi_filename);
             ...
             atsc3_route_sls_process_from_alc_packet_and_file(..., lls_sls_alc_monitor);
