@@ -126,6 +126,7 @@
         //write alc_packet->alc_len size of alc_packet->alc_payload to f
         alc_packet_write_fragment(f, ..., alc_packet->start_offset, ...);
     }
+    ...
     
     //if current alc is the last fragement of ROUTE sls or video/audio/subtitle data
     if (alc_packet->close_object_flag)
