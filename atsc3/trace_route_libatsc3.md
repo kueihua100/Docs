@@ -145,7 +145,7 @@
         else
         {
             //get file name from STSID.RS.LS.SrcFlow.EFDT.FDT-Instance.File@Content-Location
-	    //or if not found will return "ip.port.tsi-toi"
+            //or if not found will return "ip.port.tsi-toi"
             s_tsid_content_location = alc_packet_dump_to_object_get_s_tsid_filename();
             if (strncmp(temporary_filename, s_tsid_content_location, ...) != 0)
             {
