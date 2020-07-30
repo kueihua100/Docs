@@ -79,9 +79,18 @@
 ***
 
 #### atsc3_listener_metrics_ncurses.cpp::route_process_from_alc_packet(xxx, &alc_packet)
-    ...
-    //dump ROUTE sls signaling and media (A/V) data into: route/ip.port.tsi-toi.recovering 
+    //[note]
+    // *) dump ROUTE sls signaling: route/ip.port.tsi-toi 
+    // *) dump ROUTE media data (A/V/T) per ALC packet base to: route/ip.port.tsi-toi.recovering 
+    // *) call alc_process_done callback function if set
     atsc3_alc_packet_persist_to_toi_resource_process_sls_mbms_and_emit_callback(..., alc_packet, ...);
+    ...
+    //[note]
+    // pack media data into a file
+    // *) below API: pack distinct recovering files into one file
+    //dump_media_from_recover_file(udp_flow, *alc_packet, lls_slt_monitor->lls_sls_alc_monitor);
+    // *) below API: pack media alc packet into one file
+    dump_media_from_alc_packet(udp_flow, *alc_packet, lls_slt_monitor->lls_sls_alc_monitor);
 
 ***
 ![](/atsc3/res/route_packet.png)
@@ -120,6 +129,7 @@
         //write alc_packet->alc_len size of alc_packet->alc_payload to f
         alc_packet_write_fragment(f, ..., alc_packet->start_offset, ...);
     }
+    ...
     
     //if current alc is the last fragement of ROUTE sls or video/audio/subtitle data
     if (alc_packet->close_object_flag)
@@ -127,19 +137,28 @@
         //sls signaling (tsi == 0)
         if (lls_sls_alc_monitor && lls_sls_alc_monitor->atsc3_lls_slt_service &&  alc_packet->def_lct_hdr->tsi == 0)
         {
-            // file name: route/ip.port.tsi-toi
+            // file name: route/ip.port.0-toi
             final_mbms_toi_filename = alc_packet_dump_to_object_get_filename_tsi_toi();
             
-            //rename "ip.port.tsi-toi.recovering" to "ip.port.tsi-toi"
+            //rename "ip.port.0-toi.recovering" to "ip.port.0-toi"
             rename(temporary_filename, final_mbms_toi_filename);
             ...
             atsc3_route_sls_process_from_alc_packet_and_file(..., lls_sls_alc_monitor);
         }
         else
         {
+            //get file name from STSID.RS.LS.SrcFlow.EFDT.FDT-Instance.File@Content-Location
+            //or if not found will return "ip.port.tsi-toi"
             s_tsid_content_location = alc_packet_dump_to_object_get_s_tsid_filename();
             if (strncmp(temporary_filename, s_tsid_content_location, ...) != 0)
             {
+                //create new_file_name as file name: route/service_id/{audio,video,text}/xxx.yyy
+                ...
+                //rename "ip.port.tsi-toi.recovering" to "route/service_id/{audio,video,text}/xxx.yyy"
+                rename(temporary_filename, new_file_name);
+                ...
+                //call alc_process_done callback function if set
+                lls_sls_alc_monitor->atsc3_lls_sls_alc_on_object_close_flag_s_tsid_content_location();
             }
         }
     }
@@ -223,7 +242,7 @@
                 for (int i=0; i < lls_sls_alc_monitor->atsc3_sls_metadata_fragments->atsc3_mime_multipart_related_instance->atsc3_mime_multipart_related_payload_v.count; i++) 
                 {
                     ...
-		    //ATSC3_ROUTE_MPD_TYPE = "application/dash+xml"
+                    //ATSC3_ROUTE_MPD_TYPE = "application/dash+xml"
                     if (strncmp(atsc3_mime_multipart_related_payload->content_type, ATSC3_ROUTE_MPD_TYPE, 
                         __MIN(strlen(atsc3_mime_multipart_related_payload->content_type), strlen(ATSC3_ROUTE_MPD_TYPE))) == 0)
                     {
@@ -278,6 +297,14 @@
     }
     ...
     return atsc3_sls_metadata_fragments;
+
+***
+![](/atsc3/res/route_usbd.png)
+***
+![](/atsc3/res/route_stsid.png)
+***
+![](/atsc3/res/route_held.png)
+***
 
 #### atsc3_lls_alc_utils.c::lls_sls_alc_update_tsi_toi_from_route_s_tsid()
     ...
