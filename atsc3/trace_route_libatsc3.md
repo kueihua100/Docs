@@ -85,9 +85,12 @@
     // *) call alc_process_done callback function if set
     atsc3_alc_packet_persist_to_toi_resource_process_sls_mbms_and_emit_callback(..., alc_packet, ...);
     ...
-    AAAA
-    AAAA
-    AAAA
+    //[note]
+    // pack media data into a file
+    // *) below API: pack distinct recovering files into one file
+    //dump_media_from_recover_file(udp_flow, *alc_packet, lls_slt_monitor->lls_sls_alc_monitor);
+    // *) below API: pack media alc packet into one file
+    dump_media_from_alc_packet(udp_flow, *alc_packet, lls_slt_monitor->lls_sls_alc_monitor);
 
 ***
 ![](/atsc3/res/route_packet.png)
