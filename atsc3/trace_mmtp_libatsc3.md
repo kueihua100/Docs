@@ -65,10 +65,20 @@
     else if (mmtp_packet_header->mmtp_payload_type == 0x2)
     {
         mmtp_signalling_packet = mmtp_signalling_packet_parse_and_free_packet_header_from_block_t();
+        -> atsc3_mmt_signalling_message.c::mmtp_signalling_packet_parse_and_free_packet_header_from_block_t()
+            {
+                ...
+                mmtp_signalling_packet = mmtp_signalling_packet_parse_from_block_t(mmtp_packet_header, udp_packet);
+                ...
+                return mmtp_signalling_packet;
+            }
+             
         mmt_signalling_message_parse_packet(mmtp_signalling_packet, ...);
         ...
     }
     ...
+
+
 
 ***
 ![](/atsc3/res/mmtp_1.png)
