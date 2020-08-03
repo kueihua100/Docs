@@ -38,13 +38,11 @@
         for(int j=0; j < lls_sls_alc_session_flows->lls_sls_alc_session_v.count; j++ )
         {
             lls_slt_alc_session = lls_sls_alc_session_flows->lls_sls_alc_session_v.data[j];
-            if (
-                (lls_slt_alc_session->sls_relax_source_ip_check || 
+            if ((lls_slt_alc_session->sls_relax_source_ip_check || 
                 (!lls_slt_alc_session->sls_relax_source_ip_check && 
                   lls_slt_alc_session->sls_source_ip_address == src_ip_addr)) &&
                   lls_slt_alc_session->sls_destination_ip_address == dst_ip_addr && 
-                  lls_slt_alc_session->sls_destination_udp_port == dst_port
-              )
+                  lls_slt_alc_session->sls_destination_udp_port == dst_port)
             {
                 //update alc_session for lls_slt_monitor->lls_sls_alc_monitor
                 for(int k=0; k < lls_slt_monitor->lls_sls_alc_monitor_v.count; k++) 
