@@ -43,3 +43,30 @@
             }
         }
     }
+
+#### atsc3_listener_metrics_ncurses.cpp::update_global_mmtp_statistics_from_udp_packet_t(udp_packet)
+    ...
+    mmtp_packet_header = mmtp_packet_header_parse_from_block_t();
+    ...
+    if (mmtp_packet_header->mmtp_payload_type == 0x0)
+    {
+        mmtp_mpu_packet = mmtp_mpu_packet_parse_from_block_t(mmtp_packet_header, ...);
+        ...
+        if (mmtp_mpu_packet->mpu_timed_flag == 1)
+        {
+            atsc3_packet_statistics_mmt_stats_populate();
+        }
+    }
+    else if (mmtp_packet_header->mmtp_payload_type == 0x2)
+    {
+        mmtp_signalling_packet = mmtp_signalling_packet_parse_and_free_packet_header_from_block_t();
+        mmt_signalling_message_parse_packet(mmtp_signalling_packet, ...);
+        ...
+    }
+    ...
+
+
+
+
+
+
