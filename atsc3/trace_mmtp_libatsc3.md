@@ -46,6 +46,7 @@
 
 #### atsc3_listener_metrics_ncurses.cpp::update_global_mmtp_statistics_from_udp_packet_t(udp_packet)
     ...
+    //[note] parsing mmtp packet header
     mmtp_packet_header = mmtp_packet_header_parse_from_block_t();
     ...
     if (mmtp_packet_header->mmtp_payload_type == 0x0)
