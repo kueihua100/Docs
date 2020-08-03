@@ -25,3 +25,21 @@
     if(matching_lls_slt_mmt_session) {
         update_global_mmtp_statistics_from_udp_packet_t(udp_packet);
     }
+
+#### atsc3_lls_mmt_utils.c::lls_slt_mmt_session_find_from_udp_packet(lls_slt_monitor, src_ip_addr, dst_ip_addr, dst_port)
+    for(int i=0; i < lls_slt_monitor->lls_sls_mmt_session_flows_v.count; i++)
+    {
+        lls_sls_mmt_session_flows = lls_slt_monitor->lls_sls_mmt_session_flows_v.data[i];
+        for(int j=0; j < lls_sls_mmt_session_flows->lls_sls_mmt_session_v.count; j++ )
+        {
+            lls_slt_mmt_session = lls_sls_mmt_session_flows->lls_sls_mmt_session_v.data[j];
+            if ((lls_slt_mmt_session->sls_relax_source_ip_check || 
+                (!lls_slt_mmt_session->sls_relax_source_ip_check && 
+                  lls_slt_mmt_session->sls_source_ip_address == src_ip_addr)) &&
+				  lls_slt_mmt_session->sls_destination_ip_address == dst_ip_addr &&
+				  lls_slt_mmt_session->sls_destination_udp_port == dst_port)
+            {
+                return lls_slt_mmt_session;
+            }
+        }
+    }
