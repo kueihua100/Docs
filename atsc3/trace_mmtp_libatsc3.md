@@ -46,8 +46,13 @@
 
 #### atsc3_listener_metrics_ncurses.cpp::update_global_mmtp_statistics_from_udp_packet_t(udp_packet)
     ...
+    //[note]
+    //parsing mmtp packet header
     mmtp_packet_header = mmtp_packet_header_parse_from_block_t();
     ...
+    //[note] mmtp_payload_type
+    //0x0: a media-aware fragment of the MPU
+    //0x2: one or more signalling messages or a fragment of a signalling message
     if (mmtp_packet_header->mmtp_payload_type == 0x0)
     {
         mmtp_mpu_packet = mmtp_mpu_packet_parse_from_block_t(mmtp_packet_header, ...);
@@ -60,17 +65,28 @@
     else if (mmtp_packet_header->mmtp_payload_type == 0x2)
     {
         mmtp_signalling_packet = mmtp_signalling_packet_parse_and_free_packet_header_from_block_t();
+        -> atsc3_mmt_signalling_message.c::mmtp_signalling_packet_parse_and_free_packet_header_from_block_t()
+            {
+                ...
+                mmtp_signalling_packet = mmtp_signalling_packet_parse_from_block_t(mmtp_packet_header, udp_packet);
+                ...
+                return mmtp_signalling_packet;
+            }
+             
         mmt_signalling_message_parse_packet(mmtp_signalling_packet, ...);
         ...
     }
     ...
+
+
 
 ***
 ![](/atsc3/res/mmtp_1.png)
 ***
 ![](/atsc3/res/mmtp_2.png)
 ***
-
+![](/atsc3/res/mmtp_3.png)
+***
 
 
 
