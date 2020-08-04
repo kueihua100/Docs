@@ -113,11 +113,13 @@
     if (mmt_signalling_message_header->message_id == PA_message)
     {
         pa_message_parse(mmt_signalling_message_header_and_payload, udp_packet);
+        -> //NOT SUPPORTED!!
     } 
     else if (mmt_signalling_message_header->message_id >= MPI_message_start && 
                mmt_signalling_message_header->message_id < MPI_message_end)
     {
         mpi_message_parse(mmt_signalling_message_header_and_payload, udp_packet);
+        -> //NOT SUPPORTED!!
     }
     else if (mmt_signalling_message_header->message_id >= MPT_message_start && 
                mmt_signalling_message_header->message_id <= MPT_message_end)
@@ -136,3 +138,4 @@
     {
         //NOT SUPPORTED!!
     }
+    
