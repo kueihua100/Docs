@@ -88,6 +88,22 @@
 ![](/atsc3/res/mmtp_3.png)
 ***
 
+#### atsc3_mmt_signalling_message.c::mmtp_signalling_packet_parse_from_block_t()
+    //parsing header for signalling message mode
+    //[note]
+    /* 
+     * f_i: bits 0-1 fragmentation indicator:
+     * 0x00 = payload contains one or more complete signalling messages
+     * 0x01 = payload contains the first fragment of a signalling message
+     * 0x10 = payload contains a fragment of a signalling message that is neither first/last
+     * 0x11 = payload contains the last fragment of a signalling message
+     */
+     
+     //next 4 bits is reserved field with 0x0 value
+     //bit 6 is additional Header
+     //bit 7 is Aggregation
+     //bits 8~15: count of for how many fragments follow this message, e.g si_fragmentation_indiciator != 0
 
-
-
+***
+![](/atsc3/res/mmtp_4.png)
+***
