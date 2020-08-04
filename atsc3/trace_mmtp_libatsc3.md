@@ -78,16 +78,6 @@
     }
     ...
 
-
-
-***
-![](/atsc3/res/mmtp_1.png)
-***
-![](/atsc3/res/mmtp_2.png)
-***
-![](/atsc3/res/mmtp_3.png)
-***
-
 #### atsc3_mmt_signalling_message.c::mmtp_signalling_packet_parse_from_block_t()
     //parsing header for signalling message mode
     //[note]
@@ -104,6 +94,45 @@
      //bit 7 is Aggregation
      //bits 8~15: count of for how many fragments follow this message, e.g si_fragmentation_indiciator != 0
 
-***
-![](/atsc3/res/mmtp_4.png)
-***
+
+#### atsc3_mmt_signalling_message.c::mmt_signalling_message_parse_id_type(mmtp_signalling_packet, udp_packet)
+    ...
+    //read "message_id" from general signalling message format
+    buf = extract(buf, (uint8_t*)&message_id, 2);
+    message_id = ntohs(message_id);
+    ...
+    //read "version" from general signalling message format
+    buf = extract(buf, &version, 1);
+    ...
+    //create general signalling message structure
+    mmt_signalling_message_header_and_payload = 
+        mmt_signalling_message_header_and_payload_create(message_id, version);
+    ...
+    mmt_signalling_message_header = &mmt_signalling_message_header_and_payload->message_header;
+    ...
+    if (mmt_signalling_message_header->message_id == PA_message)
+    {
+        pa_message_parse(mmt_signalling_message_header_and_payload, udp_packet);
+    } 
+    else if (mmt_signalling_message_header->message_id >= MPI_message_start && 
+               mmt_signalling_message_header->message_id < MPI_message_end)
+    {
+        mpi_message_parse(mmt_signalling_message_header_and_payload, udp_packet);
+    }
+    else if (mmt_signalling_message_header->message_id >= MPT_message_start && 
+               mmt_signalling_message_header->message_id <= MPT_message_end)
+    {
+        mpt_message_parse(mmt_signalling_message_header_and_payload, udp_packet);
+    }
+    else if (mmt_signalling_message_header->message_id == MMT_ATSC3_MESSAGE_ID)
+    {
+        mmt_atsc3_message_payload_parse(mmt_signalling_message_header_and_payload, udp_packet);
+    }
+    else if (mmt_signalling_message_header->message_id == MMT_SCTE35_Signal_Message)
+    {
+        mmt_scte35_message_payload_parse(mmt_signalling_message_header_and_payload, udp_packet);
+    }
+    else
+    {
+        //NOT SUPPORTED!!
+    }
