@@ -45,6 +45,9 @@
         git checkout 000
         git cherry-pick commit_ID
         tig or git log to check the cherry-pick is work
+### git commit -m <MSG>
+        if want to output multi-lines of messages:
+        git commit -m "line 1 description" -m "line 2 descripion"
 
 ### modify/cancel last commit
         git commit --amend (modify last commit's log)
