@@ -167,6 +167,46 @@
     *     -----------------------------------------------------
     */
     
+    ...
+    //loop to parse DU 
+    do
+    {
+        ...
+        if (mmtp_mpu_packet->mpu_aggregation_flag) {
+            //only read DU length if mpu_aggregation_flag=1
+            to_read_packet_length = mmtp_mpu_packet->data_unit_length;
+            ...
+        } else {
+            //set remain bytes of packet to be the read length later: to_read_packet_length
+            to_read_packet_length = mmtp_mpu_payload_length - (buf - udp_raw_buf);
+            ...
+        }
+        
+        if (mmtp_mpu_packet->mpu_fragment_type == 0x0) {
+            ...
+            //MPU metadata
+            block_Write(mmtp_mpu_packet->du_mpu_metadata_block, buf, to_read_packet_length);
+        } else if (mmtp_mpu_packet->mpu_fragment_type == 0x2) {
+            //MFU
+            ...
+            //parsing media sample, then assign to mmtp_mpu_packet->du_mfu_block
+            atsc3_mmt_mpu_sample_format_parse(mmtp_mpu_packet, temp_timed_buffer);
+            ...
+        } else if (mmtp_mpu_packet->mpu_fragment_type == 0x1) {
+            //movie fragment metadta
+            ...
+            block_Write(mmtp_mpu_packet->du_movie_fragment_block, buf, to_read_packet_length);
+        }
+        ...
+        //move buf ptr
+        buf += to_read_packet_length;
+        //compute the remaining bytes of this packet 
+        remaining_du_packet_len = mmtp_mpu_payload_length - (buf - udp_raw_buf);
+        ...
+    } while(mmtp_mpu_packet->mpu_aggregation_flag && remaining_du_packet_len > 0);
+
+
+#### atsc3_mmt_mpu_sample_format_parser.c::atsc3_mmt_mpu_sample_format_parse(mmtp_mpu_packet, udp_packet)
     /*   DU header for timed-media MFU
     *     -----------------------------------------------------
     *     |  movie_fragement_sequence_number                  |
@@ -184,7 +224,6 @@
     *     |                         item_ID                   |
     *     -----------------------------------------------------
     */
-
 
 
 
