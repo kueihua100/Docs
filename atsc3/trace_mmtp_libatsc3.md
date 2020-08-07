@@ -226,7 +226,57 @@
     *     -----------------------------------------------------
     */
 
-
+    /**
+    * MFU mpu_fragmentation_indicator==1's are prefixed by the following box, need to remove and process
+    *
+    *   aligned(8) class MMTHSample {
+    *      unsigned int(32) sequence_number;
+    *      if (is_timed) {
+    *
+    *       //interior block is 152 bits, or 19 bytes
+    *         signed int(8) trackrefindex;
+    *         unsigned int(32) movie_fragment_sequence_number
+    *         unsigned int(32) samplenumber;
+    *          unsigned int(8)  priority;
+    *         unsigned int(8)  dependency_counter;
+    *         unsigned int(32) offset;
+    *         unsigned int(32) length;
+    *       //end interior block
+    *
+    *         multiLayerInfo();
+    *   } else {
+    *           //additional 2 bytes to chomp for non timed delivery
+    *         unsigned int(16) item_ID;
+    *      }
+    *   }
+    *
+    *   aligned(8) class multiLayerInfo extends Box("muli") {
+    *      bit(1) multilayer_flag;
+    *      bit(7) reserved0;
+    *      if (multilayer_flag==1) {
+    *          //32 bits
+    *         bit(3) dependency_id;
+    *         bit(1) depth_flag;
+    *         bit(4) reserved1;
+    *         bit(3) temporal_id;
+    *         bit(1) reserved2;
+    *         bit(4) quality_id;
+    *         bit(6) priority_id;
+    *      }  bit(10) view_id;
+    *      else{
+    *           //16bits
+    *          bit(6) layer_id;
+    *          bit(3) temporal_id;
+    *         bit(7) reserved3;
+    *   } }
+    */
+    ...
+    *if (mmtp_mpu_packet->mpu_timed_flag) {
+        //parse out DU header for timed-media MFU
+        //parse out mmthsample block 
+    } else {
+        //DU header for non-timed media MFU
+    }
 
 
 
