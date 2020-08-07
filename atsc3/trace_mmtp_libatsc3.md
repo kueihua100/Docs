@@ -168,7 +168,7 @@
     */
     
     ...
-    //loop to parse DU 
+    //loop to parse DU if exists, or just copy data
     do
     {
         ...
@@ -207,6 +207,7 @@
 
 
 #### atsc3_mmt_mpu_sample_format_parser.c::atsc3_mmt_mpu_sample_format_parse(mmtp_mpu_packet, udp_packet)
+    //Parsing DU packet:
     /*   DU header for timed-media MFU
     *     -----------------------------------------------------
     *     |  movie_fragement_sequence_number                  |
