@@ -226,7 +226,7 @@
     *     -----------------------------------------------------
     */
 
-    /**
+    /* From ISO 23800-1:
     * MFU mpu_fragmentation_indicator==1's are prefixed by the following box, need to remove and process
     *
     *   aligned(8) class MMTHSample {
