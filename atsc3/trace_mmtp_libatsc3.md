@@ -184,17 +184,17 @@
         
         if (mmtp_mpu_packet->mpu_fragment_type == 0x0) {
             ...
-            //MPU metadata
+            //just copy MPU metadata
             block_Write(mmtp_mpu_packet->du_mpu_metadata_block, buf, to_read_packet_length);
         } else if (mmtp_mpu_packet->mpu_fragment_type == 0x2) {
-            //MFU
+            //MFU parsing
             ...
             //parsing media sample, then assign to mmtp_mpu_packet->du_mfu_block
             atsc3_mmt_mpu_sample_format_parse(mmtp_mpu_packet, temp_timed_buffer);
             ...
         } else if (mmtp_mpu_packet->mpu_fragment_type == 0x1) {
-            //movie fragment metadta
             ...
+            //just copy movie fragment metadta
             block_Write(mmtp_mpu_packet->du_movie_fragment_block, buf, to_read_packet_length);
         }
         ...
