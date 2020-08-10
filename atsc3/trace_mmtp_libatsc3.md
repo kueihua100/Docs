@@ -270,14 +270,34 @@
     *         bit(7) reserved3;
     *   } }
     */
+    
     ...
-    *if (mmtp_mpu_packet->mpu_timed_flag) {
-        //parse out DU header for timed-media MFU
-        //parse out mmthsample block 
+    if (mmtp_mpu_packet->mpu_timed_flag) {
+        //parse out DU header for timed-media MFU, 14 bytes:
+            //[movie_fragment_sequence_number]
+            //[sample_number]
+            //[offset]
+            //[priority]
+            //[dep_counter]
+        if ( mmtp_mpu_packet->mpu_fragment_type == 2 &&
+            (mmtp_mpu_packet->mpu_fragmentation_indicator == 0 || 
+             mmtp_mpu_packet->mpu_fragmentation_indicator  == 1) )
+        {
+            //parse out mmthsample block, (4+19) bytes:
+                //[sequence_number]
+                //[trackrefindex]
+                //[movie_fragment_sequence_number]
+                //[samplenumber]
+                //[priority]
+                //[dependency_counter]
+                //[offset]
+                //[length]
+            //parse out multiLayerInfo box
+                //??
+        }
     } else {
         //DU header for non-timed media MFU
     }
-
 
 
 
