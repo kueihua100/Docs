@@ -57,14 +57,14 @@
     if (mmtp_packet_header->mmtp_payload_type == 0x0)
     {
         //mmtp_mpu_packet = mmtp_mpu_packet_parse_from_block_t(mmtp_packet_header, ...);
-	mmtp_mpu_packet = mmtp_mpu_packet_parse_and_free_packet_header_from_block_t(&mmtp_packet_header, udp_packet->data);
-	-> atsc3_mmt_mpu_parser.c::mmtp_mpu_packet_parse_and_free_packet_header_from_block_t()
-	    {
-	        ...
-		mmtp_mpu_packet_parse_from_block_t(mmtp_packet_header, udp_packet);
-		...
-		return mmtp_mpu_packet;
-	    }
+        mmtp_mpu_packet = mmtp_mpu_packet_parse_and_free_packet_header_from_block_t(&mmtp_packet_header, udp_packet->data);
+        -> atsc3_mmt_mpu_parser.c::mmtp_mpu_packet_parse_and_free_packet_header_from_block_t()
+            {
+                ...
+                mmtp_mpu_packet_parse_from_block_t(mmtp_packet_header, udp_packet);
+                ...
+                return mmtp_mpu_packet;
+            }
         ...
         if (mmtp_mpu_packet->mpu_timed_flag == 1)
         {
