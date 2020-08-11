@@ -61,7 +61,7 @@
         -> atsc3_mmt_mpu_parser.c::mmtp_mpu_packet_parse_and_free_packet_header_from_block_t()
             {
                 ...
-                mmtp_mpu_packet_parse_from_block_t(mmtp_packet_header, udp_packet);
+                mmtp_mpu_packet = mmtp_mpu_packet_parse_from_block_t(mmtp_packet_header, udp_packet);
                 ...
                 return mmtp_mpu_packet;
             }
