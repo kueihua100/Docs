@@ -136,7 +136,7 @@
             mmt_signalling_message_parse_id_type(mmtp_signalling_packet, udp_packet);
         }
     }
-     else if (udp_packet_size)
+    else if (udp_packet_size)
     {
         //fragmentation indicator
         //00: Payload contains one or more complete signalling messages.
