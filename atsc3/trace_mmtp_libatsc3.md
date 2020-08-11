@@ -188,17 +188,17 @@
     else if (mmt_signalling_message_header->message_id >= MPT_message_start && 
                mmt_signalling_message_header->message_id <= MPT_message_end)
     {
-    	// 0x11 <= message_id <= 0x20
+        // 0x11 <= message_id <= 0x20
         mpt_message_parse(mmt_signalling_message_header_and_payload, udp_packet);
     }
     else if (mmt_signalling_message_header->message_id == MMT_ATSC3_MESSAGE_ID)
     {
-    	// message_id=0x8100
+        // message_id=0x8100
         mmt_atsc3_message_payload_parse(mmt_signalling_message_header_and_payload, udp_packet);
     }
     else if (mmt_signalling_message_header->message_id == MMT_SCTE35_Signal_Message)
     {
-    	// message_id=0xF337
+        // message_id=0xF337
         mmt_scte35_message_payload_parse(mmt_signalling_message_header_and_payload, udp_packet);
     }
     else
