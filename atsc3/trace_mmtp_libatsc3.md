@@ -23,7 +23,8 @@
     //MMTP process
     matching_lls_slt_mmt_session = lls_slt_mmt_session_find_from_udp_packet(lls_slt_monitor, ...);
     if(matching_lls_slt_mmt_session) {
-        update_global_mmtp_statistics_from_udp_packet_t(udp_packet);
+        //Sync code from atsc3_phy_mmt_player_bridge.cpp::atsc3_phy_mmt_player_bridge_process_packet_phy()
+	mmtp_parse_from_udp_packet(udp_packet);
     }
 
 #### atsc3_lls_mmt_utils.c::lls_slt_mmt_session_find_from_udp_packet(lls_slt_monitor, src_ip_addr, dst_ip_addr, dst_port)
@@ -44,7 +45,7 @@
         }
     }
 
-#### atsc3_listener_metrics_ncurses.cpp::update_global_mmtp_statistics_from_udp_packet_t(udp_packet)
+#### atsc3_listener_metrics_ncurses.cpp::mmtp_parse_from_udp_packet(udp_packet)
     ...
     //[note]
     //parsing mmtp packet header
@@ -55,7 +56,15 @@
     //0x2: one or more signalling messages or a fragment of a signalling message
     if (mmtp_packet_header->mmtp_payload_type == 0x0)
     {
-        mmtp_mpu_packet = mmtp_mpu_packet_parse_from_block_t(mmtp_packet_header, ...);
+        //mmtp_mpu_packet = mmtp_mpu_packet_parse_from_block_t(mmtp_packet_header, ...);
+	mmtp_mpu_packet = mmtp_mpu_packet_parse_and_free_packet_header_from_block_t(&mmtp_packet_header, udp_packet->data);
+	-> atsc3_mmt_mpu_parser.c::mmtp_mpu_packet_parse_and_free_packet_header_from_block_t()
+	    {
+	        ...
+		mmtp_mpu_packet_parse_from_block_t(mmtp_packet_header, udp_packet);
+		...
+		return mmtp_mpu_packet;
+	    }
         ...
         if (mmtp_mpu_packet->mpu_timed_flag == 1)
         {
@@ -106,6 +115,50 @@
 ![](/atsc3/res/mmtp_4.png)
 ***
 
+#### atsc3_mmt_signalling_message.c::mmt_signalling_message_parse_packet(mmtp_signalling_packet, ...)
+    ...
+    if (mmtp_signalling_packet->si_aggregation_flag)
+    {
+        while(block_Remaining_size(udp_packet))
+        {
+            if (mmtp_signalling_packet->si_additional_length_header)
+            {
+                //read the full 32 bits for MSG_length = 16+16*H
+                buf = extract(buf, (uint8_t*)&mmtp_aggregation_msg_length, 4);
+            }
+            else
+            {
+                //only read 16 bits for MSG_length
+                buf = extract(buf, (uint8_t*)&aggregation_msg_length_short, 2);
+            }
+            ...
+            //build a msg from buf to buf+mmtp_aggregation_msg_length
+            mmt_signalling_message_parse_id_type(mmtp_signalling_packet, udp_packet);
+        }
+    }
+     else if (udp_packet_size)
+    {
+        //fragmentation indicator
+        //00: Payload contains one or more complete signalling messages.
+        //01: Payload contains the first fragment of a signalling message.
+        //10: Payload contains a fragment of a signalling message that is 
+        //    neither the first nor the last fragment.
+        //11: Payload contains the last fragment of a signalling message.
+        
+        //[note] skip f_i = `10` | `11` cases: 
+        if ((mmtp_signalling_packet->si_fragmentation_indiciator == 2) ||
+            (mmtp_signalling_packet->si_fragmentation_indiciator == 3))
+        {
+            __MMSM_ERROR("%s: IS SUPPORTED for f_i = %d cases ??? SKIP !!!", 
+                __FUNCTION__, mmtp_signalling_packet->si_fragmentation_indiciator);
+            return (buf != udp_raw_buf);
+        }
+
+        //parse a single message
+        mmt_signalling_message_parse_id_type(mmtp_signalling_packet, udp_packet);
+    }
+    
+    
 #### atsc3_mmt_signalling_message.c::mmt_signalling_message_parse_id_type(mmtp_signalling_packet, udp_packet)
     ...
     //read "message_id" from general signalling message format
