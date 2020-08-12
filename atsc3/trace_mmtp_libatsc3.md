@@ -91,8 +91,9 @@
         mmt_signalling_message_process_with_context(udp_packet, mmtp_signalling_packet, atsc3_mmt_mfu_context);
         
         ...
+        //update video_packet_id, audio_packet_id, stpp_packet_id (ie. subtitle)
         mmt_signalling_message_update_lls_sls_mmt_session();
-        [TOOOOOOOODOOOOOOOO]
+        ...
     }
     ...
 
