@@ -68,6 +68,11 @@
         ...
         if (mmtp_mpu_packet->mpu_timed_flag == 1)
         {
+            //[note] below is refer to code from:
+            //atsc3_phy_mmt_player_bridge.cpp::atsc3_phy_mmt_player_bridge_process_packet_phy()
+            
+            mmtp_mfu_process_from_payload_with_context(udp_packet, mmtp_mpu_packet, atsc3_mmt_mfu_context);
+            
             atsc3_packet_statistics_mmt_stats_populate();
         }
     }
