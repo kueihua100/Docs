@@ -90,6 +90,8 @@
         //looks like call to the callback process functions that been inited at atsc3_mmt_mfu_context:
         mmt_signalling_message_process_with_context(udp_packet, mmtp_signalling_packet, atsc3_mmt_mfu_context);
         
+	...
+	mmt_signalling_message_update_lls_sls_mmt_session();
         [TOOOOOOOODOOOOOOOO]
     }
     ...
@@ -360,6 +362,33 @@
     }
 
 
-
+#### atsc3_mmt_signalling_message.c::mmt_signalling_message_update_lls_sls_mmt_session(mmtp_signalling_packet, matching_lls_sls_mmt_session)
+    for (mmtp_signalling_packet->mmt_signalling_message_header_and_payload_v.count)
+    {
+        if (mmt_signalling_message_header_and_payload->message_header.MESSAGE_id_type == MPT_message)
+        {
+            for (mp_table->number_of_assets)
+            {
+                if (strncasecmp(ATSC3_MP_TABLE_ASSET_ROW_HEVC_ID, mp_table_asset_row->asset_type, 4) == 0)
+                {
+                    // "hev1" case
+                    matching_lls_sls_mmt_session->video_packet_id = mp_table_asset_row->mmt_general_location_info.packet_id;
+                } 
+                else if (strncasecmp(ATSC3_MP_TABLE_ASSET_ROW_MP4A_ID, mp_table_asset_row->asset_type, 4) == 0 ||
+                    strncasecmp(ATSC3_MP_TABLE_ASSET_ROW_AC_4_ID, mp_table_asset_row->asset_type, 4) == 0 ||
+                    strncasecmp(ATSC3_MP_TABLE_ASSET_ROW_MHM1_ID, mp_table_asset_row->asset_type, 4) == 0 ||
+                    strncasecmp(ATSC3_MP_TABLE_ASSET_ROW_MHM2_ID, mp_table_asset_row->asset_type, 4) == 0)
+                {
+                    // "mp4a", "ac-4", "mhm1", "mhm2" cases
+                    matching_lls_sls_mmt_session->audio_packet_id = mp_table_asset_row->mmt_general_location_info.packet_id;
+                }
+                else if (strncasecmp(ATSC3_MP_TABLE_ASSET_ROW_IMSC1_ID, mp_table_asset_row->asset_type, 4) == 0)
+                {
+                    //"stpp" case (subtitle)
+                    matching_lls_sls_mmt_session->stpp_packet_id = mp_table_asset_row->mmt_general_location_info.packet_id;
+                }
+            }
+        }
+    }
 
 
