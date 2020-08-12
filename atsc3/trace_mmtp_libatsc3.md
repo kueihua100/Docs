@@ -84,6 +84,13 @@
              
         mmt_signalling_message_parse_packet(mmtp_signalling_packet, ...);
         ...
+        //[note] below is refer to code from:
+        //atsc3_phy_mmt_player_bridge.cpp::atsc3_phy_mmt_player_bridge_process_packet_phy()
+
+        //looks like call to the callback process functions that been inited at atsc3_mmt_mfu_context:
+        mmt_signalling_message_process_with_context(udp_packet, mmtp_signalling_packet, atsc3_mmt_mfu_context);
+        
+        [TOOOOOOOODOOOOOOOO]
     }
     ...
 
