@@ -96,13 +96,6 @@
     }
     ...
 
-***
-![](/atsc3/res/mmtp_1.png)
-***
-![](/atsc3/res/mmtp_2.png)
-***
-![](/atsc3/res/mmtp_3.png)
-***
 
 #### atsc3_mmt_signalling_message.c::mmtp_signalling_packet_parse_from_block_t()
     //parsing header for signalling message mode
@@ -120,9 +113,6 @@
      //bit 7 is Aggregation
      //bits 8~15: count of for how many fragments follow this message, e.g si_fragmentation_indiciator != 0
 
-***
-![](/atsc3/res/mmtp_4.png)
-***
 
 #### atsc3_mmt_signalling_message.c::mmt_signalling_message_parse_packet(mmtp_signalling_packet, ...)
     ...
