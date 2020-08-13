@@ -410,7 +410,7 @@
             ...
         }
         //clone from last_flow_reference
-        udp_flow_packet_id_mpu_sequence_tuple_free_and_clone(..., last_flow_reference);
+        udp_flow_packet_id_mpu_sequence_tuple_free_and_clone(last_tuple_video, last_flow_reference);
     }
     else if (matching_lls_sls_mmt_monitor->audio_packet_id == mmtp_mpu_packet->mmtp_packet_id)
     {
@@ -421,7 +421,7 @@
             ...
         }
         //clone from last_flow_reference
-        udp_flow_packet_id_mpu_sequence_tuple_free_and_clone(..., last_flow_reference);
+        udp_flow_packet_id_mpu_sequence_tuple_free_and_clone(last_tuple_audio, last_flow_reference);
     }
     else if (matching_lls_sls_mmt_monitor->stpp_packet_id == mmtp_mpu_packet->mmtp_packet_id)
     {
@@ -432,7 +432,7 @@
             ...
         }
         //clone from last_flow_reference
-        udp_flow_packet_id_mpu_sequence_tuple_free_and_clone(..., last_flow_reference);
+        udp_flow_packet_id_mpu_sequence_tuple_free_and_clone(last_tuple_stpp, last_flow_reference);
     }
     //rebuild any straggler DU's
     mmtp_mfu_rebuild_from_packet_id_mpu_sequence_number(..., false);
