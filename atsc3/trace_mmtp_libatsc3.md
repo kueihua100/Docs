@@ -438,6 +438,68 @@
     mmtp_mfu_rebuild_from_packet_id_mpu_sequence_number(..., false);
 
 
+#### atsc3_mmt_context_mfu_depacketizer.c::mmtp_mfu_rebuild_from_packet_id_mpu_sequence_number(..., flush_all_fragments)
+    block_t* du_mpu_metadata_block_rebuilt = NULL;
+    ...
+    mpu_sequence_number_mmtp_mpu_packet_collection = mmtp_packet_id_packets_container_find_mpu_sequence_number_mmtp_mpu_packet_collection_from_mpu_sequence_number();
+    for (mpu_sequence_number_mmtp_mpu_packet_collection->mmtp_mpu_packet_v.count)
+    {
+        //check MPU metadata first
+        if (mmtp_mpu_init_packet_to_rebuild->mpu_fragment_type == 0x0) 
+        {
+            if (mmtp_mpu_init_packet_to_rebuild->mpu_fragmentation_indicator == 0x00)
+            {
+                //[note] case of one (or more) DU
+                
+                //duplicat MPU metadata block to a tmp buffer
+                du_mpu_metadata_block_duplicated_for_context_callback_invocation = 
+                    block_Duplicate(mmtp_mpu_init_packet_to_rebuild->du_mpu_metadata_block);
+
+                //callback to process this MPU metadata block, eg. copy ...
+                atsc3_mmt_mfu_context->atsc3_mmt_mpu_on_sequence_mpu_metadata_present(..., du_mpu_metadata_block_duplicated_for_context_callback_invocation);
+                
+                //free duplicated MPU block
+                block_Destroy(&du_mpu_metadata_block_duplicated_for_context_callback_invocation);
+            }
+            else if (mmtp_mpu_init_packet_to_rebuild->mpu_fragmentation_indicator == 0x03)
+            {
+                //[note] case of the last fragmnet DU
+                
+                //merge this fragmnet DU into rebuilt block: du_mpu_metadata_block_rebuilt
+                block_Merge(du_mpu_metadata_block_rebuilt, mmtp_mpu_init_packet_to_rebuild->du_mpu_metadata_block);
+                ...
+                 //callback to process this MPU metadata block, eg. copy ...
+                atsc3_mmt_mfu_context->atsc3_mmt_mpu_on_sequence_mpu_metadata_present(..., du_mpu_metadata_block_rebuilt);
+                
+                 //free rebuilt MPU block
+                block_Destroy(&du_mpu_metadata_block_rebuilt);
+            }
+            else
+            {
+                if (mmtp_mpu_init_packet_to_rebuild->mpu_fragmentation_indicator == 0x01)
+                {
+                    //[note] case of the first fragmnet DU
+                    
+                    //duplicate this first fragment DU to du_mpu_metadata_block_rebuilt that to been used later
+                    if (du_mpu_metadata_block_rebuilt) {
+                        block_Destroy(&du_mpu_metadata_block_rebuilt);
+                    }
+                    du_mpu_metadata_block_rebuilt = block_Duplicate(mmtp_mpu_init_packet_to_rebuild->du_mpu_metadata_block);
+                }
+                else if (mmtp_mpu_init_packet_to_rebuild->mpu_fragmentation_indicator == 0x02)
+                {
+                    //[note] case of neither first nor last fragment
+                    
+                    //merge this fragmnet DU into rebuilt block: du_mpu_metadata_block_rebuilt
+                    if (du_mpu_metadata_block_rebuilt) {
+                        block_Merge(du_mpu_metadata_block_rebuilt, mmtp_mpu_init_packet_to_rebuild->du_mpu_metadata_block);
+                    }
+                }
+            }
+        }
+    }
+
+    
 
 
 
