@@ -68,6 +68,10 @@
         ...
         if (mmtp_mpu_packet->mpu_timed_flag == 1)
         {
+            //[note] below is refer to code from:
+            //atsc3_phy_mmt_player_bridge.cpp::atsc3_phy_mmt_player_bridge_process_packet_phy()
+            mmtp_mfu_process_from_payload_with_context(udp_packet, mmtp_mpu_packet, atsc3_mmt_mfu_context);
+            
             atsc3_packet_statistics_mmt_stats_populate();
         }
     }
@@ -91,8 +95,9 @@
         mmt_signalling_message_process_with_context(udp_packet, mmtp_signalling_packet, atsc3_mmt_mfu_context);
         
         ...
+        //update video_packet_id, audio_packet_id, stpp_packet_id (ie. subtitle)
         mmt_signalling_message_update_lls_sls_mmt_session();
-        [TOOOOOOOODOOOOOOOO]
+        ...
     }
     ...
 
@@ -380,5 +385,61 @@
             }
         }
     }
+
+
+#### atsc3_mmt_context_mfu_depacketizer.c::mmtp_mfu_process_from_payload_with_context(udp_packet, mmtp_mpu_packet, atsc3_mmt_mfu_context)
+    ...
+    /*
+    * [note]
+    * in general, the tuple of <dst_ip, dst_port, dst_packet_id> should have mpu_sequence_numbers 
+    * that increment by one and only one for every completed MPU.
+    * In cases of packet loss or retransmission, we may see larger gaps that may break this n < n+1 model.
+    *
+    *  Additionally, running MMT loops will cause the mpu_sequence_numbers to loop around and cause a failure of evictions.
+    *  Instead, we will use a discontinuity window of at least a 2 mpu_sequence gap,
+    */
+    last_flow_reference = udp_flow_latest_mpu_sequence_number_add_or_replace_and_check_for_rollover();
+    
+    ...
+    if (matching_lls_sls_mmt_monitor->video_packet_id == mmtp_mpu_packet->mmtp_packet_id) 
+    {
+        if (last_tuple_video->mpu_sequence_number < mmtp_mpu_packet->mpu_sequence_number)
+        {
+            //rebuild any straggler DU's
+            mmtp_mfu_rebuild_from_packet_id_mpu_sequence_number(..., true);
+            ...
+        }
+        //clone from last_flow_reference
+        udp_flow_packet_id_mpu_sequence_tuple_free_and_clone(last_tuple_video, last_flow_reference);
+    }
+    else if (matching_lls_sls_mmt_monitor->audio_packet_id == mmtp_mpu_packet->mmtp_packet_id)
+    {
+        if (last_tuple_audio->mpu_sequence_number < mmtp_mpu_packet->mpu_sequence_number)
+        {
+            //rebuild any straggler DU's
+            mmtp_mfu_rebuild_from_packet_id_mpu_sequence_number(..., true);
+            ...
+        }
+        //clone from last_flow_reference
+        udp_flow_packet_id_mpu_sequence_tuple_free_and_clone(last_tuple_audio, last_flow_reference);
+    }
+    else if (matching_lls_sls_mmt_monitor->stpp_packet_id == mmtp_mpu_packet->mmtp_packet_id)
+    {
+        if (last_tuple_stpp->mpu_sequence_number < mmtp_mpu_packet->mpu_sequence_number)
+        {
+            //rebuild any straggler DU's
+            mmtp_mfu_rebuild_from_packet_id_mpu_sequence_number(..., true);
+            ...
+        }
+        //clone from last_flow_reference
+        udp_flow_packet_id_mpu_sequence_tuple_free_and_clone(last_tuple_stpp, last_flow_reference);
+    }
+    //rebuild any straggler DU's
+    mmtp_mfu_rebuild_from_packet_id_mpu_sequence_number(..., false);
+
+
+
+
+
 
 
