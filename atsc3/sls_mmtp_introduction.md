@@ -1,4 +1,4 @@
-# SLS (Service Level Sinaling) MMTP Introduction
+# SLS (Service Level Signaling) MMTP Introduction
 
 ***
 ![](/atsc3/res/mmtp_1.png)
