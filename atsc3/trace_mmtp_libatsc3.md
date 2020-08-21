@@ -438,6 +438,162 @@
     mmtp_mfu_rebuild_from_packet_id_mpu_sequence_number(..., false);
 
 
+#### atsc3_mmt_context_mfu_depacketizer.c::mmtp_mfu_rebuild_from_packet_id_mpu_sequence_number(..., flush_all_fragments)
+    block_t* du_mpu_metadata_block_rebuilt = NULL;
+    ...
+    mpu_sequence_number_mmtp_mpu_packet_collection = 
+        mmtp_packet_id_packets_container_find_mpu_sequence_number_mmtp_mpu_packet_collection_from_mpu_sequence_number();
+
+    for (mpu_sequence_number_mmtp_mpu_packet_collection->mmtp_mpu_packet_v.count)
+    {
+        mmtp_mpu_init_packet_to_rebuild = mpu_sequence_number_mmtp_mpu_packet_collection->mmtp_mpu_packet_v.data[i];
+        ...
+        //check MPU metadata first
+        if (mmtp_mpu_init_packet_to_rebuild->mpu_fragment_type == 0x0) 
+        {
+            if (mmtp_mpu_init_packet_to_rebuild->mpu_fragmentation_indicator == 0x00)
+            {
+                //[note] case of one (or more) DU
+                
+                //duplicat MPU metadata block to a tmp buffer
+                du_mpu_metadata_block_duplicated_for_context_callback_invocation = 
+                    block_Duplicate(mmtp_mpu_init_packet_to_rebuild->du_mpu_metadata_block);
+
+                //callback to process this MPU metadata block, eg. copy ...
+                atsc3_mmt_mfu_context->atsc3_mmt_mpu_on_sequence_mpu_metadata_present(..., 
+                    du_mpu_metadata_block_duplicated_for_context_callback_invocation);
+                
+                //free duplicated MPU block
+                block_Destroy(&du_mpu_metadata_block_duplicated_for_context_callback_invocation);
+            }
+            else if (mmtp_mpu_init_packet_to_rebuild->mpu_fragmentation_indicator == 0x03)
+            {
+                //[note] case of the last fragmnet DU
+                
+                //merge this fragmnet DU into rebuilt block: du_mpu_metadata_block_rebuilt
+                block_Merge(du_mpu_metadata_block_rebuilt, mmtp_mpu_init_packet_to_rebuild->du_mpu_metadata_block);
+                ...
+                 //callback to process this MPU metadata block, eg. copy ...
+                atsc3_mmt_mfu_context->atsc3_mmt_mpu_on_sequence_mpu_metadata_present(..., du_mpu_metadata_block_rebuilt);
+                
+                 //free rebuilt MPU block
+                block_Destroy(&du_mpu_metadata_block_rebuilt);
+            }
+            else
+            {
+                if (mmtp_mpu_init_packet_to_rebuild->mpu_fragmentation_indicator == 0x01)
+                {
+                    //[note] case of the first fragmnet DU
+                    
+                    //duplicate this first fragment DU to du_mpu_metadata_block_rebuilt that to been used later
+                    if (du_mpu_metadata_block_rebuilt) {
+                        block_Destroy(&du_mpu_metadata_block_rebuilt);
+                    }
+                    du_mpu_metadata_block_rebuilt = block_Duplicate(mmtp_mpu_init_packet_to_rebuild->du_mpu_metadata_block);
+                }
+                else if (mmtp_mpu_init_packet_to_rebuild->mpu_fragmentation_indicator == 0x02)
+                {
+                    //[note] case of neither first nor last fragment
+                    
+                    //merge this fragmnet DU into rebuilt block: du_mpu_metadata_block_rebuilt
+                    if (du_mpu_metadata_block_rebuilt) {
+                        block_Merge(du_mpu_metadata_block_rebuilt, mmtp_mpu_init_packet_to_rebuild->du_mpu_metadata_block);
+                    }
+                }
+            }
+        }
+    }
+
+    
+    for (mpu_sequence_number_mmtp_mpu_packet_collection->mmtp_mpu_packet_v.count)
+    {
+        mmtp_mpu_packet_to_rebuild = mpu_sequence_number_mmtp_mpu_packet_collection->mmtp_mpu_packet_v.data[i];
+        ...
+        //check MFU case: |DU1|DU2|DU3|......DUn|
+        if (mmtp_mpu_packet_to_rebuild->mpu_fragment_type == 0x2)
+        {
+            if (mmtp_mpu_packet_to_rebuild->mpu_fragmentation_indicator == 0x00)
+            {
+                //duplicate MFU block to tmp buffer
+                du_mfu_block_duplicated_for_context_callback_invocation = block_Duplicate(mmtp_mpu_packet_to_rebuild->du_mfu_block);
+                
+                //callback to process this duplicated MFU block
+                atsc3_mmt_mfu_context->atsc3_mmt_mpu_mfu_on_sample_complete(..., du_mfu_block_duplicated_for_context_callback_invocation);
+                
+                //free duplicated MFU block
+                block_Destroy(&du_mfu_block_duplicated_for_context_callback_invocation);
+                
+                continue;
+            }
+            
+            //[note] below code is to process cases if:
+            //regardless of mpu_fragmentation_indicator== as it may be lost in emission... and compute relative DU offset for rebuilding MFU
+            //first DU in MFU should contain MMTHSample, but may not if its a lost DU
+            //last DU in MFU should contain mpu_fragment_counter == 0, , but may not if its a lost DU
+        }
+    }
+
+    block_t* du_movie_fragment_block_rebuilt;
+    for (mpu_sequence_number_mmtp_mpu_packet_collection->mmtp_mpu_packet_v.count)
+    {
+        mmtp_mpu_init_packet_to_rebuild = mpu_sequence_number_mmtp_mpu_packet_collection->mmtp_mpu_packet_v.data[i];
+        ...
+        //prcess movie fragment metadata
+        if (mmtp_mpu_init_packet_to_rebuild->mpu_fragment_type == 0x1)
+        {
+            if (mmtp_mpu_init_packet_to_rebuild->mpu_fragmentation_indicator == 0x00)
+            {
+                //[note] case of one (or more) DU
+                
+                //duplicat movie fragment metadata block to a tmp buffer
+                du_movie_fragment_block_duplicated_for_context_callback_invocation = 
+                    block_Duplicate(mmtp_mpu_init_packet_to_rebuild->du_movie_fragment_block);
+
+                //callback to process this movie fragment metadata block, eg. copy ...
+                atsc3_mmt_mfu_context->atsc3_mmt_mpu_on_sequence_movie_fragment_metadata_present(..., 
+                    du_movie_fragment_block_duplicated_for_context_callback_invocation);
+                
+                //free duplicated movie fragment block
+                block_Destroy(&du_movie_fragment_block_duplicated_for_context_callback_invocation);
+            }
+            else if (mmtp_mpu_init_packet_to_rebuild->mpu_fragmentation_indicator == 0x03)
+            {
+                //[note] case of the last fragmnet DU
+                
+                //merge this fragmnet DU into rebuilt block: du_movie_fragment_block_rebuilt
+                block_Merge(du_movie_fragment_block_rebuilt, mmtp_mpu_init_packet_to_rebuild->du_movie_fragment_block);
+                ...
+                 //callback to process this MPU metadata block, eg. copy ...
+                atsc3_mmt_mfu_context->atsc3_mmt_mpu_on_sequence_mpu_metadata_present(..., du_movie_fragment_block_rebuilt);
+                
+                 //free rebuilt MPU block
+                block_Destroy(&du_movie_fragment_block_rebuilt);
+            }
+            else
+            {
+                if (mmtp_mpu_init_packet_to_rebuild->mpu_fragmentation_indicator == 0x01)
+                {
+                    //[note] case of the first fragmnet DU
+                    
+                    //duplicate this first fragment DU to du_movie_fragment_block_rebuilt that to been used later
+                    if (du_movie_fragment_block_rebuilt) {
+                        block_Destroy(&du_movie_fragment_block_rebuilt);
+                    }
+                    du_movie_fragment_block_rebuilt = block_Duplicate(mmtp_mpu_init_packet_to_rebuild->du_movie_fragment_block);
+                }
+                else if (mmtp_mpu_init_packet_to_rebuild->mpu_fragmentation_indicator == 0x02)
+                {
+                    //[note] case of neither first nor last fragment
+                    
+                    //merge this fragmnet DU into rebuilt block: du_movie_fragment_block_rebuilt
+                    if (du_movie_fragment_block_rebuilt) {
+                        block_Merge(du_movie_fragment_block_rebuilt, mmtp_mpu_init_packet_to_rebuild->du_movie_fragment_block);
+                    }
+                }
+            }
+        }
+    }
+    
 
 
 
