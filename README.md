@@ -59,7 +59,9 @@ TBD
 4. [openpilot + opencv in Readmi Note 3]
 
 ## Coding
-1. [Python tips](https://github.com/kueihua100/Docs/blob/master/coding/Python_tips.md)
+[Look HERE in more detail](https://github.com/kueihua100/Docs/tree/master/coding)
+1. C tips
+2. Python tips
 
 ## Video codec
 
